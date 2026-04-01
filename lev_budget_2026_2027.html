@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEV Eco Village — HOA Budget 2026–2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d4a2e; --moss: #4a6741; --sage: #7a9e72; --mist: #c8d9c4;
+    --cream: #f5f1eb; --earth: #8b6f47; --amber: #c8902a; --sand: #e8dcc8;
+    --ink: #1a2a1b; --soft: #6b7c6a; --white: #fefdf9;
+    --red: #c0392b; --green: #27ae60;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--forest); display: flex; align-items: center; padding: 0 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.2); overflow-x: auto; }
+  nav .brand { font-family: 'Cormorant Garamond', serif; color: var(--mist); font-size: 1.1rem; font-weight: 600; padding: 1rem 1.5rem 1rem 0; border-right: 1px solid rgba(255,255,255,0.15); margin-right: 1rem; white-space: nowrap; }
+  nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; padding: 1rem 0.75rem; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; }
+  nav a:hover, nav a.active { color: var(--mist); border-bottom-color: var(--sage); }
+
+  .hero { background: linear-gradient(135deg, var(--forest), #3a5c3b 50%, #2d4a2e); color: var(--cream); padding: 4rem 2rem 3rem; text-align: center; }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,5vw,3rem); font-weight: 600; margin-bottom: 0.5rem; }
+  .hero .sub { font-size: 0.82rem; opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero .badge { display: inline-block; background: rgba(200,220,196,0.15); border: 1px solid rgba(200,220,196,0.3); border-radius: 100px; padding: 0.35rem 1.1rem; font-size: 0.78rem; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+  section { padding: 3rem 0; }
+  section + section { border-top: 1px solid var(--sand); }
+  h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--forest); margin-bottom: 0.3rem; }
+  .section-sub { color: var(--soft); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.8rem; }
+  .lead { color: var(--soft); margin-bottom: 1.8rem; max-width: 660px; font-size: 0.9rem; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .card { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; padding: 1.3rem 1.4rem; position: relative; overflow: hidden; }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--moss), var(--sage)); }
+  .card.amber::before { background: linear-gradient(90deg, var(--earth), var(--amber)); }
+  .card.red::before { background: linear-gradient(90deg, #922b21, var(--red)); }
+  .card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--soft); margin-bottom: 0.35rem; }
+  .card .value { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--forest); line-height: 1.15; }
+  .card .note { font-size: 0.71rem; color: var(--soft); margin-top: 0.3rem; line-height: 1.4; }
+
+  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--sand); margin-bottom: 0.75rem; }
+  table { width: 100%; border-collapse: collapse; background: var(--white); }
+  thead th { background: var(--forest); color: var(--mist); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1rem; text-align: right; white-space: nowrap; }
+  thead th:first-child { text-align: left; }
+  tbody tr { border-bottom: 1px solid var(--sand); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(122,158,114,0.05); }
+  td { padding: 0.65rem 1rem; font-size: 0.82rem; text-align: right; white-space: nowrap; }
+  td:first-child { text-align: left; }
+  td.lc { font-weight: 500; white-space: normal; max-width: 320px; }
+  .sub-item td.lc { padding-left: 1.8rem; font-weight: 400; }
+  .sub-item td { font-size: 0.79rem; }
+  .cat-row td { background: rgba(45,74,46,0.06); font-weight: 700; font-size: 0.72rem; color: var(--forest); text-transform: uppercase; letter-spacing: 0.05em; padding: 0.45rem 1rem; }
+  .total-row td { background: var(--forest); color: var(--mist); font-weight: 700; font-size: 0.88rem; }
+  .subtotal-row td { background: rgba(45,74,46,0.07); font-weight: 600; font-size: 0.81rem; }
+  .opt-row td { color: var(--earth); font-style: italic; }
+  .up { color: var(--red); font-size: 0.71rem; }
+  .dn { color: var(--green); font-size: 0.71rem; }
+  .nt { font-size: 0.7rem; color: var(--soft); }
+
+  .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; }
+  .bar-label { width: 175px; min-width: 175px; font-size: 0.77rem; text-align: right; line-height: 1.3; }
+  .bar-track { flex: 1; background: var(--sand); border-radius: 4px; height: 20px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--moss), var(--sage)); display: flex; align-items: center; padding-left: 7px; font-size: 0.67rem; font-weight: 600; color: white; min-width: 5px; white-space: nowrap; }
+  .bar-fill.a { background: linear-gradient(90deg, var(--earth), var(--amber)); }
+  .bar-fill.m { background: linear-gradient(90deg, #7a9e7288, #a0c49a88); }
+  .bar-pct { width: 48px; text-align: right; font-size: 0.74rem; color: var(--soft); font-weight: 500; }
+
+  .chip { display: inline-block; border-radius: 100px; font-size: 0.65rem; font-weight: 600; padding: 0.12rem 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .chip-g { background: rgba(39,174,96,0.12); color: #1a7a40; }
+  .chip-a { background: rgba(200,144,42,0.15); color: #7a5010; }
+
+  .proposals { display: flex; flex-direction: column; gap: 1rem; }
+  .proposal { background: var(--white); border: 1px solid var(--sand); border-radius: 10px; padding: 1.2rem 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; }
+  .p-icon { background: var(--earth); color: white; border-radius: 8px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .proposal h4 { font-size: 0.93rem; font-weight: 600; margin-bottom: 0.2rem; color: var(--forest); }
+  .proposal p { font-size: 0.8rem; color: var(--soft); line-height: 1.55; }
+
+  .lot-lookup { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .lot-lookup label { font-size: 0.85rem; font-weight: 500; }
+  .lot-lookup select { padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--sand); background: var(--white); font-family: inherit; font-size: 0.9rem; cursor: pointer; }
+  .lot-result { background: var(--forest); color: var(--mist); border-radius: 12px; padding: 1.2rem 1.5rem; display: none; gap: 2rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem; }
+  .lot-result.vis { display: flex; }
+  .r-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.6; }
+  .r-val { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 600; }
+
+  .notice { background: rgba(200,144,42,0.1); border: 1px solid rgba(200,144,42,0.3); border-radius: 8px; padding: 0.9rem 1.2rem; font-size: 0.81rem; color: #7a5010; margin-bottom: 1.5rem; line-height: 1.55; }
+  .fn { font-size: 0.71rem; color: var(--soft); margin-top: 0.6rem; line-height: 1.5; }
+
+  footer { background: var(--forest); color: rgba(200,220,196,0.65); text-align: center; padding: 2rem 1rem; font-size: 0.75rem; margin-top: 2rem; }
+  footer strong { color: var(--mist); }
+
+  @media(max-width:640px){
+    .bar-label{width:105px;min-width:105px;font-size:0.7rem;}
+    h2{font-size:1.4rem;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">🌿 LEV Eco Village</div>
+  <a href="#overview" class="active">Overview</a>
+  <a href="#base">Base Budget</a>
+  <a href="#detailed">Full Detail</a>
+  <a href="#actuals">Actuals</a>
+  <a href="#proposals">Proposals</a>
+  <a href="#lots">Per Lot</a>
+</nav>
+
+<div class="hero">
+  <div class="sub">Condominio H.R. Turístico Arboleda de Machuca</div>
+  <h1>HOA Budget 2026–2027</h1>
+  <div class="badge">HOA Meeting · April 11, 2026 &nbsp;·&nbsp; Exchange Rate: ₡462 / USD</div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-sub">Summary at a Glance</div>
+    <h2>What's Being Voted On</h2>
+    <p class="lead">The HOA is voting on two things: (1) the <strong>Base Essential Budget</strong> of ₡88.7M/year covering all standard operations, and (2) three <strong>optional proposals</strong> (road repairs, pool renovation, paid manager) that each need a separate vote.</p>
+
+    <div class="notice">
+      ℹ️ <strong>Two budget views:</strong> The <em>Base Essential Budget</em> (₡88.7M) uses 10 simplified categories for the HOA vote and drives per-lot fee calculations. The <em>Detailed Proposal</em> sheet is the accountant-level version with individual line items including depreciation, bank fees, and separate contingency/reserve totalling ₡95.8M. Both are shown below.
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="label">Base Essential Budget (Annual)</div>
+        <div class="value">₡88,700,000</div>
+        <div class="note">≈ $191,991 USD/yr · ₡7,391,667/mo</div>
+      </div>
+      <div class="card amber">
+        <div class="label">2025–26 Operating Spend (excl. extraordinary)</div>
+        <div class="value">₡78,817,964</div>
+        <div class="note">Monthly avg: ₡6,568,164</div>
+      </div>
+      <div class="card">
+        <div class="label">Year-on-Year Increase</div>
+        <div class="value">+12.5%</div>
+        <div class="note">Mainly staff raises (+5%) not given for 2 years</div>
+      </div>
+      <div class="card amber">
+        <div class="label">Detailed Proposal Total (Annual)</div>
+        <div class="value">₡95,807,433</div>
+        <div class="note">Incl. depreciation ₡1.87M + contingency &amp; reserve ₡8.4M</div>
+      </div>
+      <div class="card">
+        <div class="label">Reserve Fund Proposed</div>
+        <div class="value">₡4,000,000/yr</div>
+        <div class="note">= 5% of base budget · ₡333,333/mo</div>
+      </div>
+      <div class="card red">
+        <div class="label">Last Year's Extraordinary Costs</div>
+        <div class="value">₡43,130,256</div>
+        <div class="note">Road repair ₡39.3M + Security system ₡3.8M — NOT in this year's budget</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BASE BUDGET -->
+<section id="base">
+  <div class="container">
+    <div class="section-sub">HOA Vote — 10 Core Categories</div>
+    <h2>Base Essential Budget</h2>
+    <p class="lead">These 10 categories are proposed as "funded" — meaning included in the standard HOA fee. They are the basis for calculating each lot's contribution.</p>
+
+    <div style="margin-bottom:2rem;">
+      <div class="bar-row"><div class="bar-label">Staff Salaries</div><div class="bar-track"><div class="bar-fill" style="width:43%">₡31.1M/yr</div></div><div class="bar-pct">35.1%</div></div>
+      <div class="bar-row"><div class="bar-label">Staff Benefits</div><div class="bar-track"><div class="bar-fill" style="width:19.7%">₡13.9M/yr</div></div><div class="bar-pct">15.7%</div></div>
+      <div class="bar-row"><div class="bar-label">Routine Maintenance</div><div class="bar-track"><div class="bar-fill" style="width:25.5%">₡18M/yr</div></div><div class="bar-pct">20.3%</div></div>
+      <div class="bar-row"><div class="bar-label">Professional Services</div><div class="bar-track"><div class="bar-fill a" style="width:9.5%">₡6.7M/yr</div></div><div class="bar-pct">7.6%</div></div>
+      <div class="bar-row"><div class="bar-label">Reserve (5%)</div><div class="bar-track"><div class="bar-fill" style="width:5.7%">₡4M/yr</div></div><div class="bar-pct">4.5%</div></div>
+      <div class="bar-row"><div class="bar-label">Utilities</div><div class="bar-track"><div class="bar-fill a" style="width:8.5%">₡6M/yr</div></div><div class="bar-pct">6.8%</div></div>
+      <div class="bar-row"><div class="bar-label">Insurance</div><div class="bar-track"><div class="bar-fill" style="width:4.4%">₡3.1M</div></div><div class="bar-pct">3.5%</div></div>
+      <div class="bar-row"><div class="bar-label">Biodigester</div><div class="bar-track"><div class="bar-fill" style="width:4.3%">₡3M</div></div><div class="bar-pct">3.4%</div></div>
+      <div class="bar-row"><div class="bar-label">Taxes &amp; Permits</div><div class="bar-track"><div class="bar-fill a" style="width:2.8%">&nbsp;</div></div><div class="bar-pct">2.3%</div></div>
+      <div class="bar-row"><div class="bar-label">Office &amp; Meetings</div><div class="bar-track"><div class="bar-fill m" style="width:1.3%">&nbsp;</div></div><div class="bar-pct">1.0%</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Annual (CRC)</th><th>Monthly (CRC)</th><th>Annual (USD ≈)</th><th>% of Budget</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="lc">Staff Salaries <span class="nt">(6 employees — +5% raise proposed, no raise in 2 years)</span></td><td>₡31,100,000</td><td>₡2,591,667</td><td>$67,316</td><td>35.1%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Staff Benefits <span class="nt">(social security, 13th month, vacation pay, severance)</span></td><td>₡13,900,000</td><td>₡1,158,333</td><td>$30,087</td><td>15.7%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Routine Maintenance <span class="nt">(vehicles, buildings, pool, common areas, permaculture garden, supplies)</span></td><td>₡18,000,000</td><td>₡1,500,000</td><td>$38,961</td><td>20.3%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Professional Services <span class="nt">(bookkeeping, accounting, legal, new e-invoicing software)</span></td><td>₡6,700,000</td><td>₡558,333</td><td>$14,502</td><td>7.6%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Utilities <span class="nt">(electricity, telephone &amp; internet)</span></td><td>₡6,000,000</td><td>₡500,000</td><td>$12,987</td><td>6.8%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Office &amp; Meeting Expenses <span class="nt">(annual assembly incl. childcare &amp; food; office software)</span></td><td>₡900,000</td><td>₡75,000</td><td>$1,948</td><td>1.0%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Insurance <span class="nt">(workers risk, civil liability, vehicle, fire)</span></td><td>₡3,100,000</td><td>₡258,333</td><td>$6,710</td><td>3.5%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Taxes &amp; Permits <span class="nt">(vehicle, municipal, corporate, water permits)</span></td><td>₡2,000,000</td><td>₡166,667</td><td>$4,329</td><td>2.3%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Biodigester Maintenance</td><td>₡3,000,000</td><td>₡250,000</td><td>$6,494</td><td>3.4%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr><td class="lc">Reserve Fund <span class="nt">(5% of base budget)</span></td><td>₡4,000,000</td><td>₡333,333</td><td>$8,658</td><td>4.5%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
+          <tr class="total-row"><td>TOTAL BASE ESSENTIAL BUDGET</td><td>₡88,700,000</td><td>₡7,391,667</td><td>$191,991</td><td>100%</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fn">* USD at ₡462/dollar. This budget is used to calculate per-lot HOA fees — see the Per Lot section. Optional proposals (road repairs, pool, manager) are NOT included here.</p>
+  </div>
+</section>
+
+<!-- DETAILED -->
+<section id="detailed">
+  <div class="container">
+    <div class="section-sub">Accountant-Level Breakdown</div>
+    <h2>Full Detailed Proposal</h2>
+    <p class="lead">All individual line items from the "Detailed proposal 26-27" sheet, matching the QuickBooks accounting categories. Includes depreciation (non-cash entries), bank fees, multipurpose court, and separate contingency &amp; reserve lines.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Line Item (Account Code)</th><th>Monthly (CRC)</th><th>Annual (CRC)</th><th>Monthly USD ≈</th><th>Notes</th></tr></thead>
+        <tbody>
+
+          <tr class="cat-row"><td colspan="5">👷 Salaries — 80001</td></tr>
+          <tr class="sub-item"><td class="lc">Salaries — 80003</td><td>₡2,590,963</td><td>₡31,091,555</td><td>$5,608</td><td class="nt">+5% raise only</td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Salaries</td><td>₡2,590,963</td><td>₡31,091,555</td><td>$5,608</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">🏦 Employee Benefits — 80010</td></tr>
+          <tr class="sub-item"><td class="lc">Social Security — 80011</td><td>₡695,155</td><td>₡8,341,864</td><td>$1,505</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">13th Month / Aguinaldo — 80012</td><td>₡215,827</td><td>₡2,589,927</td><td>$467</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Vacation Pay — 80013</td><td>₡108,043</td><td>₡1,296,518</td><td>$234</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Severance / Cesantía — 80014</td><td>₡138,098</td><td>₡1,657,180</td><td>$299</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Benefits</td><td>₡1,157,123</td><td>₡13,885,489</td><td>$2,505</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">📋 Professional Services — 80020</td></tr>
+          <tr class="sub-item"><td class="lc">Professional Services — 80022</td><td>₡163,850</td><td>₡1,966,200</td><td>$355</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Legal Services — 80023</td><td>₡80,000</td><td>₡960,000</td><td>$173</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Other Services — 80024</td><td>₡230,000</td><td>₡2,760,000</td><td>$498</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Accounting / Bookkeeping — 80028</td><td>₡79,100</td><td>₡949,200</td><td>$171</td><td class="nt">₡20k/mo raise requested by Evelyn</td></tr>
+          <tr class="sub-item"><td class="lc">Private Security — 80029</td><td>₡0</td><td>₡0</td><td>$0</td><td class="nt">No longer needed — system installed</td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Professional Services</td><td>₡552,950</td><td>₡6,635,400</td><td>$1,197</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">🔧 Maintenance — 80040</td></tr>
+          <tr class="sub-item"><td class="lc">Machine Maintenance — 80057</td><td>₡25,000</td><td>₡300,000</td><td>$54</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Vehicle Maintenance — 80041</td><td>₡50,000</td><td>₡600,000</td><td>$108</td><td class="nt">Consult Fernando if more needed</td></tr>
+          <tr class="sub-item"><td class="lc">Gas &amp; Oil — 80042</td><td>₡105,000</td><td>₡1,260,000</td><td>$227</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Common Area Cleaning — 800432</td><td>₡20,000</td><td>₡240,000</td><td>$43</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Building Maintenance — 800436</td><td>₡280,000</td><td>₡3,360,000</td><td>$606</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Maintenance Supplies — 800437</td><td>₡280,000</td><td>₡3,360,000</td><td>$606</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Common Area Maint. (other) — 80043</td><td>₡30,000</td><td>₡360,000</td><td>$65</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Pool Maintenance — 80045</td><td>₡395,000</td><td>₡4,740,000</td><td>$855</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Permaculture Garden — 80048</td><td>₡185,000</td><td>₡2,220,000</td><td>$400</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">First Aid Kit — 80056</td><td>₡10,000</td><td>₡120,000</td><td>$22</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Uniforms — 80059</td><td>₡50,000</td><td>₡600,000</td><td>$108</td><td class="nt">Based on prior year</td></tr>
+          <tr class="sub-item"><td class="lc">Tolls / Peajes — 80067</td><td>₡15,000</td><td>₡180,000</td><td>$32</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Maintenance</td><td>₡1,445,000</td><td>₡17,340,000</td><td>$3,127</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">💡 Utilities — 80050</td></tr>
+          <tr class="sub-item"><td class="lc">Electricity — 80051</td><td>₡500,000</td><td>₡6,000,000</td><td>$1,082</td><td class="nt">Always budgeted high</td></tr>
+          <tr class="sub-item"><td class="lc">Telephone &amp; Internet — 80053</td><td>₡100,000</td><td>₡1,200,000</td><td>$216</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Utilities</td><td>₡600,000</td><td>₡7,200,000</td><td>$1,299</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">🗂️ Office &amp; Meetings — 80080</td></tr>
+          <tr class="sub-item"><td class="lc">Office Software &amp; Expenses — 80082</td><td>₡40,000</td><td>₡480,000</td><td>$87</td><td class="nt">₡25k base + ₡15k new e-invoicing system</td></tr>
+          <tr class="sub-item"><td class="lc">Annual Assembly &amp; Meetings — 80080</td><td>₡35,000</td><td>₡420,000</td><td>$76</td><td class="nt">Incl. ₡250k/yr for assembly catering</td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Office &amp; Meetings</td><td>₡75,000</td><td>₡900,000</td><td>$162</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">🛡️ Insurance — 80120</td></tr>
+          <tr class="sub-item"><td class="lc">Work Risk Insurance — 80121</td><td>₡10,000</td><td>₡120,000</td><td>$22</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Civil Liability — 80122</td><td>₡40,000</td><td>₡480,000</td><td>$87</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Vehicle Insurance — 80123</td><td>₡110,000</td><td>₡1,320,000</td><td>$238</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Fire Insurance — 80124</td><td>₡115,000</td><td>₡1,380,000</td><td>$249</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Insurance</td><td>₡275,000</td><td>₡3,300,000</td><td>$595</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">📄 Taxes &amp; Permits — 80130</td></tr>
+          <tr class="sub-item"><td class="lc">Vehicle Taxes &amp; Permits — 80131</td><td>₡28,000</td><td>₡336,000</td><td>$61</td><td class="nt">Based on this year's payments</td></tr>
+          <tr class="sub-item"><td class="lc">Municipal Taxes — 80132</td><td>₡46,000</td><td>₡552,000</td><td>$100</td><td class="nt">Based on this year's payments</td></tr>
+          <tr class="sub-item"><td class="lc">Corporation Tax — 80133</td><td>₡12,000</td><td>₡144,000</td><td>$26</td><td class="nt">Based on this year's payments</td></tr>
+          <tr class="sub-item"><td class="lc">Water Taxes &amp; Permits — 80134</td><td>₡80,000</td><td>₡960,000</td><td>$173</td><td class="nt">Full analysis needed H2</td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Taxes &amp; Permits</td><td>₡166,000</td><td>₡1,992,000</td><td>$359</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">🏦 Financial Expenses — 80180</td></tr>
+          <tr class="sub-item"><td class="lc">Bank Fees — 80183</td><td>₡6,000</td><td>₡72,000</td><td>$13</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Financial</td><td>₡6,000</td><td>₡72,000</td><td>$13</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">📉 Depreciation — 80190 (non-cash accounting entries)</td></tr>
+          <tr class="sub-item"><td class="lc">Vehicle Depreciation — 80191</td><td>₡144,645</td><td>₡1,735,740</td><td>$313</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Furniture &amp; Equipment — 80192</td><td>₡4,152</td><td>₡49,820</td><td>$9</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Machinery &amp; Equipment — 80194</td><td>₡7,119</td><td>₡85,430</td><td>$15</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Depreciation</td><td>₡155,916</td><td>₡1,870,990</td><td>$338</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">🌿 Other</td></tr>
+          <tr class="sub-item"><td class="lc">Multipurpose Court — 800170</td><td>₡15,000</td><td>₡180,000</td><td>$32</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Biodigester Maintenance — 80069</td><td>₡245,000</td><td>₡2,940,000</td><td>$530</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Other</td><td>₡260,000</td><td>₡3,120,000</td><td>$563</td><td></td></tr>
+
+          <tr class="cat-row"><td colspan="5">💰 Contingency &amp; Reserve</td></tr>
+          <tr class="sub-item"><td class="lc">Contingency</td><td>₡350,000</td><td>₡4,200,000</td><td>$758</td><td></td></tr>
+          <tr class="sub-item"><td class="lc">Reserve (Reserva)</td><td>₡350,000</td><td>₡4,200,000</td><td>$758</td><td></td></tr>
+          <tr class="subtotal-row"><td class="lc">Subtotal — Contingency &amp; Reserve</td><td>₡700,000</td><td>₡8,400,000</td><td>$1,515</td><td></td></tr>
+
+          <tr class="total-row"><td>GRAND TOTAL — DETAILED PROPOSAL</td><td>₡7,983,953</td><td>₡95,807,433</td><td>$17,281</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fn">* Depreciation is non-cash. The gap between the base budget (₡88.7M) and this total (₡95.8M) is explained by: depreciation ₡1.87M + contingency &amp; reserve ₡8.4M + multipurpose court ₡180k, with minor differences in rounding across how categories are grouped.</p>
+  </div>
+</section>
+
+<!-- ACTUALS -->
+<section id="actuals">
+  <div class="container">
+    <div class="section-sub">April 2025 – March 2026</div>
+    <h2>Last Year's Actual Results</h2>
+    <p class="lead">From the QuickBooks Profit &amp; Loss report. This year had two large extraordinary items — road repairs and the security system — that are not expected to repeat.</p>
+
+    <div class="cards">
+      <div class="card amber">
+        <div class="label">Operating Spend (excl. extraordinary)</div>
+        <div class="value">₡78,817,964</div>
+        <div class="note">Monthly avg: ₡6,568,164</div>
+      </div>
+      <div class="card red">
+        <div class="label">Road Repair (one-time)</div>
+        <div class="value">₡39,284,087</div>
+        <div class="note">Plastic → concrete pavers on LEV roads</div>
+      </div>
+      <div class="card red">
+        <div class="label">Security System (one-time)</div>
+        <div class="value">₡3,846,169</div>
+        <div class="note">Installed after robberies + ₡65,832 stolen assets</div>
+      </div>
+      <div class="card">
+        <div class="label">HOA Fee Income (annual)</div>
+        <div class="value">₡104,417,829</div>
+        <div class="note">Monthly avg: ₡8,701,486</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>2025–26 Actual (CRC)</th><th>Monthly Avg</th><th>2026–27 Proposed (Annual)</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td class="lc">Staff Salaries</td><td>₡26,404,780</td><td>₡2,200,398</td><td>₡31,100,000</td><td><span class="up">↑ +17.8%</span></td></tr>
+          <tr><td class="lc">Staff Benefits</td><td>₡12,013,113</td><td>₡1,001,093</td><td>₡13,900,000</td><td><span class="up">↑ +15.7%</span></td></tr>
+          <tr><td class="lc">Professional Services <span class="nt">(incl. ₡4.3M private security last year)</span></td><td>₡9,077,186</td><td>₡756,432</td><td>₡6,700,000</td><td><span class="dn">↓ −26.2%</span></td></tr>
+          <tr><td class="lc">Routine Maintenance</td><td>₡17,325,916</td><td>₡1,443,826</td><td>₡18,000,000</td><td><span class="up">↑ +3.9%</span></td></tr>
+          <tr><td class="lc">Utilities</td><td>₡5,585,725</td><td>₡465,477</td><td>₡6,000,000</td><td><span class="up">↑ +7.4%</span></td></tr>
+          <tr><td class="lc">Office &amp; Meetings</td><td>₡583,115</td><td>₡48,593</td><td>₡900,000</td><td><span class="up">↑ +54.3%</span> <span class="nt">(new software)</span></td></tr>
+          <tr><td class="lc">Insurance</td><td>₡3,060,151</td><td>₡255,013</td><td>₡3,100,000</td><td><span class="up">↑ +1.3%</span></td></tr>
+          <tr><td class="lc">Taxes &amp; Permits</td><td>₡1,954,730</td><td>₡162,894</td><td>₡2,000,000</td><td><span class="up">↑ +2.3%</span></td></tr>
+          <tr><td class="lc">Biodigester Maintenance</td><td>₡2,813,248</td><td>₡234,437</td><td>₡3,000,000</td><td><span class="up">↑ +6.7%</span></td></tr>
+          <tr class="subtotal-row"><td class="lc">Operating Subtotal</td><td>₡78,817,964</td><td>₡6,568,164</td><td>₡88,700,000</td><td><span class="up">↑ +12.5%</span></td></tr>
+          <tr class="opt-row"><td class="lc">Road Repair (extraordinary — one-time)</td><td>₡39,284,087</td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026-27</td><td>—</td></tr>
+          <tr class="opt-row"><td class="lc">Security System (extraordinary — one-time)</td><td>₡3,846,169</td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026-27</td><td>—</td></tr>
+          <tr class="opt-row"><td class="lc">Stolen Assets Loss</td><td>₡65,832</td><td>—</td><td style="color:var(--soft);font-style:normal;">—</td><td>—</td></tr>
+          <tr class="total-row"><td>GRAND TOTAL (incl. extraordinary)</td><td>₡122,014,052</td><td>—</td><td>—</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fn">Note: Professional Services drops in the proposal because private security (₡4.3M last year) is no longer needed — the security system is now installed and operational.</p>
+  </div>
+</section>
+
+<!-- PROPOSALS -->
+<section id="proposals">
+  <div class="container">
+    <div class="section-sub">Require Separate HOA Vote</div>
+    <h2>Optional Proposals</h2>
+    <p class="lead">These items are NOT included in the base budget. The HOA votes on each one separately. If approved, they can be funded from existing reserves or through a temporary HOA fee increase.</p>
+
+    <div class="proposals">
+      <div class="proposal">
+        <div class="p-icon">🛣️</div>
+        <div>
+          <h4>Road Repairs — Remaining Sections</h4>
+          <p>Replace any remaining plastic paver areas with concrete pavers on internal LEV roads. Phase 1 was completed last year at ₡39,284,087. This proposal covers whatever sections still need work. Cost is TBD pending assessment.</p>
+          <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently set to "No"</span>
+        </div>
+      </div>
+      <div class="proposal">
+        <div class="p-icon">👩‍💼</div>
+        <div>
+          <h4>Paid Administration Manager</h4>
+          <p>Monthly facilitation of AC meetings: preparing agenda, writing minutes, collecting reports from Fernando and Lourdes, committee reports, reviewing and prioritizing app tickets, and communicating with homeowners. Note: does not include any additional duties for Fernando.</p>
+          <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently set to "No"</span>
+        </div>
+      </div>
+      <div class="proposal">
+        <div class="p-icon">🏊</div>
+        <div>
+          <h4>Pool Renovation</h4>
+          <p>Capital improvements: new showers, repair broken tiles, re-grout, refresh or replace loungers, install better signage. Note: ongoing pool maintenance (₡395,000/mo = ₡4.74M/yr) is already covered in the base budget — this is for one-time renovation work.</p>
+          <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently set to "No"</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;" class="notice">
+      ℹ️ In the spreadsheet's "HOA budget elements" tab, row 16 shows the current funded status of each item. Switching any item from "No" to "Yes" will automatically recalculate the per-lot fees in the table below.
+    </div>
+  </div>
+</section>
+
+<!-- PER LOT -->
+<section id="lots">
+  <div class="container">
+    <div class="section-sub">Individual Contributions</div>
+    <h2>Per-Lot Fee Calculator</h2>
+    <p class="lead">HOA fees are weighted by each lot's proportional share of the total community land area. Select your lot to see your contribution to the ₡88,700,000 base budget.</p>
+
+    <div class="lot-lookup">
+      <label for="lotSel">Select your lot:</label>
+      <select id="lotSel" onchange="showLot()">
+        <option value="">-- Choose Lot --</option>
+      </select>
+    </div>
+
+    <div class="lot-result" id="lotRes">
+      <div><div class="r-label">Lot</div><div class="r-val" id="rLot">—</div></div>
+      <div><div class="r-label">Share of Community</div><div class="r-val" id="rPct">—</div></div>
+      <div><div class="r-label">Annual Fee (CRC)</div><div class="r-val" id="rAnn">—</div></div>
+      <div><div class="r-label">Monthly Fee (CRC)</div><div class="r-val" id="rMon">—</div></div>
+      <div><div class="r-label">Monthly (USD ≈)</div><div class="r-val" id="rUSD">—</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Lot #</th><th>Share %</th><th>Annual (CRC)</th><th>Monthly (CRC)</th><th>Monthly (USD ≈)</th></tr></thead>
+        <tbody id="lotTbody"></tbody>
+      </table>
+    </div>
+    <p class="fn">* Calculated against the ₡88,700,000 base essential budget at ₡462/USD. Lots 22 and 23 show 0% in the current spreadsheet data. If optional proposals are approved via HOA fee increases, your monthly amount will increase proportionally to your lot share.</p>
+  </div>
+</section>
+
+<footer>
+  <strong>LEV Eco Village</strong> · Condominio H.R. Turístico Arboleda de Machuca<br>
+  HOA Budget Proposal · April 2026 – March 2027 · HOA Meeting April 11, 2026<br>
+  All figures verified from source spreadsheet · Exchange rate: ₡462 / USD
+</footer>
+
+<script>
+const BASE = 88700000, RATE = 462;
+const lots = [
+  [1,0.017915882],[2,0.022038687],[3,0.021851094],[4,0.021895811],[5,0.021823010],
+  [6,0.017024955],['7A',0.014233020],['7B',0.014052517],[8,0.028472175],
+  [9,0.030943595],[10,0.032099005],['11a',0.031395565],['11b',0.011904435],
+  [12,0.015629738],[13,0.026359990],[14,0.034064771],[15,0.019213078],
+  [16,0.019922411],[17,0.020752670],[18,0.020640742],[19,0.024352098],
+  [20,0.022722117],[21,0.018095295],[22,0.0],[23,0.0],[24,0.021955933],
+  [25,0.021458050],[26,0.016556247],[27,0.016471994],[28,0.014878823],
+  ['29A',0.009379615],['29B',0.009379615],[30,0.021215653],[31,0.022381561],
+  [32,0.019347501],[33,0.017379008],[34,0.026109957],[35,0.025897962],
+  [36,0.018082480],[37,0.018780225],[38,0.016968650],[39,0.018478523],
+  [40,0.017114525],[41,0.019071974],[42,0.031512234],['43A',0.055235570],['43B',0.054908238]
+];
+function fc(n){return '₡'+Math.round(n).toLocaleString('en-US');}
+function fu(n){return '$'+Math.round(n).toLocaleString('en-US');}
+
+const sel=document.getElementById('lotSel'), tb=document.getElementById('lotTbody');
+lots.forEach(([id,pct])=>{
+  const o=document.createElement('option');
+  o.value=pct; o.dataset.id=id; o.textContent='Lot '+id; sel.appendChild(o);
+  const ann=BASE*pct, mon=ann/12, usd=mon/RATE;
+  const tr=document.createElement('tr');
+  if(pct===0)tr.style.color='var(--soft)';
+  tr.innerHTML=`<td>${id}</td><td>${(pct*100).toFixed(3)}%</td><td style="font-weight:600">${fc(ann)}</td><td>${fc(mon)}</td><td>${fu(usd)}</td>`;
+  tb.appendChild(tr);
+});
+
+function showLot(){
+  const s=sel.options[sel.selectedIndex];
+  if(!s.value){document.getElementById('lotRes').classList.remove('vis');return;}
+  const pct=parseFloat(s.value),id=s.dataset.id;
+  const ann=BASE*pct,mon=ann/12,usd=mon/RATE;
+  document.getElementById('rLot').textContent='Lot '+id;
+  document.getElementById('rPct').textContent=(pct*100).toFixed(3)+'%';
+  document.getElementById('rAnn').textContent=fc(ann);
+  document.getElementById('rMon').textContent=fc(mon);
+  document.getElementById('rUSD').textContent='≈ '+fu(usd)+'/mo';
+  document.getElementById('lotRes').classList.add('vis');
+}
+
+document.querySelectorAll('nav a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+</body>
+</html>
