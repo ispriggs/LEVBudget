@@ -6,6 +6,93 @@
 <title>LEV Eco Village — HOA Budget 2026–2027</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  /* ── PASSWORD GATE ── */
+  #gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #1a2a1b;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    font-family: 'DM Sans', sans-serif;
+  }
+  #gate .gate-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,220,196,0.15);
+    border-radius: 16px;
+    padding: 2.5rem 2.8rem;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  }
+  #gate .gate-logo {
+    font-size: 2.2rem;
+    margin-bottom: 0.6rem;
+  }
+  #gate h2 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #c8d9c4;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  #gate .gate-sub {
+    color: rgba(200,220,196,0.45);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+  }
+  #gate input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(200,220,196,0.2);
+    background: rgba(0,0,0,0.35);
+    color: #c8d9c4;
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  #gate input:focus { border-color: rgba(122,158,114,0.6); }
+  #gate input.error { border-color: rgba(192,57,43,0.7); animation: shake 0.35s ease; }
+  #gate button {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: none;
+    background: #4a6741;
+    color: #c8d9c4;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  #gate button:hover { background: #5a7d51; }
+  #gate .gate-err {
+    margin-top: 0.75rem;
+    color: #e07068;
+    font-size: 0.78rem;
+    min-height: 1.2em;
+  }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-7px)}
+    40%{transform:translateX(7px)}
+    60%{transform:translateX(-5px)}
+    80%{transform:translateX(5px)}
+  }
+
+  /* ── MAIN CONTENT (hidden until unlocked) ── */
+  #main-content { display: none; }
+
   :root {
     --forest: #2d4a2e; --moss: #4a6741; --sage: #7a9e72; --mist: #c8d9c4;
     --cream: #f5f1eb; --earth: #8b6f47; --amber: #c8902a; --sand: #e8dcc8;
@@ -15,13 +102,11 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.6; }
 
-  /* NAV */
   nav { position: sticky; top: 0; z-index: 100; background: var(--forest); display: flex; align-items: center; padding: 0 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.2); overflow-x: auto; }
   nav .brand { font-family: 'Cormorant Garamond', serif; color: var(--white); font-size: 1.1rem; font-weight: 600; padding: 1rem 1.5rem 1rem 0; border-right: 1px solid rgba(255,255,255,0.15); margin-right: 1rem; white-space: nowrap; }
   nav a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; padding: 1rem 0.75rem; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; }
   nav a:hover, nav a.active { color: var(--mist); border-bottom-color: var(--sage); }
 
-  /* CURRENCY BAR */
   .currency-bar {
     background: rgba(45,74,46,0.97);
     border-bottom: 1px solid rgba(200,220,196,0.15);
@@ -38,20 +123,16 @@
     padding: 0.35rem 0.9rem; cursor: pointer; transition: all 0.18s;
     letter-spacing: 0.04em;
   }
-  .currency-bar .currency-toggle button.active {
-    background: var(--sage); color: var(--forest);
-  }
+  .currency-bar .currency-toggle button.active { background: var(--sage); color: var(--forest); }
   .currency-bar .rate-info { color: rgba(200,220,196,0.55); font-size: 0.7rem; white-space: nowrap; }
   .currency-bar .rate-info span { color: rgba(200,220,196,0.9); font-weight: 600; }
   .currency-bar .rate-loading { color: rgba(200,220,196,0.4); font-size: 0.7rem; font-style: italic; }
 
-  /* HERO */
   .hero { background: linear-gradient(135deg, var(--forest), #3a5c3b 50%, #2d4a2e); color: var(--cream); padding: 4rem 2rem 3rem; text-align: center; }
   .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,5vw,3rem); font-weight: 600; margin-bottom: 0.5rem; }
   .hero .sub { font-size: 0.82rem; opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
   .hero .badge { display: inline-block; background: rgba(200,220,196,0.15); border: 1px solid rgba(200,220,196,0.3); border-radius: 100px; padding: 0.35rem 1.1rem; font-size: 0.78rem; }
 
-  /* LAYOUT */
   .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
   section { padding: 3rem 0; }
   section + section { border-top: 1px solid var(--sand); }
@@ -64,7 +145,6 @@
   .period-tag.prior { background: rgba(200,144,42,0.15); color: #7a5010; border: 1px solid rgba(200,144,42,0.3); }
   .period-tag.proposed { background: rgba(45,74,46,0.1); color: var(--forest); border: 1px solid rgba(45,74,46,0.2); }
 
-  /* CARDS */
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
   .card { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; padding: 1.3rem 1.4rem; position: relative; overflow: hidden; }
   .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--moss), var(--sage)); }
@@ -74,7 +154,6 @@
   .card .value { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--forest); line-height: 1.15; }
   .card .note { font-size: 0.71rem; color: var(--soft); margin-top: 0.3rem; line-height: 1.4; }
 
-  /* STANDARD TABLE */
   .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--sand); margin-bottom: 0.75rem; }
   table { width: 100%; border-collapse: collapse; background: var(--white); }
   thead th { background: var(--forest); color: var(--mist); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1rem; text-align: right; white-space: nowrap; }
@@ -92,7 +171,6 @@
   .dn { color: var(--green); font-size: 0.71rem; }
   .nt { font-size: 0.7rem; color: var(--soft); }
 
-  /* DETAIL CARDS */
   .detail-section { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1rem; }
   .detail-card { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; overflow: hidden; }
   .detail-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.2rem; background: var(--forest); color: var(--mist); gap: 1rem; flex-wrap: wrap; }
@@ -115,7 +193,6 @@
   .grand-total-card .gt-lbl { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.07em; opacity: 0.6; display: block; }
   .grand-total-card .gt-val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
 
-  /* BARS */
   .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; }
   .bar-label { width: 175px; min-width: 175px; font-size: 0.77rem; text-align: right; line-height: 1.3; }
   .bar-track { flex: 1; background: var(--sand); border-radius: 4px; height: 20px; overflow: hidden; }
@@ -128,14 +205,12 @@
   .chip-g { background: rgba(39,174,96,0.12); color: #1a7a40; }
   .chip-a { background: rgba(200,144,42,0.15); color: #7a5010; }
 
-  /* PROPOSALS */
   .proposals { display: flex; flex-direction: column; gap: 1rem; }
   .proposal { background: var(--white); border: 1px solid var(--sand); border-radius: 10px; padding: 1.2rem 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; }
   .p-icon { background: var(--earth); color: white; border-radius: 8px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
   .proposal h4 { font-size: 0.93rem; font-weight: 600; margin-bottom: 0.2rem; color: var(--forest); }
   .proposal p { font-size: 0.8rem; color: var(--soft); line-height: 1.55; }
 
-  /* LOT */
   .lot-lookup { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
   .lot-lookup label { font-size: 0.85rem; font-weight: 500; }
   .lot-lookup select { padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--sand); background: var(--white); font-family: inherit; font-size: 0.9rem; cursor: pointer; }
@@ -146,9 +221,6 @@
 
   .notice { background: rgba(200,144,42,0.1); border: 1px solid rgba(200,144,42,0.3); border-radius: 8px; padding: 0.9rem 1.2rem; font-size: 0.81rem; color: #7a5010; margin-bottom: 1.5rem; line-height: 1.55; }
   .fn { font-size: 0.71rem; color: var(--soft); margin-top: 0.6rem; line-height: 1.5; }
-
-  /* Currency-switched elements */
-  .crc-val, .usd-val, .eur-val { transition: opacity 0.15s; }
 
   footer { background: var(--forest); color: rgba(200,220,196,0.65); text-align: center; padding: 2rem 1rem; font-size: 0.75rem; margin-top: 2rem; }
   footer strong { color: var(--mist); }
@@ -164,6 +236,21 @@
 </head>
 <body>
 
+<!-- ── PASSWORD GATE ── -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo">🌿</div>
+    <h2>LEV Eco Village</h2>
+    <div class="gate-sub">HOA Budget 2026–2027 · Members Only</div>
+    <input type="password" id="pwInput" placeholder="Enter password" autocomplete="current-password" />
+    <button onclick="checkPw()">Unlock</button>
+    <div class="gate-err" id="pwErr"></div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div id="main-content">
+
 <nav>
   <div class="brand">🌿 LEV Eco Village</div>
   <a href="#overview" class="active">Overview</a>
@@ -174,7 +261,6 @@
   <a href="#lots">Per Lot</a>
 </nav>
 
-<!-- CURRENCY BAR -->
 <div class="currency-bar">
   <div class="cb-left">
     <label>Display currency:</label>
@@ -193,7 +279,6 @@
   <div class="badge">HOA Meeting · April 11, 2026 &nbsp;·&nbsp; <span id="hero-rate">Rate: ₡462 / USD (spreadsheet rate)</span></div>
 </div>
 
-<!-- OVERVIEW -->
 <section id="overview">
   <div class="container">
     <div class="section-sub">Summary at a Glance</div>
@@ -243,7 +328,6 @@
   </div>
 </section>
 
-<!-- BASE BUDGET -->
 <section id="base">
   <div class="container">
     <div class="section-sub">HOA Vote — 10 Core Categories · 2026–27</div>
@@ -279,11 +363,10 @@
         <tr class="total-row"><td>TOTAL BASE ESSENTIAL BUDGET — 2026–27</td><td class="cv" data-crc="88700000" data-freq="annual"></td><td class="cv" data-crc="7391667" data-freq="monthly"></td><td>100%</td><td></td></tr>
       </tbody>
     </table></div>
-    <p class="fn" id="base-fn">* Optional proposals (road repairs, pool, manager) are NOT included here — see Proposals section.</p>
+    <p class="fn">* Optional proposals (road repairs, pool, manager) are NOT included here — see Proposals section.</p>
   </div>
 </section>
 
-<!-- DETAILED -->
 <section id="detailed">
   <div class="container">
     <div class="section-sub">Accountant-Level Breakdown · 2026–27</div>
@@ -291,7 +374,6 @@
     <p class="lead">All individual QuickBooks line items for <strong>April 2026 – March 2027</strong>. The "Prior Yr Avg/mo" column shows actual average monthly spend from 2025–26 (labelled "PROMEDIO AÑO ANTERIOR" in the spreadsheet) — <em>not</em> a prior year budget.</p>
 
     <div class="detail-section">
-
       <div class="detail-card">
         <div class="detail-card-header">
           <div class="cat-title">👷 Salaries — 80001</div>
@@ -502,7 +584,6 @@
           <tr><td>Reserve (Reserva)</td><td>—</td><td class="cv" data-crc="350000" data-freq="monthly"></td><td class="cv" data-crc="4200000" data-freq="annual"></td><td class="note-cell">New line for 2026–27</td></tr>
         </tbody></table>
       </div>
-
     </div>
 
     <div class="grand-total-card">
@@ -512,11 +593,10 @@
         <div class="gt-item"><span class="gt-lbl">Annual</span><span class="gt-val cv" data-crc="95807433" data-freq="annual"></span></div>
       </div>
     </div>
-    <p class="fn">* "Prior Yr Avg/mo" = monthly averages of actual 2025–26 spend ("PROMEDIO AÑO ANTERIOR" in spreadsheet) — not a prior year budget. Depreciation is non-cash. Gap between base (₡88.7M) and this total (₡95.8M): depreciation ₡1.87M + contingency &amp; reserve ₡8.4M + multipurpose court ₡180k.</p>
+    <p class="fn">* "Prior Yr Avg/mo" = monthly averages of actual 2025–26 spend — not a prior year budget. Depreciation is non-cash. Gap between base (₡88.7M) and this total (₡95.8M): depreciation ₡1.87M + contingency &amp; reserve ₡8.4M + multipurpose court ₡180k.</p>
   </div>
 </section>
 
-<!-- ACTUALS -->
 <section id="actuals">
   <div class="container">
     <div class="section-sub">Prior Year Results · April 2025 – March 2026</div>
@@ -526,22 +606,21 @@
       <div class="period-tag proposed">🗓 Proposed: April 2026 – March 2027</div>
     </div>
     <p class="lead">Actual spending per the QuickBooks P&amp;L report. This year had two extraordinary items — road repairs and the security system — not expected to repeat.</p>
-
     <div class="cards">
       <div class="card amber">
         <div class="label">Total Operating Spend (excl. extraordinary)</div>
         <div class="value cv" data-crc="82906934" data-freq="annual"></div>
-        <div class="note">2025–26 · as stated in spreadsheet · excludes road repair &amp; security system</div>
+        <div class="note">2025–26 · excludes road repair &amp; security system</div>
       </div>
       <div class="card red">
         <div class="label">Road Repair Project (extraordinary)</div>
         <div class="value cv" data-crc="39284087" data-freq="annual"></div>
-        <div class="note">Total project cost · plastic → concrete pavers on LEV roads</div>
+        <div class="note">Total project cost · plastic → concrete pavers</div>
       </div>
       <div class="card red">
         <div class="label">Security System (extraordinary)</div>
         <div class="value cv" data-crc="3846169" data-freq="annual"></div>
-        <div class="note">Installed after robberies + ₡65,832 stolen assets loss</div>
+        <div class="note">Installed after robberies</div>
       </div>
       <div class="card">
         <div class="label">HOA Fee Income</div>
@@ -549,7 +628,6 @@
         <div class="note">2025–26 · monthly avg: <span class="cv" data-crc="8701486" data-freq="monthly"></span></div>
       </div>
     </div>
-
     <div class="table-wrap"><table>
       <thead><tr><th>Category</th><th>Actuals 2025–26</th><th>Monthly Avg</th><th>Proposed 2026–27 (Annual)</th><th>Change</th></tr></thead>
       <tbody>
@@ -558,38 +636,36 @@
         <tr><td class="lc">Professional Services <span class="nt">(2025–26 incl. private security ≈₡5.3M — no longer needed)</span></td><td class="cv" data-crc="9077186" data-freq="annual"></td><td class="cv" data-crc="756432" data-freq="monthly"></td><td class="cv" data-crc="6700000" data-freq="annual"></td><td><span class="dn">↓ −26.2%</span></td></tr>
         <tr><td class="lc">Routine Maintenance</td><td class="cv" data-crc="17325916" data-freq="annual"></td><td class="cv" data-crc="1443826" data-freq="monthly"></td><td class="cv" data-crc="18000000" data-freq="annual"></td><td><span class="up">↑ +3.9%</span></td></tr>
         <tr><td class="lc">Utilities</td><td class="cv" data-crc="5585725" data-freq="annual"></td><td class="cv" data-crc="465477" data-freq="monthly"></td><td class="cv" data-crc="6000000" data-freq="annual"></td><td><span class="up">↑ +7.4%</span></td></tr>
-        <tr><td class="lc">Office &amp; Meetings <span class="nt">(new e-invoicing software added for 2026–27)</span></td><td class="cv" data-crc="583115" data-freq="annual"></td><td class="cv" data-crc="48593" data-freq="monthly"></td><td class="cv" data-crc="900000" data-freq="annual"></td><td><span class="up">↑ +54.3%</span></td></tr>
+        <tr><td class="lc">Office &amp; Meetings</td><td class="cv" data-crc="583115" data-freq="annual"></td><td class="cv" data-crc="48593" data-freq="monthly"></td><td class="cv" data-crc="900000" data-freq="annual"></td><td><span class="up">↑ +54.3%</span></td></tr>
         <tr><td class="lc">Insurance</td><td class="cv" data-crc="3060151" data-freq="annual"></td><td class="cv" data-crc="255013" data-freq="monthly"></td><td class="cv" data-crc="3100000" data-freq="annual"></td><td><span class="up">↑ +1.3%</span></td></tr>
         <tr><td class="lc">Taxes &amp; Permits</td><td class="cv" data-crc="1954730" data-freq="annual"></td><td class="cv" data-crc="162894" data-freq="monthly"></td><td class="cv" data-crc="2000000" data-freq="annual"></td><td><span class="up">↑ +2.3%</span></td></tr>
         <tr><td class="lc">Biodigester Maintenance</td><td class="cv" data-crc="2813248" data-freq="annual"></td><td class="cv" data-crc="234437" data-freq="monthly"></td><td class="cv" data-crc="3000000" data-freq="annual"></td><td><span class="up">↑ +6.7%</span></td></tr>
         <tr class="subtotal-row"><td class="lc">Total — 9 operating categories</td><td class="cv" data-crc="78817964" data-freq="annual"></td><td class="cv" data-crc="6568164" data-freq="monthly"></td><td class="cv" data-crc="84700000" data-freq="annual"></td><td><span class="up">↑ +7.5%</span></td></tr>
         <tr><td class="lc" style="padding-left:1.5rem;font-weight:400;color:var(--soft);">Reserve Fund (5% of base)</td><td style="color:var(--soft);font-style:italic;font-size:0.79rem;">not separately tracked</td><td>—</td><td class="cv" data-crc="4000000" data-freq="annual"></td><td style="font-size:0.75rem;color:var(--soft);">new</td></tr>
         <tr class="subtotal-row"><td class="lc">Total Base Essential Budget</td><td style="color:var(--soft);font-style:italic;">—</td><td>—</td><td class="cv" data-crc="88700000" data-freq="annual"></td><td><span class="up">↑ +6.9% vs ₡82.9M actuals</span></td></tr>
-        <tr class="opt-row"><td class="lc">Road Repair — "multi-year total (2024-25 + 2025-26),"</td><td class="cv" data-crc="39284087" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026–27</td><td>—</td></tr>
+        <tr class="opt-row"><td class="lc">Road Repair (extraordinary)</td><td class="cv" data-crc="39284087" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026–27</td><td>—</td></tr>
         <tr class="opt-row"><td class="lc">Security System (extraordinary)</td><td class="cv" data-crc="3846169" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026–27</td><td>—</td></tr>
         <tr class="opt-row"><td class="lc">Stolen Assets Loss</td><td class="cv" data-crc="65832" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">—</td><td>—</td></tr>
       </tbody>
     </table></div>
-    <p class="fn">* The ₡78,817,964 sub-sum of 9 categories is derived here for comparison. The spreadsheet's own stated actual total is <strong>₡82,906,934</strong> — this figure excludes road repair and security system but may include other items not broken out in the 9-category view above.</p>
-    <p class="fn">Professional Services drops because private security guards (≈₡5.3M in 2025–26) are no longer needed. The +54.3% rise in Office &amp; Meetings reflects new e-invoicing software (₡15k/mo).</p>
+    <p class="fn">* Professional Services drops because private security guards (≈₡5.3M in 2025–26) are no longer needed.</p>
   </div>
 </section>
 
-<!-- PROPOSALS -->
 <section id="proposals">
   <div class="container">
     <div class="section-sub">Require Separate HOA Vote · 2026–27</div>
     <h2>Optional Proposals</h2>
-    <p class="lead">These items are NOT included in the base budget. The HOA votes on each separately. If approved, they can be funded from existing reserves or through a temporary HOA fee increase.</p>
+    <p class="lead">These items are NOT included in the base budget. The HOA votes on each separately.</p>
     <div class="proposals">
       <div class="proposal"><div class="p-icon">🛣️</div><div>
         <h4>Road Repairs — Remaining Sections</h4>
-        <p>Replace any remaining plastic paver areas with concrete pavers on internal LEV roads. The prior phase cost ₡39,284,087 across 2024–25 and 2025–26. This proposal covers whatever sections remain. Cost TBD.</p>
+        <p>Replace any remaining plastic paver areas with concrete pavers on internal LEV roads. The prior phase cost ₡39,284,087 across 2024–25 and 2025–26. Cost TBD.</p>
         <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently "No"</span>
       </div></div>
       <div class="proposal"><div class="p-icon">👩‍💼</div><div>
         <h4>Paid Administration Manager</h4>
-        <p>Monthly facilitation of AC meetings: agenda, minutes, reports from Fernando and Lourdes, committee reports, app ticket triage, and homeowner communication. Does not include additional duties for Fernando.</p>
+        <p>Monthly facilitation of AC meetings: agenda, minutes, reports from Fernando and Lourdes, committee reports, app ticket triage, and homeowner communication.</p>
         <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently "No"</span>
       </div></div>
       <div class="proposal"><div class="p-icon">🏊</div><div>
@@ -598,13 +674,9 @@
         <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently "No"</span>
       </div></div>
     </div>
-    <div style="margin-top:1.5rem;" class="notice">
-      ℹ️ In the spreadsheet's "HOA budget elements" tab, row 16 controls the funded status. Switching any item from "No" to "Yes" automatically recalculates the per-lot fees.
-    </div>
   </div>
 </section>
 
-<!-- PER LOT -->
 <section id="lots">
   <div class="container">
     <div class="section-sub">Individual Contributions · 2026–27</div>
@@ -626,7 +698,7 @@
         <tbody id="lotTbody"></tbody>
       </table>
     </div>
-    <p class="fn">* Calculated against the ₡88,700,000 base essential budget. Lots 22 and 23 show 0% in the spreadsheet. If optional proposals are approved via HOA fee increases, your monthly fee will increase proportionally.</p>
+    <p class="fn">* Calculated against the ₡88,700,000 base essential budget. Lots 22 and 23 show 0% in the spreadsheet.</p>
   </div>
 </section>
 
@@ -637,22 +709,49 @@
   <span id="footer-rate">Exchange rates loaded on page open</span>
 </footer>
 
+</div><!-- end #main-content -->
+
 <script>
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// ── PASSWORD GATE ──────────────────────────────────────────────────────────────
+const CORRECT_PW = 'LEV@)@^';
+
+function checkPw() {
+  const val = document.getElementById('pwInput').value;
+  const inp = document.getElementById('pwInput');
+  const err = document.getElementById('pwErr');
+  if (val === CORRECT_PW) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    refreshAll();
+    fetchRates();
+  } else {
+    err.textContent = 'Incorrect password. Please try again.';
+    inp.classList.add('error');
+    inp.value = '';
+    setTimeout(() => inp.classList.remove('error'), 400);
+    inp.focus();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPw();
+  });
+  document.getElementById('pwInput').focus();
+});
+
+// ── MAIN APP ──────────────────────────────────────────────────────────────────
 const BASE_CRC = 88700000;
-let rates = { USD: 465.40, EUR: null };   // fallback: USD from search results
+let rates = { USD: 465.40, EUR: null };
 let activeCurrency = 'CRC';
 let ratesLoaded = false;
 
-// ─── RATE FETCH ───────────────────────────────────────────────────────────────
 async function fetchRates() {
   try {
-    // Using exchangerate-api.com free tier (no key needed for latest)
     const res = await fetch('https://open.er-api.com/v6/latest/CRC');
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
     if (data && data.rates) {
-      // data.rates.USD = how many USD per 1 CRC → invert to get CRC per USD
       rates.USD = 1 / data.rates.USD;
       rates.EUR = 1 / data.rates.EUR;
       ratesLoaded = true;
@@ -660,9 +759,8 @@ async function fetchRates() {
       refreshAll();
     }
   } catch(e) {
-    // Fallback to known current rate from search results (April 1 2026)
     rates.USD = 465.40;
-    rates.EUR = rates.USD * 0.925; // approx EUR/USD
+    rates.EUR = rates.USD * 0.925;
     ratesLoaded = false;
     updateRateDisplay();
     refreshAll();
@@ -678,27 +776,21 @@ function updateRateDisplay() {
   el.className = 'rate-info';
   el.innerHTML = `$1 = <span>₡${rates.USD.toFixed(0)}</span>${eurStr} &nbsp;·&nbsp; ${src}`;
   heroRate.textContent = `Spreadsheet rate: ₡462/USD · Live rate: ₡${rates.USD.toFixed(0)}/USD`;
-  footerRate.textContent = `Exchange rates: $1 = ₡${rates.USD.toFixed(0)}${eurStr} (${src})`;
+  if (footerRate) footerRate.textContent = `Exchange rates: $1 = ₡${rates.USD.toFixed(0)}${eurStr} (${src})`;
 }
 
-// ─── FORMAT ───────────────────────────────────────────────────────────────────
 function fmt(crcVal) {
   if (activeCurrency === 'CRC') {
     return '₡' + Math.round(crcVal).toLocaleString('en-US');
   } else if (activeCurrency === 'USD') {
     const v = crcVal / rates.USD;
-    return v >= 10000
-      ? '$' + Math.round(v).toLocaleString('en-US')
-      : '$' + v.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
+    return '$' + Math.round(v).toLocaleString('en-US');
   } else {
     const v = crcVal / rates.EUR;
-    return v >= 10000
-      ? '€' + Math.round(v).toLocaleString('en-US')
-      : '€' + v.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
+    return '€' + Math.round(v).toLocaleString('en-US');
   }
 }
 
-// ─── REFRESH ALL .cv ELEMENTS ─────────────────────────────────────────────────
 function refreshAll() {
   document.querySelectorAll('.cv[data-crc]').forEach(el => {
     const crc = parseFloat(el.dataset.crc);
@@ -708,7 +800,6 @@ function refreshAll() {
   updateLotResult();
 }
 
-// ─── CURRENCY SWITCH ─────────────────────────────────────────────────────────
 function setCurrency(c) {
   activeCurrency = c;
   ['crc','usd','eur'].forEach(x => document.getElementById('btn-'+x).classList.remove('active'));
@@ -716,7 +807,6 @@ function setCurrency(c) {
   refreshAll();
 }
 
-// ─── LOT TABLE ────────────────────────────────────────────────────────────────
 const lots = [
   [1,0.017915882],[2,0.022038687],[3,0.021851094],[4,0.021895811],[5,0.021823010],
   [6,0.017024955],['7A',0.014233020],['7B',0.014052517],[8,0.028472175],
@@ -740,6 +830,7 @@ lots.forEach(([id, pct]) => {
 });
 
 function refreshLotTable() {
+  if (!tb) return;
   tb.innerHTML = '';
   lots.forEach(([id, pct]) => {
     const ann = BASE_CRC * pct;
@@ -770,7 +861,6 @@ function updateLotResult() {
   document.getElementById('rMon').textContent = fmt(mon);
 }
 
-// ─── NAV ─────────────────────────────────────────────────────────────────────
 document.querySelectorAll('nav a').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
@@ -780,10 +870,6 @@ document.querySelectorAll('nav a').forEach(a => {
     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-refreshAll();    // render with fallback rates immediately
-fetchRates();    // then try to get live rates
 </script>
 </body>
 </html>
