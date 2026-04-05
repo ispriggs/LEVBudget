@@ -24,71 +24,16 @@
     text-align: center;
     box-shadow: 0 24px 64px rgba(0,0,0,0.5);
   }
-  #gate .gate-logo {
-    font-size: 2.2rem;
-    margin-bottom: 0.6rem;
-  }
-  #gate h2 {
-    font-family: 'Cormorant Garamond', serif;
-    color: #c8d9c4;
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-  }
-  #gate .gate-sub {
-    color: rgba(200,220,196,0.45);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 1.8rem;
-  }
-  #gate input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 1px solid rgba(200,220,196,0.2);
-    background: rgba(0,0,0,0.35);
-    color: #c8d9c4;
-    font-family: inherit;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s;
-    box-sizing: border-box;
-  }
+  #gate .gate-logo { font-size: 2.2rem; margin-bottom: 0.6rem; }
+  #gate h2 { font-family: 'Cormorant Garamond', serif; color: #c8d9c4; font-size: 1.4rem; font-weight: 600; margin-bottom: 0.2rem; }
+  #gate .gate-sub { color: rgba(200,220,196,0.45); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.8rem; }
+  #gate input { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(200,220,196,0.2); background: rgba(0,0,0,0.35); color: #c8d9c4; font-family: inherit; font-size: 1rem; letter-spacing: 0.1em; text-align: center; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
   #gate input:focus { border-color: rgba(122,158,114,0.6); }
   #gate input.error { border-color: rgba(192,57,43,0.7); animation: shake 0.35s ease; }
-  #gate button {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: none;
-    background: #4a6741;
-    color: #c8d9c4;
-    font-family: inherit;
-    font-size: 0.88rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+  #gate button { margin-top: 1rem; width: 100%; padding: 0.75rem; border-radius: 8px; border: none; background: #4a6741; color: #c8d9c4; font-family: inherit; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
   #gate button:hover { background: #5a7d51; }
-  #gate .gate-err {
-    margin-top: 0.75rem;
-    color: #e07068;
-    font-size: 0.78rem;
-    min-height: 1.2em;
-  }
-  @keyframes shake {
-    0%,100%{transform:translateX(0)}
-    20%{transform:translateX(-7px)}
-    40%{transform:translateX(7px)}
-    60%{transform:translateX(-5px)}
-    80%{transform:translateX(5px)}
-  }
+  #gate .gate-err { margin-top: 0.75rem; color: #e07068; font-size: 0.78rem; min-height: 1.2em; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-7px)} 40%{transform:translateX(7px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
 
   /* ── MAIN CONTENT (hidden until unlocked) ── */
   #main-content { display: none; }
@@ -102,27 +47,17 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.6; }
 
-  nav { position: sticky; top: 0; z-index: 100; background: var(--forest); display: flex; align-items: center; padding: 0 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.2); overflow-x: auto; }
+  nav { position: sticky; top: 0; z-index: 100; background: var(--forest); display: flex; align-items: center; padding: 0 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.2); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
   nav .brand { font-family: 'Cormorant Garamond', serif; color: var(--white); font-size: 1.1rem; font-weight: 600; padding: 1rem 1.5rem 1rem 0; border-right: 1px solid rgba(255,255,255,0.15); margin-right: 1rem; white-space: nowrap; }
   nav a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; padding: 1rem 0.75rem; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; }
   nav a:hover, nav a.active { color: var(--mist); border-bottom-color: var(--sage); }
 
-  .currency-bar {
-    background: rgba(45,74,46,0.97);
-    border-bottom: 1px solid rgba(200,220,196,0.15);
-    padding: 0.55rem 2rem;
-    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-    justify-content: space-between;
-  }
+  .currency-bar { background: rgba(45,74,46,0.97); border-bottom: 1px solid rgba(200,220,196,0.15); padding: 0.55rem 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between; }
   .currency-bar .cb-left { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
   .currency-bar label { color: rgba(200,220,196,1); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
   .currency-bar .currency-toggle { display: flex; background: rgba(0,0,0,0.9); border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,220,196,0.75); }
-  .currency-bar .currency-toggle button {
-    background: none; border: none; color: rgba(200,220,196,0.65);
-    font-family: inherit; font-size: 0.78rem; font-weight: 700;
-    padding: 0.35rem 0.9rem; cursor: pointer; transition: all 0.18s;
-    letter-spacing: 0.04em;
-  }
+  .currency-bar .currency-toggle button { background: none; border: none; color: rgba(200,220,196,0.65); font-family: inherit; font-size: 0.78rem; font-weight: 700; padding: 0.35rem 0.9rem; cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em; }
   .currency-bar .currency-toggle button.active { background: var(--sage); color: var(--forest); }
   .currency-bar .rate-info { color: rgba(200,220,196,0.55); font-size: 0.7rem; white-space: nowrap; }
   .currency-bar .rate-info span { color: rgba(200,220,196,0.9); font-weight: 600; }
@@ -154,7 +89,7 @@
   .card .value { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--forest); line-height: 1.15; }
   .card .note { font-size: 0.71rem; color: var(--soft); margin-top: 0.3rem; line-height: 1.4; }
 
-  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--sand); margin-bottom: 0.75rem; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; border: 1px solid var(--sand); margin-bottom: 0.75rem; }
   table { width: 100%; border-collapse: collapse; background: var(--white); }
   thead th { background: var(--forest); color: var(--mist); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1rem; text-align: right; white-space: nowrap; }
   thead th:first-child { text-align: left; }
@@ -225,12 +160,83 @@
   footer { background: var(--forest); color: rgba(200,220,196,0.65); text-align: center; padding: 2rem 1rem; font-size: 0.75rem; margin-top: 2rem; }
   footer strong { color: var(--mist); }
 
+  /* ── MOBILE IMPROVEMENTS ── */
   @media(max-width:640px){
-    .bar-label{width:105px;min-width:105px;font-size:0.7rem;}
-    h2{font-size:1.4rem;}
-    .detail-card-header{flex-direction:column;align-items:flex-start;}
-    .grand-total-card{flex-direction:column;}
-    .currency-bar{padding:0.55rem 1rem;}
+    /* Nav */
+    nav { padding: 0 0.75rem; }
+    nav .brand { font-size: 0.95rem; padding: 0.85rem 0.75rem 0.85rem 0; margin-right: 0.5rem; }
+    nav a { font-size: 0.72rem; padding: 0.85rem 0.55rem; }
+
+    /* Currency bar */
+    .currency-bar { padding: 0.55rem 1rem; gap: 0.6rem; }
+    .currency-bar .cb-left { gap: 0.5rem; }
+    .currency-bar .currency-toggle button { padding: 0.3rem 0.65rem; font-size: 0.72rem; }
+    #rate-display { font-size: 0.67rem; width: 100%; }
+
+    /* Hero */
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .hero .sub { font-size: 0.72rem; letter-spacing: 0.06em; }
+    .hero .badge { font-size: 0.72rem; padding: 0.3rem 0.8rem; white-space: normal; text-align: center; line-height: 1.5; }
+
+    /* Container */
+    .container { padding: 0 1rem; }
+    section { padding: 2rem 0; }
+    h2 { font-size: 1.4rem; }
+
+    /* Summary cards — 2 columns on mobile */
+    .cards { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+    .card { padding: 1rem 0.9rem; }
+    .card .value { font-size: 1.25rem; word-break: break-word; }
+    .card .label { font-size: 0.65rem; }
+    .card .note { font-size: 0.65rem; }
+
+    /* Bar chart — tighter label */
+    .bar-label { width: 110px; min-width: 110px; font-size: 0.68rem; }
+    .bar-fill { font-size: 0; /* hide inline currency text on narrow bars */ }
+    .bar-pct { width: 38px; font-size: 0.68rem; }
+
+    /* Tables — allow horizontal scroll, prevent text cutoff */
+    .table-wrap { border-radius: 8px; }
+    table { min-width: 520px; }
+    thead th { font-size: 0.62rem; padding: 0.65rem 0.75rem; }
+    td { padding: 0.55rem 0.75rem; font-size: 0.77rem; }
+    td.lc { max-width: 200px; white-space: normal; }
+    .nt { display: block; margin-top: 0.15rem; }
+
+    /* Detail cards */
+    .detail-card-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+    .detail-card-header .cat-totals { gap: 1rem; }
+    .detail-card-header .ct-val { font-size: 1rem; }
+    .detail-card table { min-width: 440px; }
+    .detail-card thead th { font-size: 0.6rem; padding: 0.45rem 0.75rem; }
+    .detail-card td { padding: 0.45rem 0.75rem; font-size: 0.75rem; }
+    .detail-card td.note-cell { max-width: 130px; }
+
+    /* Grand total */
+    .grand-total-card { flex-direction: column; align-items: flex-start; }
+    .grand-total-card .gt-val { font-size: 1.3rem; }
+
+    /* Lot result */
+    .lot-result { gap: 1rem; }
+    .lot-result .r-val { font-size: 1.15rem; }
+
+    /* Proposals */
+    .proposal { padding: 1rem 1rem; }
+
+    /* Notice */
+    .notice { font-size: 0.77rem; }
+
+    /* Period banner */
+    .period-tag { font-size: 0.67rem; padding: 0.28rem 0.65rem; }
+
+    /* Gate box on tiny screens */
+    #gate .gate-box { padding: 2rem 1.5rem; margin: 0 1rem; }
+  }
+
+  @media(max-width:400px){
+    .cards { grid-template-columns: 1fr; }
+    nav .brand { font-size: 0.85rem; }
+    .bar-label { width: 90px; min-width: 90px; font-size: 0.65rem; }
   }
 </style>
 </head>
