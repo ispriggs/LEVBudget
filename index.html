@@ -35,12 +35,10 @@
   --body: 'Space Grotesk', sans-serif;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-left: env(safe-area-inset-left, 0px);
-  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; }
 body {
   font-family: var(--body);
   background: var(--void);
@@ -48,10 +46,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   cursor: default;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
-/* ── BACKGROUNDS ── */
 .bg-canvas {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,229,195,0.055) 0%, transparent 60%),
@@ -60,8 +57,7 @@ body {
 }
 .bg-grid {
   position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.35;
-  background-image: linear-gradient(rgba(0,229,195,0.07) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0,229,195,0.07) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(0,229,195,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,195,0.07) 1px, transparent 1px);
   background-size: 60px 60px;
   animation: gridShift 30s linear infinite;
 }
@@ -72,9 +68,10 @@ body {
   animation: scanMove 8s linear infinite;
 }
 @keyframes scanMove { 0% { transform: translateY(0); } 100% { transform: translateY(8px); } }
+
 #cursor-glow {
-  position: fixed; width: 300px; height: 300px; border-radius: 50%;
-  pointer-events: none; z-index: 1;
+  position: fixed; width: 300px; height: 300px;
+  border-radius: 50%; pointer-events: none; z-index: 1;
   background: radial-gradient(circle, rgba(0,229,195,0.08) 0%, transparent 70%);
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease;
@@ -85,7 +82,7 @@ body {
 #gate {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
-  background: var(--void); padding: 1.5rem;
+  background: var(--void); padding: 1rem;
 }
 #gate::before {
   content: ''; position: absolute; inset: 0;
@@ -94,8 +91,9 @@ body {
 .gate-box {
   position: relative; z-index: 1;
   background: rgba(10,24,30,0.9); border: 1px solid var(--glass-border-bright);
-  border-radius: 24px; padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3.5rem);
-  width: 100%; max-width: 400px; text-align: center; backdrop-filter: blur(20px);
+  border-radius: 24px; padding: clamp(1.5rem, 5vw, 3rem) clamp(1.5rem, 6vw, 3.5rem);
+  width: 100%; max-width: 400px;
+  text-align: center; backdrop-filter: blur(20px);
   box-shadow: 0 0 80px rgba(0,229,195,0.08), 0 40px 80px rgba(0,0,0,0.6);
   animation: gateIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
 }
@@ -112,26 +110,26 @@ body {
   filter: blur(8px); opacity: 0.5; z-index: -1; animation: orbSpin 8s linear infinite;
 }
 @keyframes orbSpin { to { transform: rotate(360deg); } }
-.gate-title { font-family: var(--display); font-size: 1.6rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+.gate-title { font-family: var(--display); font-size: clamp(1.3rem, 4vw, 1.6rem); font-weight: 800; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -0.02em; }
 .gate-sub { font-size: 0.72rem; color: var(--text-secondary); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 2rem; }
 .gate-input {
-  width: 100%; padding: 0.9rem 1.2rem; background: rgba(0,0,0,0.4);
+  width: 100%; padding: 0.85rem 1.2rem; background: rgba(0,0,0,0.4);
   border: 1px solid var(--glass-border-bright); border-radius: 12px; color: var(--text-primary);
   font-family: var(--mono); font-size: 1rem; text-align: center; letter-spacing: 0.2em; outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none; appearance: none;
+  -webkit-appearance: none;
 }
 .gate-input:focus { border-color: rgba(0,229,195,0.5); box-shadow: 0 0 0 3px rgba(0,229,195,0.08), 0 0 20px rgba(0,229,195,0.1); }
 .gate-input.error { border-color: rgba(255,77,109,0.6); animation: shake 0.35s ease; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
 .gate-btn {
-  margin-top: 1rem; width: 100%; padding: 0.9rem;
+  margin-top: 1rem; width: 100%; padding: 0.85rem;
   background: linear-gradient(135deg, rgba(0,229,195,0.15), rgba(0,191,255,0.1));
   border: 1px solid rgba(0,229,195,0.35); border-radius: 12px; color: var(--teal);
-  font-family: var(--body); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; cursor: pointer; transition: all 0.2s; min-height: 48px;
+  font-family: var(--body); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
-.gate-btn:active { background: linear-gradient(135deg, rgba(0,229,195,0.25), rgba(0,191,255,0.15)); box-shadow: 0 0 30px rgba(0,229,195,0.2); }
+.gate-btn:hover { background: linear-gradient(135deg, rgba(0,229,195,0.25), rgba(0,191,255,0.15)); box-shadow: 0 0 30px rgba(0,229,195,0.2); }
 .gate-err { margin-top: 0.75rem; color: var(--red); font-size: 0.78rem; min-height: 1.2em; }
 
 /* ── APP ── */
@@ -142,63 +140,60 @@ nav {
   position: sticky; top: 0; z-index: 100;
   background: rgba(5,11,14,0.92); backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--glass-border);
-  display: flex; align-items: stretch; padding: 0;
-  overflow-x: auto; scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  display: flex; align-items: center; gap: 0; padding: 0 clamp(0.75rem, 3vw, 2rem);
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 nav::-webkit-scrollbar { display: none; }
 .nav-brand {
-  font-family: var(--display); font-size: 0.95rem; font-weight: 800; color: var(--teal);
-  letter-spacing: -0.01em; padding: 0 1rem; flex-shrink: 0;
-  border-right: 1px solid var(--glass-border);
-  display: flex; align-items: center;
-  text-shadow: 0 0 20px rgba(0,229,195,0.4);
-  white-space: nowrap;
+  font-family: var(--display); font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 800; color: var(--teal);
+  letter-spacing: -0.01em; padding: 0.9rem 1rem 0.9rem 0;
+  border-right: 1px solid var(--glass-border); margin-right: 0.5rem; white-space: nowrap;
+  text-shadow: 0 0 20px rgba(0,229,195,0.4); flex-shrink: 0;
 }
-.nav-links { display: flex; align-items: stretch; }
 nav a {
   color: var(--text-secondary); text-decoration: none;
-  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 0 0.75rem; border-bottom: 2px solid transparent;
-  transition: all 0.2s; white-space: nowrap; display: flex; align-items: center;
-  min-height: 48px;
+  font-size: clamp(0.65rem, 1.5vw, 0.73rem); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 1rem clamp(0.55rem, 1.5vw, 0.9rem); border-bottom: 2px solid transparent;
+  transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal); text-shadow: 0 0 12px rgba(0,229,195,0.3); }
 
 /* ── CURRENCY BAR ── */
 .currency-bar {
   background: rgba(5,11,14,0.6); border-bottom: 1px solid var(--glass-border);
-  padding: 0.5rem 1.5rem; display: flex; align-items: center; gap: 0.75rem;
-  flex-wrap: wrap; justify-content: space-between;
+  padding: 0.5rem clamp(0.75rem, 3vw, 2rem);
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; justify-content: space-between;
 }
-.cbar-label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.cbar-label { font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
 .currency-toggle { display: flex; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border-bright); border-radius: 8px; overflow: hidden; }
 .currency-toggle button {
   background: none; border: none; color: var(--text-secondary);
-  font-family: var(--mono); font-size: 0.68rem; font-weight: 400;
-  padding: 0.4rem 0.7rem; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
-  min-height: 36px;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 400;
+  padding: 0.35rem 0.75rem; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .currency-toggle button.active { background: rgba(0,229,195,0.15); color: var(--teal); text-shadow: 0 0 10px rgba(0,229,195,0.5); }
-.rate-info { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); }
+.rate-info { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); }
 .rate-info .rate-val { color: var(--teal); }
 
 /* ── HERO ── */
 .hero {
-  min-height: 85vh; display: flex; flex-direction: column;
+  min-height: clamp(60vh, 85vh, 92vh);
+  display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: clamp(4rem, 10vw, 8rem) 1.5rem clamp(3rem, 6vw, 5rem);
+  padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 4vw, 2rem) 3rem;
   text-align: center; position: relative; overflow: hidden;
 }
 .hero-eyebrow {
-  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; color: var(--teal); text-transform: uppercase;
+  font-family: var(--mono); font-size: clamp(0.6rem, 1.8vw, 0.7rem); letter-spacing: 0.15em; color: var(--teal); text-transform: uppercase;
   background: rgba(0,229,195,0.08); border: 1px solid rgba(0,229,195,0.2);
-  border-radius: 100px; padding: 0.35rem 0.9rem; margin-bottom: 1.5rem; display: inline-block;
+  border-radius: 100px; padding: 0.35rem clamp(0.6rem, 2vw, 1rem); margin-bottom: 1.5rem; display: inline-block;
   animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .hero-title {
-  font-family: var(--display); font-size: clamp(2.8rem, 10vw, 6rem); font-weight: 800;
-  line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 1.2rem;
+  font-family: var(--display); font-size: clamp(2.2rem, 10vw, 6rem); font-weight: 800;
+  line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 1.25rem;
   animation: fadeUp 1s 0.35s cubic-bezier(0.16,1,0.3,1) both;
 }
 .hero-title .line1 { display: block; color: var(--text-primary); }
@@ -208,343 +203,398 @@ nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal)
   -webkit-background-clip: text; background-clip: text;
   filter: drop-shadow(0 0 30px rgba(0,229,195,0.3));
 }
-.hero-sub { color: var(--text-secondary); font-size: clamp(0.85rem, 2vw, 1rem); max-width: 520px; line-height: 1.7; margin: 0 auto 2rem; animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) both; padding: 0 0.5rem; }
+.hero-sub {
+  color: var(--text-secondary); font-size: clamp(0.85rem, 2.5vw, 1rem);
+  max-width: 540px; line-height: 1.7; margin: 0 auto 2rem;
+  animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) both;
+  padding: 0 0.5rem;
+}
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem; width: 100%; max-width: 640px;
+  position: relative;
+  height: auto;
+  overflow: visible;
+  grid-template-columns: repeat(1, 1fr);
+  gap: clamp(0.6rem, 2vw, 1.2rem);
+  width: 100%; max-width: 700px;
   animation: fadeUp 1s 0.65s cubic-bezier(0.16,1,0.3,1) both;
 }
+@media (min-width: 640px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
 .hstat {
   background: var(--glass); border: 1px solid var(--glass-border-bright);
-  border-radius: 14px; padding: 1rem 1.2rem; backdrop-filter: blur(10px);
-  position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;
-  text-align: left;
+  min-width: 0;
+  border-radius: 14px; padding: clamp(0.8rem, 2.5vw, 1.2rem) clamp(0.8rem, 2.5vw, 1.5rem);
+  backdrop-filter: blur(10px); position: relative; overflow: visible;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.hstat:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px var(--teal-glow); }
+.hstat:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px var(--teal-glow); }
 .hstat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--teal), transparent); opacity: 0.6; }
-.hstat-label { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.3rem; }
+.hstat-label { font-size: clamp(0.55rem, 1.5vw, 0.65rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.35rem; }
 .hstat-val { font-family: var(--display); font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 800; line-height: 1; color: var(--teal); text-shadow: 0 0 20px rgba(0,229,195,0.3); }
-.hstat-sub { font-size: 0.6rem; color: var(--text-dim); margin-top: 0.2rem; }
+.hstat-sub { font-size: clamp(0.58rem, 1.5vw, 0.7rem); white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word; color: var(--text-dim); margin-top: 0.2rem; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ── SECTIONS ── */
-section { padding: clamp(3rem, 7vw, 5rem) 0; position: relative; }
+section { padding: clamp(2.5rem, 6vw, 5rem) 0; position: relative; }
 section + section { border-top: 1px solid var(--glass-border); }
 .container { max-width: 1140px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
-.section-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.4rem; }
-.section-title { font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 0.4rem; line-height: 1.1; }
+.section-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.5rem; }
+.section-title { font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.1; }
 .section-desc { color: var(--text-secondary); font-size: clamp(0.82rem, 2vw, 0.9rem); max-width: 580px; line-height: 1.7; margin-bottom: 2rem; }
 
 /* ── GLASS CARD ── */
-.glass-card { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; backdrop-filter: blur(20px); position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+.glass-card { background: var(--glass); border: 190px solid var(--glass-border-bright); border-radius: 20px; backdrop-filter: blur(20px); position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
 .glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); }
+.glass-card:hover { transform: translateY(-2px); }
 
 /* ── STAT CARDS ── */
-.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
-.stat-card { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 14px; padding: 1.2rem 1.4rem; position: relative; overflow: hidden; transition: all 0.3s; }
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.6rem, 2vw, 1rem);
+  margin-bottom: 2rem;
+}
+@media (min-width: 640px) { .summary-grid { grid-template-columns: repeat(1, 1fr); } }
+@media (min-width: 900px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+.stat-card { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 16px; padding: clamp(1rem, 3vw, 1.4rem) clamp(1rem, 3vw, 1.6rem); position: relative; overflow: hidden; transition: all 0.3s; }
 .stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
 .stat-card.teal::after { background: linear-gradient(90deg, var(--teal), var(--cyan)); }
 .stat-card.amber::after { background: linear-gradient(90deg, var(--amber), #ff8c40); }
 .stat-card.red::after { background: linear-gradient(90deg, var(--red), #ff8080); }
 .stat-card.purple::after { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
 .stat-card.emerald::after { background: linear-gradient(90deg, var(--emerald), var(--teal)); }
-.stat-card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-.stat-card.teal:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px var(--teal-glow); }
-.stat-card.amber:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px var(--amber-glow); }
-.stat-card.red:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px var(--red-glow); }
-.stat-card.emerald:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,136,0.12); }
-.sc-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem; }
-.sc-val { font-family: var(--display); font-size: clamp(1.3rem, 4vw, 1.7rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.2rem; }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+.sc-label { font-size: clamp(0.58rem, 1.5vw, 0.65rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem; }
+.sc-val { font-family: var(--display); font-size: clamp(1.2rem, 4vw, 1.7rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.25rem; }
 .sc-val.teal { color: var(--teal); }
 .sc-val.amber { color: var(--amber); }
 .sc-val.red { color: var(--red); }
 .sc-val.emerald { color: var(--emerald); }
-.sc-note { font-size: 0.68rem; color: var(--text-dim); line-height: 1.5; }
-
-/* ── RADIAL BARS ── */
-.radial-bar-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: nowrap; }
-.rb-label { width: clamp(100px, 25vw, 180px); min-width: clamp(100px, 25vw, 180px); font-size: clamp(0.65rem, 1.8vw, 0.78rem); color: var(--text-secondary); text-align: right; line-height: 1.3; flex-shrink: 0; }
-.rb-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; min-width: 40px; }
-.rb-fill { height: 100%; border-radius: 3px; animation: barGrow 1.5s cubic-bezier(0.16,1,0.3,1) both; }
-@keyframes barGrow { from { width: 0 !important; } }
-.rb-fill::after { content: ''; position: absolute; right: 0; top: -3px; width: 12px; height: 12px; border-radius: 50%; background: inherit; filter: brightness(1.5); box-shadow: 0 0 8px currentColor; }
-.rb-val { width: clamp(70px, 18vw, 100px); font-family: var(--mono); font-size: clamp(0.62rem, 1.5vw, 0.73rem); color: var(--text-secondary); text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; }
-.rb-pct { width: 40px; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); text-align: right; flex-shrink: 0; }
+.sc-note { font-size: clamp(0.62rem, 1.5vw, 0.7rem); color: var(--text-dim); line-height: 1.5; }
 
 /* ── TABLE ── */
-.table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--glass-border); -webkit-overflow-scrolling: touch; }
-table { width: 100%; border-collapse: collapse; min-width: 520px; }
-thead th {
-  background: rgba(0,229,195,0.05); color: var(--teal);
-  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 0.75rem 0.85rem; text-align: right; border-bottom: 1px solid var(--glass-border); white-space: nowrap;
-  position: sticky; top: 0;
-}
+.table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--glass-border); -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; min-width: 480px; }
+thead th { background: rgba(0,229,195,0.05); color: var(--teal); font-size: clamp(0.58rem, 1.5vw, 0.65rem); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem clamp(0.6rem, 2vw, 1rem); text-align: right; border-bottom: 1px solid var(--glass-border); white-space: nowrap; }
 thead th:first-child { text-align: left; }
 tbody tr { border-bottom: 1px solid rgba(255,255,255,0.035); transition: background 0.15s; }
 tbody tr:last-child { border-bottom: none; }
 tbody tr:hover { background: rgba(0,229,195,0.03); }
-td { padding: 0.6rem 0.85rem; font-size: 0.78rem; text-align: right; white-space: nowrap; color: var(--text-primary); }
-td:first-child { text-align: left; color: var(--text-secondary); white-space: normal; min-width: 160px; }
+td { padding: clamp(0.5rem, 1.5vw, 0.65rem) clamp(0.6rem, 2vw, 1rem); font-size: clamp(0.75rem, 2vw, 0.82rem); text-align: right; white-space: nowrap; color: var(--text-primary); }
+td:first-child { text-align: left; color: var(--text-secondary); }
 td.hl { font-weight: 600; color: var(--teal); font-family: var(--mono); }
 td.amber { color: var(--amber); font-family: var(--mono); }
 td.red { color: var(--red); font-family: var(--mono); }
 td.green { color: var(--emerald); font-family: var(--mono); }
-td.muted { color: var(--text-dim); font-style: italic; font-size: 0.72rem; }
-.total-row td { background: rgba(0,229,195,0.06); color: var(--teal); font-weight: 700; font-size: 0.82rem; font-family: var(--mono); }
+td.muted { color: var(--text-dim); font-style: italic; font-size: 0.75rem; }
+.total-row td { background: rgba(0,229,195,0.06); color: var(--teal); font-weight: 700; font-size: clamp(0.75rem, 2vw, 0.85rem); font-family: var(--mono); }
 
 /* ── ACCORDION ── */
-.detail-accordion { display: flex; flex-direction: column; gap: 0.65rem; }
-.detail-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; }
-.detail-header { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1rem; cursor: pointer; transition: background 0.2s; gap: 0.75rem; min-height: 56px; }
-.detail-header:active { background: rgba(0,229,195,0.04); }
-@media (hover: hover) { .detail-header:hover { background: rgba(0,229,195,0.04); } }
-.dh-left { display: flex; align-items: center; gap: 0.6rem; flex: 1; min-width: 0; }
-.dh-icon { width: 30px; height: 30px; border-radius: 8px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
-.dh-name { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dh-code { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); }
-.dh-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-.dh-totals { display: flex; gap: 0.75rem; }
+.detail-accordion { display: flex; flex-direction: column; gap: 0.75rem; }
+.detail-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; overflow: hidden; }
+.detail-header { display: flex; align-items: center; justify-content: space-between; padding: clamp(0.75rem, 2.5vw, 1rem) clamp(0.75rem, 2.5vw, 1.3rem); cursor: pointer; transition: background 0.2s; gap: 0.75rem; -webkit-tap-highlight-color: transparent; }
+.detail-header:hover { background: rgba(0,229,195,0.04); }
+.dh-left { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+.dh-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+.dh-name { font-size: clamp(0.8rem, 2vw, 0.85rem); font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dh-code { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); }
+.dh-right { display: flex; align-items: center; gap: clamp(0.6rem, 2vw, 1.5rem); flex-shrink: 0; }
+.dh-totals { display: flex; gap: clamp(0.6rem, 2vw, 1.5rem); flex-wrap: wrap; }
 .dt-item { text-align: right; }
-.dt-label { font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); display: block; }
-.dt-val { font-family: var(--mono); font-size: 0.82rem; color: var(--teal); font-weight: 400; }
+.dt-label { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); display: block; }
+.dt-val { font-family: var(--mono); font-size: clamp(0.78rem, 2vw, 0.9rem); color: var(--teal); font-weight: 400; }
 .dh-toggle { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-dim); flex-shrink: 0; transition: transform 0.3s, background 0.2s; }
 .detail-item.open .dh-toggle { transform: rotate(180deg); background: rgba(0,229,195,0.1); color: var(--teal); }
 .detail-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); border-top: 0 solid var(--glass-border); }
 .detail-item.open .detail-body { max-height: 800px; border-top-width: 1px; }
 
-/* ── PROPOSALS ── */
-.proposals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; }
-.proposal-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.4rem; position: relative; overflow: hidden; transition: all 0.3s; }
-.proposal-card::before { content: ''; position: absolute; inset: 0; border-radius: 16px; background: linear-gradient(135deg, rgba(255,183,64,0.05) 0%, transparent 60%); pointer-events: none; }
-.proposal-card:active { border-color: rgba(255,183,64,0.3); }
-@media (hover: hover) { .proposal-card:hover { transform: translateY(-4px); border-color: rgba(255,183,64,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--amber-glow); } }
-.p-icon-wrap { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 0.85rem; }
-.p-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
-.p-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.85rem; }
-.p-badge { display: inline-block; padding: 0.25rem 0.65rem; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.3); border-radius: 100px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber); }
+/* Mobile: hide prior column on accordion */
+@media (max-width: 540px) {
+  .dh-totals .dt-item:first-child { display: none; }
+}
 
-/* ── FLOW SUMMARY STRIP ── */
-.flow-summary-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
-.fss-card { background: rgba(0,229,195,0.04); border: 1px solid rgba(0,229,195,0.12); border-radius: 12px; padding: 0.85rem 1rem; text-align: center; }
-.fss-label { font-size: 0.58rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
-.fss-val { font-family: var(--display); font-size: clamp(0.9rem, 3vw, 1.3rem); font-weight: 800; color: var(--teal); }
+/* ── PROPOSALS ── */
+.proposals-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 520px) { .proposals-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 820px) { .proposals-grid { grid-template-columns: repeat(3, 1fr); } }
+.proposal-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px; padding: clamp(1.1rem, 3vw, 1.6rem); position: relative; overflow: hidden; transition: all 0.3s; }
+.proposal-card::before { content: ''; position: absolute; inset: 0; border-radius: 18px; background: linear-gradient(135deg, rgba(255,183,64,0.05) 0%, transparent 60%); pointer-events: none; }
+.proposal-card:hover { transform: translateY(-4px); border-color: rgba(255,183,64,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--amber-glow); }
+.p-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
+.p-title { font-size: clamp(0.9rem, 2.5vw, 1rem); font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.p-desc { font-size: clamp(0.75rem, 2vw, 0.8rem); color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
+.p-badge { display: inline-block; padding: 0.28rem 0.7rem; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.3); border-radius: 100px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber); }
+
+/* ── LOT CALC ── */
+.lot-calc { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; }
+.lot-select-wrap { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.lot-select-label { font-size: 0.8rem; color: var(--text-secondary); }
+select {
+  background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border-bright); border-radius: 10px;
+  color: var(--text-primary); font-family: var(--body); font-size: 0.9rem; padding: 0.6rem 1rem;
+  cursor: pointer; outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300e5c3' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.75rem center;
+  padding-right: 2.2rem;
+}
+select:focus { border-color: rgba(0,229,195,0.4); }
+.lot-result-panel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+@media (min-width: 480px) { .lot-result-panel { grid-template-columns: repeat(4, 1fr); } }
+.lot-result-panel.visible { opacity: 1; transform: translateY(0); }
+.lr-item { background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.15); border-radius: 12px; padding: clamp(0.75rem, 2vw, 1rem) clamp(0.75rem, 2vw, 1.2rem); }
+.lr-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.35rem; }
+.lr-val { font-family: var(--display); font-size: clamp(1.1rem, 3vw, 1.5rem); font-weight: 800; color: var(--teal); }
+
+/* ── CHART WRAP ── */
+.chart-wrap { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; position: relative; }
+.chart-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); pointer-events: none; }
+.chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
+.chart-title { font-family: var(--display); font-size: clamp(0.95rem, 2.5vw, 1.1rem); font-weight: 700; color: var(--text-primary); }
+.chart-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+/* ── DONUT + BAR GRID ── */
+.charts-two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 920px) {
+  .charts-two-col { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+/* ── RADIAL BARS ── */
+.radial-bar-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem;flex-wrap: wrap; }
+.rb-label { width: clamp(110px, 25vw, 180px); min-width: clamp(90px, 18vw, 130px); font-size: clamp(0.68rem, 1.8vw, 0.78rem); color: var(--text-secondary); text-align: right; line-height: 1.3; }
+.rb-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; position: relative; }
+.rb-fill { height: 100%; border-radius: 3px; position: relative; animation: barGrow 1.5s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes barGrow { from { width: 0 !important; } }
+.rb-fill::after { content: ''; position: absolute; right: 0; top: -3px; width: 12px; height: 12px; border-radius: 50%; background: inherit; filter: brightness(1.5); box-shadow: 0 0 8px currentColor; }
+.rb-val { width: clamp(72px, 15vw, 100px); font-family: var(--mono); font-size: clamp(0.64rem, 1.6vw, 0.73rem); color: var(--text-secondary); text-align: right; }
+.rb-pct { width: 40px; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); text-align: right; }
+
+/* ── LEGEND ── */
+.legend { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; margin-bottom: 1.25rem; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: clamp(0.65rem, 1.6vw, 0.72rem); color: var(--text-secondary); }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── PERIOD TAGS ── */
+.period-wrap { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.period-tag { font-size: clamp(0.62rem, 1.6vw, 0.68rem); font-weight: 500; letter-spacing: 0.05em; padding: 0.28rem 0.7rem; border-radius: 6px; }
+.period-prior { background: rgba(255,183,64,0.1); color: var(--amber); border: 1px solid rgba(255,183,64,0.25); }
+.period-prop { background: rgba(0,229,195,0.08); color: var(--teal); border: 1px solid rgba(0,229,195,0.2); }
+
+/* ── NOTICE ── */
+.notice { background: rgba(255,183,64,0.07); border: 1px solid rgba(255,183,64,0.2); border-radius: 12px; padding: 0.85rem 1.2rem; font-size: clamp(0.75rem, 2vw, 0.82rem); color: rgba(255,183,64,0.85); line-height: 1.6; margin-bottom: 1.75rem; }
+
+/* ── ACTUALS indicators ── */
+.change-up { color: var(--red); font-size: 0.72rem; }
+.change-dn { color: var(--emerald); font-size: 0.72rem; }
+.change-nt { color: var(--text-dim); font-size: 0.72rem; }
+
+/* ── FOOTER ── */
+footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-border); padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem); text-align: center; padding-bottom: calc(clamp(2rem, 5vw, 3rem) + var(--safe-bottom)); }
+.footer-brand { font-family: var(--display); font-size: 1.2rem; font-weight: 800; color: var(--teal); margin-bottom: 0.5rem; }
+.footer-sub { font-size: clamp(0.68rem, 1.8vw, 0.75rem); color: var(--text-dim); line-height: 1.8; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: none; }
+
+#particleCanvas { position: absolute; inset: 0; pointer-events: none; }
+
+/* ══════════════════════════════════════════════════════
+   MONEY FLOW — Mobile-first responsive redesign
+   ══════════════════════════════════════════════════════ */
+
+/* Summary Strip: 3 cols desktop, 2+1 mobile */
+.flow-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 520px) {
+  .flow-summary-strip { grid-template-columns: repeat(2, 1fr); }
+  .fss-card:nth-child(3) { grid-column: span 2; }
+}
+.fss-card {
+  background: rgba(0,229,195,0.04); border: 1px solid rgba(0,229,195,0.12);
+  border-radius: 12px; padding: clamp(0.75rem, 2vw, 1rem) clamp(0.75rem, 2vw, 1.2rem);
+  text-align: center;
+}
+.fss-label { font-size: clamp(0.58rem, 1.5vw, 0.62rem); letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+.fss-val { font-family: var(--display); font-size: clamp(1rem, 3.5vw, 1.3rem); font-weight: 800; color: var(--teal); word-break: break-all; }
 .fss-val.amber { color: var(--amber); }
 .fss-val.surplus { color: var(--emerald); }
 .fss-val.deficit { color: var(--red); }
 
-/* ── FLOW CAT LIST ── */
-.flow-cat-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 0.75rem; }
+/* ── FLOW LAYOUT: stacked on mobile, side-by-side on desktop ── */
+.flow-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+@media (min-width: 860px) {
+  .flow-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .flow-svg-col {
+    flex: 1;
+    min-width: 0;
+  }
+  .flow-list-col {
+    width: 340px;
+    flex-shrink: 0;
+  }
+}
+
+/* Mobile SVG: replaced with a vertical sankey-style list */
+.flow-svg-col { position: relative; }
+
+/* Desktop SVG */
+#flowSvgWrap {
+  display: none;
+}
+@media (min-width: 860px) {
+  #flowSvgWrap { display: block; }
+  #flowMobileSankey { display: none; }
+}
+
+/* Mobile Sankey (visual bar chart) */
+#flowMobileSankey {
+  display: block;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.ms-income-bar {
+  background: linear-gradient(90deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1));
+  border-bottom: 1px solid rgba(0,229,195,0.15);
+  padding: 0.85rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem;
+}
+.ms-income-label { font-family: var(--display); font-size: 0.7rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; }
+.ms-income-val { font-family: var(--mono); font-size: 0.82rem; color: var(--teal); font-weight: 400; }
+.ms-cats-wrap { padding: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.ms-cat-bar {
+  border-radius: 8px; padding: 0.5rem 0.75rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  position: relative; overflow: hidden;
+}
+.ms-cat-bg {
+  position: absolute; inset: 0; border-radius: 8px;
+  opacity: 0.12;
+}
+.ms-cat-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  border-radius: 8px;
+  opacity: 0.18;
+  animation: barGrow 1.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+.ms-cat-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; position: relative; z-index: 1; }
+.ms-cat-name { flex: 1; font-size: 0.75rem; color: var(--text-secondary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; z-index: 1; }
+.ms-cat-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); position: relative; z-index: 1; flex-shrink: 0; }
+.ms-cat-amt { font-family: var(--mono); font-size: 0.75rem; position: relative; z-index: 1; flex-shrink: 0; text-align: right; min-width: 80px; }
+.ms-cat-del { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; line-height: 1; padding: 2px 5px; border-radius: 5px; transition: all 0.2s; flex-shrink: 0; position: relative; z-index: 1; -webkit-tap-highlight-color: transparent; }
+.ms-cat-del:hover { background: rgba(255,77,109,0.15); color: var(--red); }
+.ms-surplus-bar {
+  border-radius: 8px; padding: 0.55rem 0.75rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  position: relative; overflow: hidden;
+}
+
+/* ── FLOW CATEGORY LIST (right col desktop / below sankey mobile) ── */
+.flow-cat-list { display: flex; flex-direction: column; gap: 7px; }
 .flow-cat-row {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 10px;
   background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
   border-radius: 10px; padding: 8px 12px; transition: background 0.2s;
 }
-.flow-cat-row:active { background: rgba(0,229,195,0.04); }
-@media (hover: hover) { .flow-cat-row:hover { background: rgba(0,229,195,0.04); } }
-.flow-cat-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
-.flow-cat-name { flex: 1; font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.flow-cat-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); width: 38px; text-align: right; flex-shrink: 0; }
-.flow-cat-amt { font-family: var(--mono); font-size: 0.75rem; color: var(--teal); width: 90px; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; }
+.flow-cat-row:hover { background: rgba(0,229,195,0.04); }
+.flow-cat-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.flow-cat-name { flex: 1; font-size: clamp(0.72rem, 2vw, 0.82rem); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.flow-cat-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); width: 40px; text-align: right; flex-shrink: 0; }
+.flow-cat-amt { font-family: var(--mono); font-size: clamp(0.72rem, 2vw, 0.78rem); color: var(--teal); min-width: 90px; text-align: right; flex-shrink: 0; }
 .flow-cat-close {
   background: none; border: none; cursor: pointer; color: var(--text-dim);
   font-size: 1.1rem; line-height: 1; padding: 2px 6px; border-radius: 6px;
-  transition: all 0.2s; flex-shrink: 0; min-width: 28px; min-height: 28px;
-  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
 }
-.flow-cat-close:active { background: rgba(255,77,109,0.15); color: var(--red); }
-@media (hover: hover) { .flow-cat-close:hover { background: rgba(255,77,109,0.15); color: var(--red); } }
+.flow-cat-close:hover { background: rgba(255,77,109,0.15); color: var(--red); }
 
 .flow-add-row {
   display: flex; align-items: center; gap: 10px;
   border: 1px dashed rgba(0,229,195,0.2); border-radius: 10px;
-  padding: 10px 14px; cursor: pointer; transition: all 0.2s; background: transparent; margin-bottom: 0.85rem;
-  min-height: 44px;
+  padding: 9px 12px; cursor: pointer; transition: all 0.2s; background: transparent;
+  margin-top: 0.5rem;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
-.flow-add-row:active { border-color: rgba(0,229,195,0.45); background: rgba(0,229,195,0.04); }
-@media (hover: hover) { .flow-add-row:hover { border-color: rgba(0,229,195,0.45); background: rgba(0,229,195,0.04); } }
+.flow-add-row:hover { border-color: rgba(0,229,195,0.45); background: rgba(0,229,195,0.04); }
 .flow-add-icon {
   width: 22px; height: 22px; border-radius: 50%;
   border: 1.5px solid rgba(0,229,195,0.4);
   display: flex; align-items: center; justify-content: center;
   color: var(--teal); font-size: 1rem; line-height: 1; flex-shrink: 0; transition: all 0.2s;
 }
+.flow-add-row:hover .flow-add-icon { background: rgba(0,229,195,0.12); border-color: rgba(0,229,195,0.7); }
 .flow-add-label { font-size: 0.78rem; color: rgba(0,229,195,0.45); font-style: italic; }
 
 .flow-add-form {
   display: none; flex-direction: column; gap: 10px;
   background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.2);
-  border-radius: 12px; padding: 1rem; margin-bottom: 0.85rem;
+  border-radius: 12px; padding: 1rem; margin-top: 0.5rem;
 }
 .flow-add-form.open { display: flex; }
 .flow-form-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .flow-form-input {
-  flex: 1; min-width: min(100%, 140px);
+  flex: 1; min-width: 120px;
   background: rgba(0,0,0,0.35); border: 1px solid rgba(0,229,195,0.2);
   border-radius: 9px; color: var(--text-primary); font-family: var(--body);
-  font-size: 0.85rem; padding: 8px 12px; outline: none; transition: border-color 0.2s;
-  -webkit-appearance: none; appearance: none;
-  min-height: 44px;
+  font-size: 0.85rem; padding: 7px 12px; outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none;
 }
 .flow-form-input:focus { border-color: rgba(0,229,195,0.5); }
 .flow-form-input::placeholder { color: var(--text-dim); }
-.flow-form-btns { display: flex; gap: 8px; }
+.flow-form-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 .flow-btn-save {
   background: linear-gradient(135deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1));
   border: 1px solid rgba(0,229,195,0.4); border-radius: 9px; color: var(--teal);
   font-family: var(--body); font-size: 0.78rem; font-weight: 600; letter-spacing: .06em;
-  padding: 8px 16px; cursor: pointer; transition: all 0.2s; min-height: 40px;
+  padding: 8px 18px; cursor: pointer; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
-.flow-btn-save:active { box-shadow: 0 0 18px rgba(0,229,195,0.15); }
+.flow-btn-save:hover { box-shadow: 0 0 18px rgba(0,229,195,0.15); }
 .flow-btn-cancel {
   background: transparent; border: 1px solid var(--glass-border-bright);
   border-radius: 9px; color: var(--text-dim); font-family: var(--body);
-  font-size: 0.78rem; padding: 8px 14px; cursor: pointer; transition: all 0.2s; min-height: 40px;
+  font-size: 0.78rem; padding: 8px 14px; cursor: pointer; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
+.flow-btn-cancel:hover { color: var(--text-secondary); }
 
-.flow-surplus-box { border-radius: 12px; padding: 1rem 1.2rem; margin-top: 0.85rem; transition: all 0.4s; }
+.flow-surplus-box { border-radius: 14px; padding: 1rem 1.25rem; margin-top: 1rem; transition: all 0.4s; }
 .flow-surplus-box.pos { background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.2); }
 .flow-surplus-box.neg { background: rgba(255,77,109,0.07); border: 1px solid rgba(255,77,109,0.25); }
-.fsb-label { font-size: 0.6rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
+.fsb-label { font-size: 0.62rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
 .fsb-label.pos { color: rgba(0,255,136,0.6); }
 .fsb-label.neg { color: rgba(255,77,109,0.6); }
 .fsb-val { font-family: var(--display); font-size: clamp(1.3rem, 5vw, 1.6rem); font-weight: 800; }
 .fsb-val.pos { color: var(--emerald); }
 .fsb-val.neg { color: var(--red); }
-.fsb-mo { font-size: 0.7rem; margin-top: 3px; }
+.fsb-mo { font-size: 0.72rem; margin-top: 3px; }
 .fsb-mo.pos { color: rgba(0,255,136,0.5); }
 .fsb-mo.neg { color: rgba(255,77,109,0.5); }
 
-/* ── CHART WRAP ── */
-.chart-wrap {
-  background: var(--glass); border: 1px solid var(--glass-border-bright);
-  border-radius: 18px; padding: clamp(1.2rem, 4vw, 2rem); margin-bottom: 1.5rem; position: relative;
-}
-.chart-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); pointer-events: none; }
-.chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.75rem; }
-.chart-title { font-family: var(--display); font-size: clamp(0.95rem, 3vw, 1.1rem); font-weight: 700; color: var(--text-primary); }
-.chart-sub { font-size: 0.68rem; color: var(--text-dim); margin-top: 0.2rem; }
-
-/* ── CHART GRID ── */
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  align-items: start;
-}
-@media (min-width: 768px) {
-  .charts-grid { grid-template-columns: 1fr 1fr; }
-}
-
-/* ── SVG FLOW DIAGRAM – responsive scroll wrapper ── */
-.flow-svg-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin: 0 -0.5rem 1.5rem;
-  padding: 0 0.5rem;
-}
-#flowSvg {
-  display: block;
-  min-width: 600px;
-}
-@media (max-width: 480px) {
-  /* on very small screens collapse the SVG to a simple text diagram */
-  .flow-svg-wrapper { display: none; }
-  .flow-fallback { display: flex !important; }
-}
-.flow-fallback {
-  display: none;
-  flex-direction: column; gap: 6px;
-  background: rgba(0,229,195,0.04); border: 1px solid rgba(0,229,195,0.15);
-  border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;
-  font-family: var(--mono); font-size: 0.72rem; color: var(--text-secondary);
-}
-.flow-fallback-income {
-  display: flex; justify-content: space-between;
-  background: rgba(0,229,195,0.08); border-radius: 8px; padding: 8px 12px;
-  color: var(--teal); font-weight: 700;
-}
-.flow-fallback-arrow { text-align: center; color: var(--text-dim); font-size: 0.85rem; padding: 2px 0; }
-
-/* ── FLOW ANIMATIONS ── */
+/* Desktop flow SVG */
 .flow-path-line { stroke-dasharray: 8 4; animation: flowDash 3s linear infinite; }
 @keyframes flowDash { to { stroke-dashoffset: -48; } }
-
-/* ── LOT CALC ── */
-.lot-calc { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 18px; padding: clamp(1.2rem, 4vw, 2rem); margin-bottom: 1.5rem; }
-.lot-select-wrap { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-.lot-select-label { font-size: 0.8rem; color: var(--text-secondary); }
-select {
-  background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border-bright);
-  border-radius: 10px; color: var(--text-primary); font-family: var(--body);
-  font-size: 0.9rem; padding: 0.6rem 1rem; cursor: pointer; outline: none;
-  transition: border-color 0.2s; -webkit-appearance: none; appearance: none;
-  min-height: 44px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300e5c3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
-}
-select:focus { border-color: rgba(0,229,195,0.4); }
-.lot-result-panel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
-.lot-result-panel.visible { opacity: 1; transform: translateY(0); }
-.lr-item { background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.15); border-radius: 10px; padding: 0.85rem 1rem; }
-.lr-label { font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.3rem; }
-.lr-val { font-family: var(--display); font-size: clamp(1.1rem, 4vw, 1.5rem); font-weight: 800; color: var(--teal); }
-
-/* ── LEGEND ── */
-.legend { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.2rem; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.68rem; color: var(--text-secondary); }
-.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-
-/* ── PERIOD TAGS ── */
-.period-wrap { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-.period-tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.05em; padding: 0.28rem 0.75rem; border-radius: 6px; }
-.period-prior { background: rgba(255,183,64,0.1); color: var(--amber); border: 1px solid rgba(255,183,64,0.25); }
-.period-prop { background: rgba(0,229,195,0.08); color: var(--teal); border: 1px solid rgba(0,229,195,0.2); }
-
-/* ── NOTICE ── */
-.notice { background: rgba(255,183,64,0.07); border: 1px solid rgba(255,183,64,0.2); border-radius: 12px; padding: 0.9rem 1.2rem; font-size: 0.8rem; color: rgba(255,183,64,0.85); line-height: 1.6; margin-bottom: 1.5rem; }
-
-/* ── ACTUALS ── */
-.change-up { color: var(--red); font-size: 0.7rem; }
-.change-dn { color: var(--emerald); font-size: 0.7rem; }
-.change-nt { color: var(--text-dim); font-size: 0.7rem; }
-
-/* ── FOOTER ── */
-footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-border); padding: clamp(2rem, 5vw, 3rem) 1.5rem; text-align: center; padding-bottom: calc(clamp(2rem, 5vw, 3rem) + var(--safe-bottom)); }
-.footer-brand { font-family: var(--display); font-size: 1.1rem; font-weight: 800; color: var(--teal); margin-bottom: 0.5rem; }
-.footer-sub { font-size: 0.72rem; color: var(--text-dim); line-height: 1.8; }
-
-/* ── SCROLL REVEAL ── */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1); }
-.reveal.visible { opacity: 1; transform: none; }
-
-/* ── PARTICLES ── */
-#particleCanvas { position: absolute; inset: 0; pointer-events: none; }
-
-/* ── TABLET BREAKPOINT (min 640px) ── */
-@media (min-width: 640px) {
-  .hero-stats { grid-template-columns: repeat(2, 1fr); max-width: 560px; }
-  .lot-result-panel { grid-template-columns: repeat(4, 1fr); }
-  .flow-summary-strip { grid-template-columns: repeat(3, 1fr); }
-  .dh-totals { gap: 1.25rem; }
-}
-
-/* ── DESKTOP BREAKPOINT (min 900px) ── */
-@media (min-width: 900px) {
-  .hero-stats { grid-template-columns: repeat(4, 1fr); max-width: 900px; }
-  nav a { font-size: 0.73rem; padding: 0 1rem; }
-  .nav-brand { font-size: 1rem; padding: 0 1.5rem 0 0; }
-}
-
-/* ── TABLET ACCORDION: show more in header ── */
-@media (max-width: 580px) {
-  .dh-totals .dt-item:first-child { display: none; } /* hide Prior avg/mo on small screens */
-  .flow-cat-pct { display: none; }
-}
-@media (max-width: 380px) {
-  .dh-totals .dt-item:nth-child(2) { display: none; } /* hide Proposed/mo too */
-}
 </style>
 </head>
 <body>
@@ -571,15 +621,13 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
 
 <nav>
   <div class="nav-brand">🌿 LEV</div>
-  <div class="nav-links">
-    <a href="#hero" class="active">Overview</a>
-    <a href="#flow">Flow</a>
-    <a href="#base">Budget</a>
-    <a href="#detailed">Detail</a>
-    <a href="#actuals">Actuals</a>
-    <a href="#proposals">Proposals</a>
-    <a href="#lots">Per Lot</a>
-  </div>
+  <a href="#hero" class="active">Overview</a>
+  <a href="#flow">Flow</a>
+  <a href="#base">Budget</a>
+  <a href="#detailed">Detail</a>
+  <a href="#actuals">Actuals</a>
+  <a href="#proposals">Proposals</a>
+  <a href="#lots">Per Lot</a>
 </nav>
 
 <div class="currency-bar">
@@ -591,11 +639,11 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
       <button id="btn-eur" onclick="setCurrency('EUR')">€ EUR</button>
     </div>
   </div>
-  <div id="rate-display" class="rate-info">Loading rates…</div>
+  <div id="rate-display" class="rate-info">Loading…</div>
 </div>
 
 <!-- HERO -->
-<section id="hero" class="hero" style="padding-top:clamp(5rem,12vw,8rem);">
+<section id="hero" class="hero" style="padding-top:5rem;">
   <canvas id="particleCanvas"></canvas>
   <div class="hero-eyebrow">HOA Budget 2026–27 · Annual Assembly April 11</div>
   <h1 class="hero-title">
@@ -638,97 +686,119 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
       <div class="chart-header">
         <div>
           <div class="chart-title">Community Fund Flow — 2026–27</div>
-          <div class="chart-sub">Interactive · add or remove categories to see unallocated surplus</div>
+          <div class="chart-sub">Tap × to remove · + to add categories</div>
         </div>
-        <div style="font-family:var(--mono);font-size:0.72rem;color:var(--teal);">
+        <div style="font-family:var(--mono);font-size:0.75rem;color:var(--teal);">
           Income: <span id="flow-hdr-income">₡104,417,829</span>
         </div>
       </div>
 
+      <!-- SUMMARY STRIP -->
       <div class="flow-summary-strip">
         <div class="fss-card"><div class="fss-label">HOA income / yr</div><div class="fss-val" id="fss-income">₡104,417,829</div></div>
         <div class="fss-card"><div class="fss-label">Total budgeted</div><div class="fss-val amber" id="fss-budget">₡88,700,000</div></div>
         <div class="fss-card"><div class="fss-label">Surplus / deficit</div><div class="fss-val surplus" id="fss-surplus">+₡15,717,829</div></div>
       </div>
 
-      <!-- SVG FLOW — scrollable on small screens -->
-      <div class="flow-svg-wrapper">
-        <svg id="flowSvg" viewBox="0 0 900 340" width="900" style="overflow:visible;display:block;">
-          <defs>
-            <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#00e5c3" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#00bfff" stop-opacity="0.7"/>
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,229,195,0.5)"/>
-            </marker>
-          </defs>
-          <g>
-            <rect x="10" y="100" width="140" height="110" rx="12" fill="rgba(0,229,195,0.08)" stroke="rgba(0,229,195,0.35)" stroke-width="1"/>
-            <rect x="10" y="100" width="3" height="110" rx="1" fill="url(#tealGrad)"/>
-            <text x="81" y="130" text-anchor="middle" fill="rgba(0,229,195,0.9)" font-family="Syne,sans-serif" font-size="11" font-weight="700">HOA DUES</text>
-            <text x="81" y="149" text-anchor="middle" fill="rgba(160,200,195,0.5)" font-family="JetBrains Mono,monospace" font-size="9">₡8.7M/mo</text>
-            <text x="81" y="165" text-anchor="middle" fill="rgba(160,200,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8">47 lots</text>
-            <text x="81" y="180" text-anchor="middle" fill="rgba(0,229,195,0.55)" font-family="JetBrains Mono,monospace" font-size="8">104.4M/yr</text>
-            <text x="81" y="196" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="7">total income</text>
-          </g>
-          <path d="M152 155 C220 155,235 155,288 155" stroke="url(#tealGrad)" stroke-width="2.5" fill="none" class="flow-path-line" marker-end="url(#arrow)"/>
-          <path d="M152 155 C220 155,235 155,288 155" stroke="rgba(0,229,195,0.07)" stroke-width="12" fill="none"/>
-          <circle r="4" fill="rgba(0,229,195,0.9)" filter="url(#glow)"><animateMotion dur="2.2s" repeatCount="indefinite" path="M152 155 C220 155,235 155,288 155"/></circle>
-          <circle r="2.5" fill="rgba(0,229,195,0.6)" filter="url(#glow)"><animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M152 155 C220 155,235 155,288 155"/></circle>
-          <circle r="2" fill="rgba(0,229,195,0.35)"><animateMotion dur="2.2s" begin="1.4s" repeatCount="indefinite" path="M152 155 C220 155,235 155,288 155"/></circle>
-          <g>
-            <rect x="290" y="80" width="175" height="148" rx="16" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.25)" stroke-width="1.5"/>
-            <rect x="290" y="80" width="175" height="3" rx="1" fill="url(#tealGrad)"/>
-            <text x="377" y="114" text-anchor="middle" fill="rgba(120,160,155,0.45)" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2">COMMUNITY FUND</text>
-            <text x="377" y="140" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="Syne,sans-serif" font-size="20" font-weight="800" filter="url(#glow)" id="fundLabel">₡88.7M</text>
-            <text x="377" y="160" text-anchor="middle" fill="rgba(120,160,155,0.5)" font-family="JetBrains Mono,monospace" font-size="9">budgeted 2026–27</text>
-            <text x="377" y="178" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="8" id="fundMonthly">≈₡7.4M / month</text>
-            <text x="377" y="196" text-anchor="middle" fill="rgba(120,160,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8" id="fundSurplusLabel">surplus ₡15.7M</text>
-            <text x="377" y="212" text-anchor="middle" fill="rgba(120,160,155,0.3)" font-family="JetBrains Mono,monospace" font-size="7" id="fundPct">84.9% committed</text>
-          </g>
-          <g id="expenseNodes"></g>
-        </svg>
-      </div>
+      <!-- FLOW LAYOUT: SVG desktop / mobile sankey -->
+      <div class="flow-layout">
 
-      <!-- MOBILE FALLBACK — plain category list acts as the "diagram" -->
-      <div class="flow-fallback" id="flowFallback">
-        <div class="flow-fallback-income"><span>HOA DUES / yr</span><span>₡104,417,829</span></div>
-        <div class="flow-fallback-arrow">↓</div>
-        <div style="font-size:0.7rem;color:var(--text-dim);text-align:center;margin-bottom:4px;">DISTRIBUTED TO CATEGORIES BELOW</div>
-      </div>
+        <!-- LEFT: visual (SVG desktop / bar mobile) -->
+        <div class="flow-svg-col">
 
-      <div class="flow-cat-list" id="flowCatList"></div>
+          <!-- Mobile Sankey -->
+          <div id="flowMobileSankey">
+            <div class="ms-income-bar">
+              <span class="ms-income-label">HOA Dues · 47 lots</span>
+              <span class="ms-income-val" id="ms-income-val">₡104.4M / yr</span>
+            </div>
+            <div class="ms-cats-wrap" id="msCatsWrap"></div>
+          </div>
 
-      <div class="flow-add-form" id="flowAddForm">
-        <div class="flow-form-row">
-          <input class="flow-form-input" id="flowNewName" placeholder="Category name (e.g. Road repairs)">
-          <input class="flow-form-input" id="flowNewAmt" type="number" placeholder="Annual amount (₡)" step="100000" min="0">
+          <!-- Desktop SVG -->
+          <div id="flowSvgWrap">
+            <svg id="flowSvg" viewBox="0 0 780 340" width="100%" style="overflow:visible;display:block;">
+              <defs>
+                <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#00e5c3" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#00bfff" stop-opacity="0.7"/>
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,229,195,0.5)"/>
+                </marker>
+              </defs>
+              <!-- INCOME NODE -->
+              <g>
+                <rect x="10" y="100" width="130" height="110" rx="12" fill="rgba(0,229,195,0.08)" stroke="rgba(0,229,195,0.35)" stroke-width="1"/>
+                <rect x="10" y="100" width="3" height="110" rx="1" fill="url(#tealGrad)"/>
+                <text x="75" y="130" text-anchor="middle" fill="rgba(0,229,195,0.9)" font-family="Syne,sans-serif" font-size="11" font-weight="700">HOA DUES</text>
+                <text x="75" y="148" text-anchor="middle" fill="rgba(160,200,195,0.5)" font-family="JetBrains Mono,monospace" font-size="9">₡8.7M/mo</text>
+                <text x="75" y="163" text-anchor="middle" fill="rgba(160,200,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8">47 lots</text>
+                <text x="75" y="178" text-anchor="middle" fill="rgba(0,229,195,0.55)" font-family="JetBrains Mono,monospace" font-size="8">104.4M/yr</text>
+                <text x="75" y="193" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="7">total income</text>
+              </g>
+              <!-- INCOME → FUND -->
+              <path d="M142 155 C200 155,210 155,258 155" stroke="url(#tealGrad)" stroke-width="2.5" fill="none" stroke-dasharray="8 4" marker-end="url(#arrow)">
+                <animate attributeName="stroke-dashoffset" from="0" to="-48" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <path d="M142 155 C200 155,210 155,258 155" stroke="rgba(0,229,195,0.07)" stroke-width="12" fill="none"/>
+              <circle r="4" fill="rgba(0,229,195,0.9)" filter="url(#glow)"><animateMotion dur="2.2s" repeatCount="indefinite" path="M142 155 C200 155,210 155,258 155"/></circle>
+              <circle r="2.5" fill="rgba(0,229,195,0.6)"><animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M142 155 C200 155,210 155,258 155"/></circle>
+              <!-- FUND NODE -->
+              <g>
+                <rect x="260" y="82" width="158" height="146" rx="14" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.25)" stroke-width="1.5"/>
+                <rect x="260" y="82" width="158" height="3" rx="1" fill="url(#tealGrad)"/>
+                <text x="339" y="114" text-anchor="middle" fill="rgba(120,160,155,0.45)" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2">COMMUNITY FUND</text>
+                <text x="339" y="140" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="Syne,sans-serif" font-size="19" font-weight="800" filter="url(#glow)" id="fundLabel">₡88.7M</text>
+                <text x="339" y="158" text-anchor="middle" fill="rgba(120,160,155,0.5)" font-family="JetBrains Mono,monospace" font-size="9">budgeted 2026–27</text>
+                <text x="339" y="175" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="8" id="fundMonthly">≈₡7.4M / month</text>
+                <text x="339" y="192" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="8" id="fundSurplusLabel">surplus ₡15.7M</text>
+                <text x="339" y="207" text-anchor="middle" fill="rgba(120,160,155,0.3)" font-family="JetBrains Mono,monospace" font-size="7" id="fundPct">84.9% committed</text>
+              </g>
+              <!-- Dynamic expense nodes -->
+              <g id="expenseNodes"></g>
+            </svg>
+          </div>
+
+          <!-- Surplus box always visible below visual -->
+          <div class="flow-surplus-box pos" id="flowSurplusBox">
+            <div class="fsb-label pos" id="fsbLabel">UNALLOCATED SURPLUS</div>
+            <div class="fsb-val pos" id="fsbVal">+₡15,717,829</div>
+            <div class="fsb-mo pos" id="fsbMo">₡1,309,819 / month available</div>
+          </div>
         </div>
-        <div class="flow-form-btns">
-          <button class="flow-btn-save" onclick="flowSaveNew()">Save category</button>
-          <button class="flow-btn-cancel" onclick="flowCancelAdd()">Cancel</button>
+
+        <!-- RIGHT: category list + add -->
+        <div class="flow-list-col">
+          <div style="font-size:0.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.6rem;">Budget categories</div>
+          <div class="flow-cat-list" id="flowCatList"></div>
+
+          <!-- ADD FORM -->
+          <div class="flow-add-form" id="flowAddForm">
+            <div class="flow-form-row">
+              <input class="flow-form-input" id="flowNewName" placeholder="Category name">
+              <input class="flow-form-input" id="flowNewAmt" type="number" placeholder="Annual amount (₡)" step="100000" min="0">
+            </div>
+            <div class="flow-form-btns">
+              <button class="flow-btn-save" onclick="flowSaveNew()">Save</button>
+              <button class="flow-btn-cancel" onclick="flowCancelAdd()">Cancel</button>
+            </div>
+          </div>
+          <div class="flow-add-row" id="flowAddTrigger" onclick="flowOpenAdd()">
+            <div class="flow-add-icon">+</div>
+            <span class="flow-add-label">Add a category…</span>
+          </div>
         </div>
-      </div>
 
-      <div class="flow-add-row" id="flowAddTrigger" onclick="flowOpenAdd()">
-        <div class="flow-add-icon">+</div>
-        <span class="flow-add-label">Add a category…</span>
-      </div>
-
-      <div class="flow-surplus-box pos" id="flowSurplusBox">
-        <div class="fsb-label pos" id="fsbLabel">UNALLOCATED SURPLUS</div>
-        <div class="fsb-val pos" id="fsbVal">+₡15,717,829</div>
-        <div class="fsb-mo pos" id="fsbMo">₡1,309,819 / month available for new projects</div>
-      </div>
-    </div>
+      </div><!-- /.flow-layout -->
+    </div><!-- /.chart-wrap -->
 
     <!-- DONUT + BAR -->
-    <div class="charts-grid reveal">
+    <div class="charts-two-col reveal">
       <div class="chart-wrap" style="margin-bottom:0;">
         <div class="chart-header">
           <div><div class="chart-title">Budget Composition</div><div class="chart-sub">By category share</div></div>
@@ -779,7 +849,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
       <table>
         <thead><tr><th>Category</th><th>Annual Budget</th><th>Monthly</th><th>% of Budget</th></tr></thead>
         <tbody>
-          <tr><td>Staff Salaries (+5% raise)</td><td class="hl cv" data-crc="31100000" data-freq="annual">₡31,100,000</td><td class="cv" data-crc="2591667" data-freq="monthly">₡2,591,667</td><td>35.1%</td></tr>
+          <tr><td>Staff Salaries (+5% raise — no raise in 2 yrs)</td><td class="hl cv" data-crc="31100000" data-freq="annual">₡31,100,000</td><td class="cv" data-crc="2591667" data-freq="monthly">₡2,591,667</td><td>35.1%</td></tr>
           <tr><td>Staff Benefits (SS, 13th mo, vacation, severance)</td><td class="hl cv" data-crc="13900000" data-freq="annual">₡13,900,000</td><td class="cv" data-crc="1158333" data-freq="monthly">₡1,158,333</td><td>15.7%</td></tr>
           <tr><td>Routine Maintenance (vehicles, buildings, pool, garden)</td><td class="hl cv" data-crc="18000000" data-freq="annual">₡18,000,000</td><td class="cv" data-crc="1500000" data-freq="monthly">₡1,500,000</td><td>20.3%</td></tr>
           <tr><td>Professional Services (accounting, legal, software)</td><td class="hl cv" data-crc="6700000" data-freq="annual">₡6,700,000</td><td class="cv" data-crc="558333" data-freq="monthly">₡558,333</td><td>7.6%</td></tr>
@@ -793,7 +863,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
         </tbody>
       </table>
     </div>
-    <p style="font-size:0.7rem;color:var(--text-dim);margin-top:0.5rem;">* Optional proposals are not included — see Proposals section below.</p>
+    <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.6rem;">* Optional proposals are not included — see Proposals section below.</p>
   </div>
 </section>
 
@@ -805,11 +875,11 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
     <p class="section-desc reveal">All individual QuickBooks line items. "Prior avg/mo" = actual 2025–26 monthly averages — not a prior year budget.</p>
     <div class="notice reveal">ℹ️ Gap between base budget (₡88.7M) and detailed total (₡95.8M): depreciation ₡1.87M (non-cash) + contingency & reserve ₡8.4M + multipurpose court ₡180k.</div>
     <div class="detail-accordion reveal" id="accordion"></div>
-    <div style="background:rgba(0,229,195,0.06);border:1px solid rgba(0,229,195,0.2);border-radius:14px;padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.85rem;margin-top:1.25rem;" class="reveal">
-      <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);">GRAND TOTAL — Detailed Proposal 2026–27</div>
+    <div style="background:rgba(0,229,195,0.06);border:1px solid rgba(0,229,195,0.2);border-radius:16px;padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:1.25rem;" class="reveal">
+      <div style="font-size:clamp(0.78rem,2vw,0.85rem);font-weight:600;color:var(--text-primary);">GRAND TOTAL — Detailed Proposal 2026–27</div>
       <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
-        <div style="text-align:right;"><span style="font-size:0.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;">Monthly</span><span style="font-family:var(--display);font-size:1.4rem;font-weight:800;color:var(--teal);" class="cv" data-crc="7983953" data-freq="monthly">₡7,983,953</span></div>
-        <div style="text-align:right;"><span style="font-size:0.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;">Annual</span><span style="font-family:var(--display);font-size:1.4rem;font-weight:800;color:var(--teal);" class="cv" data-crc="95807433" data-freq="annual">₡95,807,433</span></div>
+        <div style="text-align:right;"><span style="font-size:0.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;">Monthly</span><span style="font-family:var(--display);font-size:clamp(1.2rem,4vw,1.5rem);font-weight:800;color:var(--teal);" class="cv" data-crc="7983953" data-freq="monthly">₡7,983,953</span></div>
+        <div style="text-align:right;"><span style="font-size:0.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;">Annual</span><span style="font-family:var(--display);font-size:clamp(1.2rem,4vw,1.5rem);font-weight:800;color:var(--teal);" class="cv" data-crc="95807433" data-freq="annual">₡95,807,433</span></div>
       </div>
     </div>
   </div>
@@ -829,7 +899,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
     </div>
     <div class="chart-wrap reveal" style="margin-bottom:1.5rem;">
       <div class="chart-header"><div class="chart-title">Income vs Spend — 2025–26 Actuals</div><div class="chart-sub">Monthly flow view</div></div>
-      <div style="position:relative;height:240px;"><canvas id="incomeSpendChart"></canvas></div>
+      <div style="position:relative;height:220px;"><canvas id="incomeSpendChart"></canvas></div>
     </div>
     <div class="table-wrap reveal">
       <table>
@@ -837,18 +907,18 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
         <tbody>
           <tr><td>Staff Salaries</td><td class="amber cv" data-crc="26404780" data-freq="annual">₡26,404,780</td><td class="cv" data-crc="2200398" data-freq="monthly">₡2,200,398</td><td class="hl cv" data-crc="31100000" data-freq="annual">₡31,100,000</td><td><span class="change-up">↑ +17.8%</span></td></tr>
           <tr><td>Staff Benefits</td><td class="amber cv" data-crc="12013113" data-freq="annual">₡12,013,113</td><td class="cv" data-crc="1001093" data-freq="monthly">₡1,001,093</td><td class="hl cv" data-crc="13900000" data-freq="annual">₡13,900,000</td><td><span class="change-up">↑ +15.7%</span></td></tr>
-          <tr><td>Prof. Services <span style="color:var(--text-dim);font-size:0.68rem;">(incl. ₡5.3M security guards)</span></td><td class="amber cv" data-crc="9077186" data-freq="annual">₡9,077,186</td><td class="cv" data-crc="756432" data-freq="monthly">₡756,432</td><td class="hl cv" data-crc="6700000" data-freq="annual">₡6,700,000</td><td><span class="change-dn">↓ −26.2%</span></td></tr>
+          <tr><td>Professional Services</td><td class="amber cv" data-crc="9077186" data-freq="annual">₡9,077,186</td><td class="cv" data-crc="756432" data-freq="monthly">₡756,432</td><td class="hl cv" data-crc="6700000" data-freq="annual">₡6,700,000</td><td><span class="change-dn">↓ −26.2%</span></td></tr>
           <tr><td>Routine Maintenance</td><td class="amber cv" data-crc="17325916" data-freq="annual">₡17,325,916</td><td class="cv" data-crc="1443826" data-freq="monthly">₡1,443,826</td><td class="hl cv" data-crc="18000000" data-freq="annual">₡18,000,000</td><td><span class="change-up">↑ +3.9%</span></td></tr>
           <tr><td>Utilities</td><td class="amber cv" data-crc="5585725" data-freq="annual">₡5,585,725</td><td class="cv" data-crc="465477" data-freq="monthly">₡465,477</td><td class="hl cv" data-crc="6000000" data-freq="annual">₡6,000,000</td><td><span class="change-up">↑ +7.4%</span></td></tr>
           <tr><td>Insurance</td><td class="amber cv" data-crc="3060151" data-freq="annual">₡3,060,151</td><td class="cv" data-crc="255013" data-freq="monthly">₡255,013</td><td class="hl cv" data-crc="3100000" data-freq="annual">₡3,100,000</td><td><span class="change-up">↑ +1.3%</span></td></tr>
           <tr><td>Taxes & Permits</td><td class="amber cv" data-crc="1954730" data-freq="annual">₡1,954,730</td><td class="cv" data-crc="162894" data-freq="monthly">₡162,894</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td><span class="change-up">↑ +2.3%</span></td></tr>
           <tr><td>Biodigester</td><td class="amber cv" data-crc="2813248" data-freq="annual">₡2,813,248</td><td class="cv" data-crc="234437" data-freq="monthly">₡234,437</td><td class="hl cv" data-crc="3000000" data-freq="annual">₡3,000,000</td><td><span class="change-up">↑ +6.7%</span></td></tr>
           <tr><td>Office & Meetings</td><td class="amber cv" data-crc="583115" data-freq="annual">₡583,115</td><td class="cv" data-crc="48593" data-freq="monthly">₡48,593</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td><span class="change-up">↑ +54.3%</span></td></tr>
-          <tr class="total-row"><td>Total Operating (excl. extraordinary)</td><td class="cv" data-crc="82906934" data-freq="annual">₡82,906,934</td><td>—</td><td class="cv" data-crc="88700000" data-freq="annual">₡88,700,000</td><td><span style="color:var(--amber);font-family:var(--mono);font-size:0.78rem;">↑ +6.9%</span></td></tr>
+          <tr class="total-row"><td>Total Operating (excl. extraordinary)</td><td class="cv" data-crc="82906934" data-freq="annual">₡82,906,934</td><td>—</td><td class="cv" data-crc="88700000" data-freq="annual">₡88,700,000</td><td><span style="color:var(--amber);font-family:var(--mono);font-size:0.8rem;">↑ +6.9%</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size:0.7rem;color:var(--text-dim);margin-top:0.5rem;">* Professional Services drops because private security guards (≈₡5.3M in 2025–26) are no longer needed.</p>
+    <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.6rem;">* Professional Services drops because private security guards (≈₡5.3M in 2025–26) are no longer needed — security system now in place.</p>
   </div>
 </section>
 
@@ -907,7 +977,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
         <tbody id="lotTbody"></tbody>
       </table>
     </div>
-    <p style="font-size:0.7rem;color:var(--text-dim);margin-top:0.5rem;">* Calculated against ₡88,700,000 base essential budget. Lots 22 and 23 show 0% in the official spreadsheet.</p>
+    <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.6rem;">* Calculated against ₡88,700,000 base essential budget. Lots 22 and 23 show 0% in the official spreadsheet.</p>
   </div>
 </section>
 
@@ -967,7 +1037,7 @@ async function fetchRates() {
 
 function updateRateDisplay() {
   const src = ratesLoaded ? 'live rate' : 'est. Apr 2026';
-  document.getElementById('rate-display').innerHTML = `$1&nbsp;=&nbsp;<span class="rate-val">₡${Math.round(rates.USD)}</span>&nbsp;·&nbsp;€1&nbsp;=&nbsp;<span class="rate-val">₡${Math.round(rates.EUR)}</span>&nbsp;·&nbsp;${src}`;
+  document.getElementById('rate-display').innerHTML = `$1 = <span class="rate-val">₡${Math.round(rates.USD)}</span> &nbsp;·&nbsp; €1 = <span class="rate-val">₡${Math.round(rates.EUR)}</span> &nbsp;<span style="color:var(--text-dim);font-size:0.62rem;">${src}</span>`;
   document.getElementById('footer-rate').textContent = `$1 = ₡${Math.round(rates.USD)} · €1 = ₡${Math.round(rates.EUR)} (${src})`;
 }
 
@@ -1028,6 +1098,8 @@ let flowNextId = 20;
 function flowTotal() { return flowCats.reduce((s, c) => s + c.amt, 0); }
 function flowSurplus() { return FLOW_INCOME - flowTotal(); }
 
+function isMobile() { return window.innerWidth < 860; }
+
 function flowRender() {
   const bud = flowTotal();
   const sur = flowSurplus();
@@ -1040,11 +1112,17 @@ function flowRender() {
   surEl.textContent = (sur >= 0 ? '+' : '') + fmt(sur);
   surEl.className = 'fss-val ' + (sur >= 0 ? 'surplus' : 'deficit');
 
+  // mobile income header val
+  const msInc = document.getElementById('ms-income-val');
+  if (msInc) msInc.textContent = fmtShort(FLOW_INCOME) + ' / yr';
+
+  // fund node labels
   document.getElementById('fundLabel').textContent = fmtShort(bud);
   document.getElementById('fundMonthly').textContent = '≈' + fmtShort(bud / 12) + ' / month';
   document.getElementById('fundSurplusLabel').textContent = (sur >= 0 ? 'surplus ' : 'deficit ') + fmtShort(Math.abs(sur));
   document.getElementById('fundPct').textContent = pct.toFixed(1) + '% committed';
 
+  // surplus box
   const box = document.getElementById('flowSurplusBox');
   const lbl = document.getElementById('fsbLabel');
   const val = document.getElementById('fsbVal');
@@ -1053,7 +1131,7 @@ function flowRender() {
     box.className = 'flow-surplus-box pos';
     lbl.className = 'fsb-label pos'; lbl.textContent = 'UNALLOCATED SURPLUS';
     val.className = 'fsb-val pos';   val.textContent = '+' + fmt(sur);
-    mo.className  = 'fsb-mo pos';    mo.textContent  = fmt(sur / 12) + ' / month available for new projects';
+    mo.className  = 'fsb-mo pos';    mo.textContent  = fmt(sur / 12) + ' / month available';
   } else {
     box.className = 'flow-surplus-box neg';
     lbl.className = 'fsb-label neg'; lbl.textContent = 'DEFICIT — over budget';
@@ -1061,11 +1139,13 @@ function flowRender() {
     mo.className  = 'fsb-mo neg';    mo.textContent  = fmt(Math.abs(sur) / 12) + ' / month over income';
   }
 
-  flowRenderCats(bud);
-  flowRenderSvg(bud, sur);
+  flowRenderCatList(); // right-column list (all breakpoints)
+  flowRenderMobileSankey(bud, sur); // mobile horizontal bars
+  flowRenderSvg(bud, sur); // desktop svg
 }
 
-function flowRenderCats(bud) {
+// Right-column category list
+function flowRenderCatList() {
   const list = document.getElementById('flowCatList');
   list.innerHTML = '';
   flowCats.forEach((c, i) => {
@@ -1084,65 +1164,134 @@ function flowRenderCats(bud) {
   });
 }
 
+// Mobile sankey (horizontal proportion bars)
+function flowRenderMobileSankey(bud, sur) {
+  const wrap = document.getElementById('msCatsWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  flowCats.forEach((c, i) => {
+    const col = FLOW_CAT_COLORS[i % FLOW_CAT_COLORS.length];
+    const pct = (c.amt / FLOW_INCOME * 100);
+    const div = document.createElement('div');
+    div.className = 'ms-cat-bar';
+    div.innerHTML = `
+      <div class="ms-cat-fill" style="width:${pct}%;background:${col};"></div>
+      <div class="ms-cat-dot" style="background:${col};"></div>
+      <div class="ms-cat-name">${c.name}</div>
+      <div class="ms-cat-pct">${pct.toFixed(1)}%</div>
+      <div class="ms-cat-amt" style="color:${col};">${fmt(c.amt)}</div>
+      <button class="ms-cat-del" onclick="flowRemoveCat(${c.id})" title="Remove">×</button>
+    `;
+    wrap.appendChild(div);
+  });
+  // surplus bar
+  const surPct = Math.abs(sur / FLOW_INCOME * 100);
+  const sc = sur >= 0 ? '#00ff88' : '#ff4d6d';
+  const sd = document.createElement('div');
+  sd.className = 'ms-surplus-bar';
+  sd.style.cssText = `background:${sc}08;border:1px dashed ${sc}35;border-radius:8px;margin-top:2px;`;
+  sd.innerHTML = `
+    <div class="ms-cat-fill" style="width:${surPct}%;background:${sc};opacity:0.15;"></div>
+    <div class="ms-cat-dot" style="background:${sc};border-radius:50%;"></div>
+    <div class="ms-cat-name" style="color:${sc};font-size:0.72rem;">${sur>=0?'Unallocated surplus':'Deficit'}</div>
+    <div class="ms-cat-pct" style="color:${sc};">${(sur>=0?'+':'-')}${surPct.toFixed(1)}%</div>
+    <div class="ms-cat-amt" style="color:${sc};">${(sur>=0?'+':'')}${fmt(sur)}</div>
+  `;
+  wrap.appendChild(sd);
+}
+
+// Desktop SVG
 function flowRenderSvg(bud, sur) {
   const g = document.getElementById('expenseNodes');
+  if (!g) return;
   g.innerHTML = '';
   const NS = 'http://www.w3.org/2000/svg';
-  const startX = 530, nodeW = 240, nodeH = 44;
+
+  const startX = 470;
+  const nodeW  = 200;
+  const nodeH  = 38;
   const totalSlots = flowCats.length + 1;
   const svgUsableH = 320;
-  const spacing = Math.min(54, (svgUsableH - 20) / totalSlots);
-  const startY = Math.max(10, (svgUsableH - totalSlots * spacing) / 2);
-  const fundCY = 154, fundRX = 465;
+  const spacing = Math.min(46, (svgUsableH - 20) / totalSlots);
+  const startY  = Math.max(10, (svgUsableH - totalSlots * spacing) / 2);
+  const fundCY  = 155;
+  const fundRX  = 418;
   const neededH = startY + totalSlots * spacing + 20;
-  const vbH = Math.max(300, neededH);
-  document.getElementById('flowSvg').setAttribute('viewBox', `0 0 900 ${vbH}`);
+  const vbH = Math.max(280, neededH);
+  document.getElementById('flowSvg').setAttribute('viewBox', `0 0 780 ${vbH}`);
 
   function mk(tag) { return document.createElementNS(NS, tag); }
 
   flowCats.forEach((c, i) => {
     const col = FLOW_CAT_COLORS[i % FLOW_CAT_COLORS.length];
-    const ny = startY + i * spacing;
-    const my = ny + nodeH / 2;
+    const ny  = startY + i * spacing;
+    const my  = ny + nodeH / 2;
     const pct = (c.amt / bud * 100).toFixed(0);
-    const path = `M${fundRX} ${fundCY} C${fundRX + 40} ${fundCY},${startX - 30} ${my},${startX} ${my}`;
+    const path = `M${fundRX} ${fundCY} C${fundRX+35} ${fundCY},${startX-25} ${my},${startX} ${my}`;
 
-    const gp = mk('path'); gp.setAttribute('d', path); gp.setAttribute('stroke', col + '14'); gp.setAttribute('stroke-width', '10'); gp.setAttribute('fill', 'none'); g.appendChild(gp);
-    const lp = mk('path'); lp.setAttribute('d', path); lp.setAttribute('stroke', col); lp.setAttribute('stroke-width', '1.5'); lp.setAttribute('fill', 'none'); lp.setAttribute('stroke-opacity', '0.5'); lp.setAttribute('stroke-dasharray', '7 4');
-    const an = mk('animate'); an.setAttribute('attributeName', 'stroke-dashoffset'); an.setAttribute('from', '0'); an.setAttribute('to', '-44'); an.setAttribute('dur', (1.8 + i * 0.15) + 's'); an.setAttribute('repeatCount', 'indefinite'); lp.appendChild(an); g.appendChild(lp);
-    const dot = mk('circle'); dot.setAttribute('r', '2.5'); dot.setAttribute('fill', col); dot.setAttribute('fill-opacity', '0.85'); dot.setAttribute('filter', 'url(#glow)');
-    const am = mk('animateMotion'); am.setAttribute('dur', (1.8 + i * 0.15) + 's'); am.setAttribute('begin', (i * 0.18) + 's'); am.setAttribute('repeatCount', 'indefinite'); am.setAttribute('path', path); dot.appendChild(am); g.appendChild(dot);
-    const rect = mk('rect'); rect.setAttribute('x', startX); rect.setAttribute('y', ny); rect.setAttribute('width', nodeW); rect.setAttribute('height', nodeH); rect.setAttribute('rx', '9'); rect.setAttribute('style', `fill:${col}10;stroke:${col};stroke-opacity:0.22;stroke-width:1`); g.appendChild(rect);
-    const bar = mk('rect'); bar.setAttribute('x', startX); bar.setAttribute('y', ny); bar.setAttribute('width', '3'); bar.setAttribute('height', nodeH); bar.setAttribute('rx', '1'); bar.setAttribute('style', `fill:${col}`); g.appendChild(bar);
-    const nameEl = mk('text'); nameEl.setAttribute('x', startX + 10); nameEl.setAttribute('y', ny + 16); nameEl.setAttribute('fill', col); nameEl.setAttribute('font-family', 'Syne,sans-serif'); nameEl.setAttribute('font-size', '9'); nameEl.setAttribute('font-weight', '700'); nameEl.textContent = (c.name.length > 26 ? c.name.slice(0,25)+'…' : c.name).toUpperCase(); g.appendChild(nameEl);
-    const amtEl = mk('text'); amtEl.setAttribute('x', startX + 10); amtEl.setAttribute('y', ny + 30); amtEl.setAttribute('fill', 'rgba(160,200,195,0.5)'); amtEl.setAttribute('font-family', 'JetBrains Mono,monospace'); amtEl.setAttribute('font-size', '8'); amtEl.textContent = fmtShort(c.amt) + ' · ' + pct + '%'; g.appendChild(amtEl);
+    const gp = mk('path'); gp.setAttribute('d',path); gp.setAttribute('stroke',col+'14'); gp.setAttribute('stroke-width','10'); gp.setAttribute('fill','none'); g.appendChild(gp);
+    const lp = mk('path'); lp.setAttribute('d',path); lp.setAttribute('stroke',col); lp.setAttribute('stroke-width','1.5'); lp.setAttribute('fill','none'); lp.setAttribute('stroke-opacity','0.5'); lp.setAttribute('stroke-dasharray','7 4');
+    const an = mk('animate'); an.setAttribute('attributeName','stroke-dashoffset'); an.setAttribute('from','0'); an.setAttribute('to','-44'); an.setAttribute('dur',(1.8+i*0.15)+'s'); an.setAttribute('repeatCount','indefinite'); lp.appendChild(an); g.appendChild(lp);
+
+    const dot = mk('circle'); dot.setAttribute('r','2.5'); dot.setAttribute('fill',col); dot.setAttribute('fill-opacity','0.85'); dot.setAttribute('filter','url(#glow)');
+    const am = mk('animateMotion'); am.setAttribute('dur',(1.8+i*0.15)+'s'); am.setAttribute('begin',(i*0.18)+'s'); am.setAttribute('repeatCount','indefinite'); am.setAttribute('path',path); dot.appendChild(am); g.appendChild(dot);
+
+    const rect = mk('rect'); rect.setAttribute('x',startX); rect.setAttribute('y',ny); rect.setAttribute('width',nodeW); rect.setAttribute('height',nodeH); rect.setAttribute('rx','8'); rect.setAttribute('style',`fill:${col}10;stroke:${col};stroke-opacity:0.22;stroke-width:1`); g.appendChild(rect);
+    const bar = mk('rect'); bar.setAttribute('x',startX); bar.setAttribute('y',ny); bar.setAttribute('width','3'); bar.setAttribute('height',nodeH); bar.setAttribute('rx','1'); bar.setAttribute('style',`fill:${col}`); g.appendChild(bar);
+
+    const nameEl = mk('text'); nameEl.setAttribute('x',startX+9); nameEl.setAttribute('y',ny+14); nameEl.setAttribute('fill',col); nameEl.setAttribute('font-family','Syne,sans-serif'); nameEl.setAttribute('font-size','8'); nameEl.setAttribute('font-weight','700');
+    const lbl = c.name.length>24?c.name.slice(0,23)+'…':c.name; nameEl.textContent = lbl.toUpperCase(); g.appendChild(nameEl);
+
+    const amtEl = mk('text'); amtEl.setAttribute('x',startX+9); amtEl.setAttribute('y',ny+27); amtEl.setAttribute('fill','rgba(160,200,195,0.5)'); amtEl.setAttribute('font-family','JetBrains Mono,monospace'); amtEl.setAttribute('font-size','7.5'); amtEl.textContent = fmtShort(c.amt)+' · '+pct+'%'; g.appendChild(amtEl);
   });
 
-  const si = flowCats.length, ny = startY + si * spacing, my = ny + nodeH / 2;
-  const sc = sur >= 0 ? '#00ff88' : '#ff4d6d';
-  const path2 = `M${fundRX} ${fundCY} C${fundRX + 40} ${fundCY},${startX - 30} ${my},${startX} ${my}`;
-  const gp2 = mk('path'); gp2.setAttribute('d', path2); gp2.setAttribute('stroke', sur >= 0 ? 'rgba(0,255,136,0.06)' : 'rgba(255,77,109,0.06)'); gp2.setAttribute('stroke-width', '10'); gp2.setAttribute('fill', 'none'); g.appendChild(gp2);
-  const lp2 = mk('path'); lp2.setAttribute('d', path2); lp2.setAttribute('stroke', sc); lp2.setAttribute('stroke-width', '1.5'); lp2.setAttribute('fill', 'none'); lp2.setAttribute('stroke-opacity', sur >= 0 ? '0.4' : '0.65'); lp2.setAttribute('stroke-dasharray', '5 5');
-  const an2 = mk('animate'); an2.setAttribute('attributeName', 'stroke-dashoffset'); an2.setAttribute('from', '0'); an2.setAttribute('to', '-40'); an2.setAttribute('dur', '3s'); an2.setAttribute('repeatCount', 'indefinite'); lp2.appendChild(an2); g.appendChild(lp2);
-  const dot2 = mk('circle'); dot2.setAttribute('r', '2.5'); dot2.setAttribute('fill', sc); dot2.setAttribute('fill-opacity', '0.75'); dot2.setAttribute('filter', 'url(#glow)');
-  const am2 = mk('animateMotion'); am2.setAttribute('dur', '3s'); am2.setAttribute('begin', '0.5s'); am2.setAttribute('repeatCount', 'indefinite'); am2.setAttribute('path', path2); dot2.appendChild(am2); g.appendChild(dot2);
-  const rect2 = mk('rect'); rect2.setAttribute('x', startX); rect2.setAttribute('y', ny); rect2.setAttribute('width', nodeW); rect2.setAttribute('height', nodeH); rect2.setAttribute('rx', '9'); rect2.setAttribute('style', `fill:${sc}10;stroke:${sc};stroke-opacity:0.3;stroke-width:1;${sur < 0 ? 'stroke-dasharray:4 3' : ''}`); g.appendChild(rect2);
-  const bar2 = mk('rect'); bar2.setAttribute('x', startX); bar2.setAttribute('y', ny); bar2.setAttribute('width', '3'); bar2.setAttribute('height', nodeH); bar2.setAttribute('rx', '1'); bar2.setAttribute('style', `fill:${sc}`); g.appendChild(bar2);
-  const lbl2 = mk('text'); lbl2.setAttribute('x', startX + 10); lbl2.setAttribute('y', ny + 16); lbl2.setAttribute('fill', sc); lbl2.setAttribute('font-family', 'Syne,sans-serif'); lbl2.setAttribute('font-size', '9'); lbl2.setAttribute('font-weight', '700'); lbl2.textContent = sur >= 0 ? 'UNALLOCATED SURPLUS' : 'DEFICIT'; g.appendChild(lbl2);
-  const amt2 = mk('text'); amt2.setAttribute('x', startX + 10); amt2.setAttribute('y', ny + 30); amt2.setAttribute('fill', 'rgba(160,200,195,0.5)'); amt2.setAttribute('font-family', 'JetBrains Mono,monospace'); amt2.setAttribute('font-size', '8'); amt2.textContent = (sur >= 0 ? '+' : '') + fmtShort(sur) + ' · ' + (sur / FLOW_INCOME * 100).toFixed(1) + '%'; g.appendChild(amt2);
+  // Surplus node
+  const si = flowCats.length, ny = startY + si * spacing, my = ny + nodeH / 2, sc = sur>=0?'#00ff88':'#ff4d6d';
+  const path2 = `M${fundRX} ${fundCY} C${fundRX+35} ${fundCY},${startX-25} ${my},${startX} ${my}`;
+
+  const gp2 = mk('path'); gp2.setAttribute('d',path2); gp2.setAttribute('stroke',sur>=0?'rgba(0,255,136,0.06)':'rgba(255,77,109,0.06)'); gp2.setAttribute('stroke-width','10'); gp2.setAttribute('fill','none'); g.appendChild(gp2);
+  const lp2 = mk('path'); lp2.setAttribute('d',path2); lp2.setAttribute('stroke',sc); lp2.setAttribute('stroke-width','1.5'); lp2.setAttribute('fill','none'); lp2.setAttribute('stroke-opacity',sur>=0?'0.4':'0.65'); lp2.setAttribute('stroke-dasharray','5 5');
+  const an2 = mk('animate'); an2.setAttribute('attributeName','stroke-dashoffset'); an2.setAttribute('from','0'); an2.setAttribute('to','-40'); an2.setAttribute('dur','3s'); an2.setAttribute('repeatCount','indefinite'); lp2.appendChild(an2); g.appendChild(lp2);
+
+  const dot2 = mk('circle'); dot2.setAttribute('r','2.5'); dot2.setAttribute('fill',sc); dot2.setAttribute('fill-opacity','0.75'); dot2.setAttribute('filter','url(#glow)');
+  const am2 = mk('animateMotion'); am2.setAttribute('dur','3s'); am2.setAttribute('begin','0.5s'); am2.setAttribute('repeatCount','indefinite'); am2.setAttribute('path',path2); dot2.appendChild(am2); g.appendChild(dot2);
+
+  const rect2 = mk('rect'); rect2.setAttribute('x',startX); rect2.setAttribute('y',ny); rect2.setAttribute('width',nodeW); rect2.setAttribute('height',nodeH); rect2.setAttribute('rx','8'); rect2.setAttribute('style',`fill:${sc}10;stroke:${sc};stroke-opacity:0.3;stroke-width:1;${sur<0?'stroke-dasharray:4 3':''}`); g.appendChild(rect2);
+  const bar2 = mk('rect'); bar2.setAttribute('x',startX); bar2.setAttribute('y',ny); bar2.setAttribute('width','3'); bar2.setAttribute('height',nodeH); bar2.setAttribute('rx','1'); bar2.setAttribute('style',`fill:${sc}`); g.appendChild(bar2);
+
+  const lbl2 = mk('text'); lbl2.setAttribute('x',startX+9); lbl2.setAttribute('y',ny+14); lbl2.setAttribute('fill',sc); lbl2.setAttribute('font-family','Syne,sans-serif'); lbl2.setAttribute('font-size','8'); lbl2.setAttribute('font-weight','700'); lbl2.textContent = sur>=0?'UNALLOCATED SURPLUS':'DEFICIT'; g.appendChild(lbl2);
+  const amt2 = mk('text'); amt2.setAttribute('x',startX+9); amt2.setAttribute('y',ny+27); amt2.setAttribute('fill','rgba(160,200,195,0.5)'); amt2.setAttribute('font-family','JetBrains Mono,monospace'); amt2.setAttribute('font-size','7.5'); amt2.textContent = (sur>=0?'+':'')+fmtShort(sur)+' · '+(sur/FLOW_INCOME*100).toFixed(1)+'%'; g.appendChild(amt2);
 }
 
-function flowRemoveCat(id) { flowCats = flowCats.filter(c => c.id !== id); flowRender(); }
-function flowOpenAdd() { document.getElementById('flowAddForm').classList.add('open'); document.getElementById('flowAddTrigger').style.display = 'none'; document.getElementById('flowNewName').focus(); }
-function flowCancelAdd() { document.getElementById('flowAddForm').classList.remove('open'); document.getElementById('flowAddTrigger').style.display = 'flex'; document.getElementById('flowNewName').value = ''; document.getElementById('flowNewAmt').value = ''; }
+function flowRemoveCat(id) {
+  flowCats = flowCats.filter(c => c.id !== id);
+  flowRender();
+}
+function flowOpenAdd() {
+  document.getElementById('flowAddForm').classList.add('open');
+  document.getElementById('flowAddTrigger').style.display = 'none';
+  document.getElementById('flowNewName').focus();
+}
+function flowCancelAdd() {
+  document.getElementById('flowAddForm').classList.remove('open');
+  document.getElementById('flowAddTrigger').style.display = 'flex';
+  document.getElementById('flowNewName').value = '';
+  document.getElementById('flowNewAmt').value = '';
+}
 function flowSaveNew() {
   const name = document.getElementById('flowNewName').value.trim();
   const amt  = parseFloat(document.getElementById('flowNewAmt').value) || 0;
   if (!name) { document.getElementById('flowNewName').focus(); return; }
   if (amt <= 0) { document.getElementById('flowNewAmt').focus(); return; }
   flowCats.push({ id: flowNextId++, name, amt });
-  flowCancelAdd(); flowRender();
+  flowCancelAdd();
+  flowRender();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('flowNewAmt')?.addEventListener('keydown', e => { if (e.key === 'Enter') flowSaveNew(); });
+  document.getElementById('flowNewName')?.addEventListener('keydown', e => { if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); document.getElementById('flowNewAmt').focus(); } });
+});
 
 // ── LOTS ──────────────────────────────────────────────────────────────────────
 const BASE_CRC = 88700000;
@@ -1163,9 +1312,7 @@ const lots = [
 function buildLotSelect() {
   const sel = document.getElementById('lotSel');
   lots.forEach(([id]) => {
-    const o = document.createElement('option');
-    o.value = id; o.textContent = 'Lot ' + id;
-    sel.appendChild(o);
+    const o = document.createElement('option'); o.value = id; o.textContent = 'Lot ' + id; sel.appendChild(o);
   });
 }
 
@@ -1176,7 +1323,7 @@ function refreshLotTable() {
     const ann = BASE_CRC * pct, mon = ann / 12;
     const tr = document.createElement('tr');
     if (pct === 0) tr.style.opacity = '0.4';
-    tr.innerHTML = `<td style="font-weight:500;">Lot ${id}</td><td style="font-family:var(--mono);font-size:0.75rem;">${(pct*100).toFixed(3)}%</td><td style="font-family:var(--mono);color:var(--teal);font-weight:600;">${fmt(ann)}</td><td style="font-family:var(--mono);">${fmt(mon)}</td>`;
+    tr.innerHTML = `<td style="font-weight:500;">Lot ${id}</td><td style="font-family:var(--mono);font-size:0.78rem;color:var(--text-secondary);">${(pct*100).toFixed(3)}%</td><td style="font-family:var(--mono);color:var(--teal);font-weight:600;">${fmt(ann)}</td><td style="font-family:var(--mono);color:var(--text-secondary);">${fmt(mon)}</td>`;
     tb.appendChild(tr);
   });
 }
@@ -1207,9 +1354,9 @@ const accordionData = [
   { icon:'🏦', title:'Employee Benefits', code:'80010', priorMo:1048969, propMo:1157123, propAnn:13885489,
     rows:[['Social Security — 80011',636163,695155,8341864,''],['13th Month / Aguinaldo — 80012',192900,215827,2589927,''],['Vacation Pay — 80013',96527,108043,1296518,''],['Severance / Cesantía — 80014',123379,138098,1657180,'']]},
   { icon:'📋', title:'Professional Services', code:'80020', priorMo:944864, propMo:552950, propAnn:6635400,
-    rows:[['Professional Services — 80022',141850,163850,1966200,''],['Legal Services — 80023',76113,80000,960000,''],['Other Services — 80024',226311,230000,2760000,''],['Accounting / Bookkeeping — 80028',56500,79100,949200,'₡20k/mo raise requested'],['Private Security — 80029',444090,0,0,'Security system installed — no longer needed']]},
+    rows:[['Professional Services — 80022',141850,163850,1966200,''],['Legal Services — 80023',76113,80000,960000,''],['Other Services — 80024',226311,230000,2760000,''],['Accounting — 80028',56500,79100,949200,'₡20k/mo raise requested'],['Private Security — 80029',444090,0,0,'No longer needed']]},
   { icon:'🔧', title:'Maintenance', code:'80040', priorMo:1324916, propMo:1445000, propAnn:17340000,
-    rows:[['Machine Maintenance — 80057',16619,25000,300000,''],['Vehicle Maintenance — 80041',17746,50000,600000,''],['Gas & Oil — 80042',97438,105000,1260000,''],['Common Area Cleaning — 800432',18833,20000,240000,''],['Building Maintenance — 800436',264361,280000,3360000,''],['Maintenance Supplies — 800437',261970,280000,3360000,''],['Common Area Maint. (other) — 80043',28757,30000,360000,''],['Pool Maintenance — 80045',376688,395000,4740000,''],['Permaculture Garden — 80048',173896,185000,2220000,''],['First Aid Kit — 80056',9057,10000,120000,''],['Uniforms — 80059',47671,50000,600000,''],['Tolls / Peajes — 80067',11880,15000,180000,'']]},
+    rows:[['Machine Maintenance — 80057',16619,25000,300000,''],['Vehicle Maintenance — 80041',17746,50000,600000,''],['Gas & Oil — 80042',97438,105000,1260000,''],['Common Area Cleaning — 800432',18833,20000,240000,''],['Building Maintenance — 800436',264361,280000,3360000,''],['Maintenance Supplies — 800437',261970,280000,3360000,''],['Common Area Maint. — 80043',28757,30000,360000,''],['Pool Maintenance — 80045',376688,395000,4740000,''],['Permaculture Garden — 80048',173896,185000,2220000,''],['First Aid Kit — 80056',9057,10000,120000,''],['Uniforms — 80059',47671,50000,600000,''],['Tolls / Peajes — 80067',11880,15000,180000,'']]},
   { icon:'💡', title:'Utilities', code:'80050', priorMo:454507, propMo:600000, propAnn:7200000,
     rows:[['Electricity — 80051',351129,500000,6000000,'Budgeted conservatively high'],['Telephone & Internet — 80053',103377,100000,1200000,'']]},
   { icon:'🗂️', title:'Office & Meetings', code:'80080', priorMo:5125, propMo:75000, propAnn:900000,
@@ -1217,15 +1364,15 @@ const accordionData = [
   { icon:'🛡️', title:'Insurance', code:'80120', priorMo:254966, propMo:275000, propAnn:3300000,
     rows:[['Work Risk Insurance — 80121',9222,10000,120000,''],['Civil Liability — 80122',33769,40000,480000,''],['Vehicle Insurance — 80123',104623,110000,1320000,''],['Fire Insurance — 80124',107353,115000,1380000,'']]},
   { icon:'📄', title:'Taxes & Permits', code:'80130', priorMo:150342, propMo:166000, propAnn:1992000,
-    rows:[['Vehicle Taxes & Permits — 80131',25671,28000,336000,''],['Municipal Taxes — 80132',43881,46000,552000,''],['Corporation Tax — 80133',5778,12000,144000,''],['Water Taxes & Permits — 80134',73374,80000,960000,''],['Other Taxes — 80135',1639,0,0,'']]},
+    rows:[['Vehicle Taxes — 80131',25671,28000,336000,''],['Municipal Taxes — 80132',43881,46000,552000,''],['Corporation Tax — 80133',5778,12000,144000,''],['Water Taxes — 80134',73374,80000,960000,''],['Other Taxes — 80135',1639,0,0,'']]},
   { icon:'💳', title:'Financial Expenses', code:'80180', priorMo:5022, propMo:6000, propAnn:72000,
     rows:[['Bank Fees — 80183',5022,6000,72000,'']]},
   { icon:'📉', title:'Depreciation (non-cash)', code:'80190', priorMo:155916, propMo:155916, propAnn:1870990,
-    rows:[['Vehicle Depreciation — 80191',144645,144645,1735740,''],['Furniture & Equipment — 80192',4152,4152,49820,''],['Machinery & Equipment — 80194',7119,7119,85430,'']]},
+    rows:[['Vehicle Depreciation — 80191',144645,144645,1735740,''],['Furniture & Equipment — 80192',4152,4152,49820,''],['Machinery — 80194',7119,7119,85430,'']]},
   { icon:'🌿', title:'Other', code:'—', priorMo:245270, propMo:260000, propAnn:3120000,
-    rows:[['Multipurpose Court — 800170',10833,15000,180000,''],['Biodigester Maintenance — 80069',234437,245000,2940000,'']]},
+    rows:[['Multipurpose Court — 800170',10833,15000,180000,''],['Biodigester — 80069',234437,245000,2940000,'']]},
   { icon:'💰', title:'Contingency & Reserve', code:'—', priorMo:0, propMo:700000, propAnn:8400000,
-    rows:[['Contingency',0,350000,4200000,'New line for 2026–27'],['Reserve (Reserva)',0,350000,4200000,'New line for 2026–27']]}
+    rows:[['Contingency',0,350000,4200000,'New for 2026–27'],['Reserve',0,350000,4200000,'New for 2026–27']]}
 ];
 
 function buildAccordion() {
@@ -1240,7 +1387,7 @@ function buildAccordion() {
         <td style="font-family:var(--mono);color:var(--text-secondary);">${r[1]>0?fmt(r[1]):'—'}</td>
         <td style="font-family:var(--mono);color:${isZero?'var(--text-dim)':'var(--teal)'};">${isZero?'—':fmt(r[2])}</td>
         <td style="font-family:var(--mono);color:${isZero?'var(--text-dim)':'var(--teal)'};">${isZero?'—':fmt(r[3])}</td>
-        <td style="font-size:0.7rem;color:var(--text-dim);text-align:left;min-width:120px;white-space:normal;">${r[4]}</td>
+        <td style="font-size:0.72rem;color:var(--text-dim);text-align:left;max-width:180px;white-space:normal;">${r[4]}</td>
       </tr>`;
     }).join('');
     item.innerHTML = `
@@ -1251,17 +1398,17 @@ function buildAccordion() {
         </div>
         <div class="dh-right">
           <div class="dh-totals">
-            <div class="dt-item"><span class="dt-label">Prior avg/mo</span><span class="dt-val">${cat.priorMo>0?fmt(cat.priorMo):'—'}</span></div>
-            <div class="dt-item"><span class="dt-label">Proposed/mo</span><span class="dt-val">${fmt(cat.propMo)}</span></div>
-            <div class="dt-item"><span class="dt-label">Annual</span><span class="dt-val">${fmt(cat.propAnn)}</span></div>
+            <div class="dt-item"><span class="dt-label">Prior avg/mo</span><span class="dt-val" data-crc="${cat.priorMo}">${cat.priorMo>0?fmt(cat.priorMo):'—'}</span></div>
+            <div class="dt-item"><span class="dt-label">Proposed/mo</span><span class="dt-val" data-crc="${cat.propMo}">${fmt(cat.propMo)}</span></div>
+            <div class="dt-item"><span class="dt-label">Annual</span><span class="dt-val" data-crc="${cat.propAnn}">${fmt(cat.propAnn)}</span></div>
           </div>
           <div class="dh-toggle">▾</div>
         </div>
       </div>
       <div class="detail-body">
-        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <div style="overflow-x:auto;">
           <table>
-            <thead><tr><th>Line Item</th><th>Prior Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
+            <thead><tr><th>Line Item</th><th>Prior Avg/mo</th><th>Proposed/mo</th><th>Annual</th><th>Notes</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
         </div>
@@ -1270,7 +1417,9 @@ function buildAccordion() {
   });
 }
 
-function toggleAccordion(header) { header.parentElement.classList.toggle('open'); }
+function toggleAccordion(header) {
+  header.parentElement.classList.toggle('open');
+}
 
 // ── RADIAL BARS ───────────────────────────────────────────────────────────────
 const barData = [
@@ -1292,9 +1441,7 @@ function buildRadialBars() {
   container.innerHTML = barData.map(b => `
     <div class="radial-bar-item">
       <div class="rb-label">${b.label}</div>
-      <div class="rb-track">
-        <div class="rb-fill" style="width:${b.pct*100}%;background:linear-gradient(90deg,${b.color},${b.color}88);position:relative;"></div>
-      </div>
+      <div class="rb-track"><div class="rb-fill" style="width:${b.pct*100}%;background:linear-gradient(90deg,${b.color},${b.color}88);"></div></div>
       <div class="rb-val">${fmt(b.crc)}</div>
       <div class="rb-pct">${(b.pct*100).toFixed(1)}%</div>
     </div>`).join('');
@@ -1304,15 +1451,6 @@ function buildRadialBars() {
 let donutChartInst, barChartInst, incomeChartInst;
 
 function buildCharts() {
-  const commonTooltip = {
-    backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)',
-    borderWidth:1, titleColor:'#00e5c3', bodyColor:'#a0c8c3'
-  };
-  const commonScales = {
-    x:{ ticks:{color:'rgba(160,200,195,0.55)',font:{size:10}}, grid:{color:'rgba(255,255,255,0.04)'} },
-    y:{ ticks:{color:'rgba(160,200,195,0.45)',font:{size:10}}, grid:{color:'rgba(255,255,255,0.04)'} }
-  };
-
   const dCtx = document.getElementById('donutChart');
   if (dCtx && !donutChartInst) {
     donutChartInst = new Chart(dCtx, {
@@ -1324,7 +1462,11 @@ function buildCharts() {
           borderColor:'#080f12', borderWidth:3, hoverOffset:8 }]
       },
       options: { responsive:true, maintainAspectRatio:false, cutout:'68%',
-        plugins:{ legend:{display:false}, tooltip:{...commonTooltip, callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.raw}%` }}}}
+        plugins:{ legend:{display:false}, tooltip:{
+          backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)', borderWidth:1,
+          titleColor:'#00e5c3', bodyColor:'#a0c8c3',
+          callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.raw}%` }
+        }}}
     });
   }
 
@@ -1340,8 +1482,11 @@ function buildCharts() {
         ]
       },
       options: { responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{display:false}, tooltip:{...commonTooltip, callbacks:{ label: ctx => ` ${ctx.dataset.label}: ₡${ctx.raw.toLocaleString()}k` }}},
-        scales:{ x:{...commonScales.x, ticks:{...commonScales.x.ticks,font:{size:9},autoSkip:false}}, y:{...commonScales.y, ticks:{...commonScales.y.ticks,callback:v=>'₡'+v+'k'}, title:{display:true,text:'₡ thousands/month',color:'rgba(160,200,195,0.35)',font:{size:9}}} }
+        plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)', borderWidth:1, titleColor:'#00e5c3', bodyColor:'#a0c8c3', callbacks:{ label: ctx => ` ${ctx.dataset.label}: ₡${ctx.raw.toLocaleString()}k` } }},
+        scales:{
+          x:{ ticks:{color:'rgba(160,200,195,0.55)',font:{size:10},autoSkip:true,maxRotation:45}, grid:{color:'rgba(255,255,255,0.04)'} },
+          y:{ ticks:{color:'rgba(160,200,195,0.45)',font:{size:10},callback:v=>'₡'+v+'k'}, grid:{color:'rgba(255,255,255,0.04)'} }
+        }
       }
     });
   }
@@ -1354,12 +1499,15 @@ function buildCharts() {
     incomeChartInst = new Chart(iCtx, {
       type: 'line',
       data: { labels:months, datasets:[
-        { label:'HOA Income', data:income, borderColor:'#00e5c3', backgroundColor:'rgba(0,229,195,0.08)', borderWidth:2, pointBackgroundColor:'#00e5c3', pointRadius:4, tension:0.4, fill:true },
-        { label:'Operating Spend', data:spend, borderColor:'#ffb740', backgroundColor:'rgba(255,183,64,0.06)', borderWidth:2, pointBackgroundColor:'#ffb740', pointRadius:4, tension:0.4, fill:true }
+        { label:'HOA Income', data:income, borderColor:'#00e5c3', backgroundColor:'rgba(0,229,195,0.08)', borderWidth:2, pointBackgroundColor:'#00e5c3', pointRadius:3, tension:0.4, fill:true },
+        { label:'Operating Spend', data:spend, borderColor:'#ffb740', backgroundColor:'rgba(255,183,64,0.06)', borderWidth:2, pointBackgroundColor:'#ffb740', pointRadius:3, tension:0.4, fill:true }
       ]},
       options:{ responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{display:false}, tooltip:{...commonTooltip, callbacks:{ label: ctx => ` ${ctx.dataset.label}: ₡${ctx.raw.toLocaleString()}k` }}},
-        scales:{...commonScales, y:{...commonScales.y, ticks:{...commonScales.y.ticks,callback:v=>'₡'+v+'k'}}}
+        plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)', borderWidth:1, titleColor:'#00e5c3', bodyColor:'#a0c8c3', callbacks:{ label: ctx => ` ${ctx.dataset.label}: ₡${ctx.raw.toLocaleString()}k` } }},
+        scales:{
+          x:{ ticks:{color:'rgba(160,200,195,0.55)',font:{size:10}}, grid:{color:'rgba(255,255,255,0.04)'} },
+          y:{ ticks:{color:'rgba(160,200,195,0.45)',font:{size:10},callback:v=>'₡'+v+'k'}, grid:{color:'rgba(255,255,255,0.04)'} }
+        }
       }
     });
   }
@@ -1376,13 +1524,12 @@ function initParticles() {
     return { x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*0.4, vy:-Math.random()*0.6-0.2, size:Math.random()*2+0.5, alpha:Math.random()*0.5+0.1, color:Math.random()>0.5?'#00e5c3':'#00bfff' };
   }
   resize();
-  for (let i=0;i<50;i++) particles.push(makeParticle());
+  for (let i=0;i<60;i++) particles.push(makeParticle());
   window.addEventListener('resize', resize);
   function animate() {
     if (!canvas.isConnected) return;
     ctx.clearRect(0,0,W,H);
-    particles.forEach((p,i) => {
-      p.x+=p.vx; p.y+=p.vy; p.alpha-=0.0008;
+    particles.forEach((p,i)=>{ p.x+=p.vx; p.y+=p.vy; p.alpha-=0.0008;
       if (p.y<-10||p.alpha<=0) particles[i]=makeParticle();
       ctx.save(); ctx.globalAlpha=p.alpha; ctx.fillStyle=p.color;
       ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.restore();
@@ -1392,7 +1539,7 @@ function initParticles() {
   animate();
 }
 
-// ── CURSOR GLOW (desktop only) ────────────────────────────────────────────────
+// ── CURSOR GLOW ───────────────────────────────────────────────────────────────
 function initCursor() {
   const glow = document.getElementById('cursor-glow');
   if (!glow) return;
@@ -1406,7 +1553,7 @@ function initCursor() {
 function initReveal() {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible'); obs.unobserve(e.target);} });
-  }, { threshold:0.08 });
+  }, { threshold:0.06 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 
@@ -1421,34 +1568,7 @@ function initNav() {
       if (t) t.scrollIntoView({ behavior:'smooth' });
     });
   });
-  // Update active nav on scroll
-  const sections = ['hero','flow','base','detailed','actuals','proposals','lots'];
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        document.querySelectorAll('nav a').forEach(a => {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
-        });
-      }
-    });
-  }, { threshold: 0.4 });
-  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
 }
-
-// ── KEYBOARD ──────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPw(); });
-  document.getElementById('pwInput').focus();
-  document.addEventListener('keydown', e => {
-    if (document.getElementById('flowAddForm').classList.contains('open')) {
-      if (e.key === 'Escape') flowCancelAdd();
-      if (e.key === 'Enter' && e.target.id === 'flowNewAmt') flowSaveNew();
-    }
-  });
-  document.getElementById('flowNewName').addEventListener('keydown', e => {
-    if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); document.getElementById('flowNewAmt').focus(); }
-  });
-});
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 function init() {
@@ -1462,6 +1582,8 @@ function init() {
   initNav();
   fetchRates().then(() => { buildCharts(); });
   setTimeout(buildCharts, 500);
+  // Re-render flow on resize (switches between mobile sankey and desktop SVG)
+  window.addEventListener('resize', () => { flowRender(); });
 }
 </script>
 </body>
