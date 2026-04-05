@@ -6,7 +6,11 @@
 <title>LEV Eco Village · HOA Budget 2026–2027</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════ */
 :root {
+  /* colors */
   --ink: #050b0e;
   --void: #080f12;
   --glass: rgb(10, 24, 30);
@@ -15,8 +19,8 @@
   --glass-border-bright: rgba(255,255,255,0.14);
   --teal: #00e5c3;
   --teal-dim: #00c4a7;
-  --teal-glow: rgba(0, 229, 195, 0.34);
-  --teal-deep: rgba(0, 229, 195, 0.25);
+  --teal-glow: rgba(0, 229, 195, 0.483);
+  --teal-deep: rgba(0, 229, 195, 0.398);
   --cyan: #00bfff;
   --cyan-glow: rgba(0, 191, 255, 0.294);
   --emerald: #00ff88;
@@ -27,16 +31,23 @@
   --red-glow: rgba(255,77,109,0.15);
   --purple: #a855f7;
   --purple-glow: rgba(168,85,247,0.12);
-  --text-primary: rgb(220, 240, 235);
-  --text-secondary: rgb(160, 200, 195);
+  --text-primary: rgb(174, 237, 221);
+  --text-secondary: rgb(139, 201, 194);
   --text-dim: rgb(136, 235, 223);
+  /* typography */
   --mono: 'JetBrains Mono', monospace;
   --display: 'Syne', sans-serif;
   --body: 'Space Grotesk', sans-serif;
+  /* safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* UNIFIED BREAKPOINTS (used via JS matchMedia too) */
+  /* xs < 480  sm 480–639  md 640–899  lg 900+ */
 }
 
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -49,15 +60,21 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   BACKGROUNDS
+   ═══════════════════════════════════════════════════════════ */
 .bg-canvas {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,229,195,0.055) 0%, transparent 60%),
-              radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0,191,255,0.04) 0%, transparent 60%),
-              radial-gradient(ellipse 50% 50% at 50% 50%, rgba(10,20,25,1) 0%, #050b0e 100%);
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,229,195,0.055) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0,191,255,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(10,20,25,1) 0%, #050b0e 100%);
 }
 .bg-grid {
   position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.35;
-  background-image: linear-gradient(rgba(0,229,195,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,195,0.07) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(0,229,195,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,195,0.07) 1px, transparent 1px);
   background-size: 60px 60px;
   animation: gridShift 30s linear infinite;
 }
@@ -78,7 +95,9 @@ body {
 }
 @media (pointer: coarse) { #cursor-glow { display: none; } }
 
-/* ── GATE ── */
+/* ═══════════════════════════════════════════════════════════
+   GATE
+   ═══════════════════════════════════════════════════════════ */
 #gate {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
@@ -116,8 +135,7 @@ body {
   width: 100%; padding: 0.85rem 1.2rem; background: rgba(0,0,0,0.4);
   border: 1px solid var(--glass-border-bright); border-radius: 12px; color: var(--text-primary);
   font-family: var(--mono); font-size: 1rem; text-align: center; letter-spacing: 0.2em; outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none;
+  transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none;
 }
 .gate-input:focus { border-color: rgba(0,229,195,0.5); box-shadow: 0 0 0 3px rgba(0,229,195,0.08), 0 0 20px rgba(0,229,195,0.1); }
 .gate-input.error { border-color: rgba(255,77,109,0.6); animation: shake 0.35s ease; }
@@ -132,34 +150,41 @@ body {
 .gate-btn:hover { background: linear-gradient(135deg, rgba(0,229,195,0.25), rgba(0,191,255,0.15)); box-shadow: 0 0 30px rgba(0,229,195,0.2); }
 .gate-err { margin-top: 0.75rem; color: var(--red); font-size: 0.78rem; min-height: 1.2em; }
 
-/* ── APP ── */
+/* ═══════════════════════════════════════════════════════════
+   APP SHELL
+   ═══════════════════════════════════════════════════════════ */
 #app { display: none; position: relative; z-index: 2; }
 
-/* ── NAV ── */
+/* ═══════════════════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════════════════ */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: rgba(5,11,14,0.92); backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--glass-border);
-  display: flex; align-items: center; gap: 0; padding: 0 clamp(0.75rem, 3vw, 2rem);
+  display: flex; align-items: center;
+  padding: 0 clamp(0.5rem, 2vw, 2rem);
   overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 nav::-webkit-scrollbar { display: none; }
 .nav-brand {
-  font-family: var(--display); font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 800; color: var(--teal);
-  letter-spacing: -0.01em; padding: 0.9rem 1rem 0.9rem 0;
-  border-right: 1px solid var(--glass-border); margin-right: 0.5rem; white-space: nowrap;
+  font-family: var(--display); font-size: clamp(0.8rem, 2vw, 1rem); font-weight: 800; color: var(--teal);
+  letter-spacing: -0.01em; padding: 0.9rem clamp(0.5rem, 1.5vw, 1rem) 0.9rem 0;
+  border-right: 1px solid var(--glass-border); margin-right: 0.25rem; white-space: nowrap;
   text-shadow: 0 0 20px rgba(0,229,195,0.4); flex-shrink: 0;
 }
 nav a {
   color: var(--text-secondary); text-decoration: none;
-  font-size: clamp(0.65rem, 1.5vw, 0.73rem); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
-  padding: 1rem clamp(0.55rem, 1.5vw, 0.9rem); border-bottom: 2px solid transparent;
+  font-size: clamp(0.6rem, 1.4vw, 0.73rem); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 1rem clamp(0.4rem, 1.2vw, 0.9rem); border-bottom: 2px solid transparent;
   transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
 nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal); text-shadow: 0 0 12px rgba(0,229,195,0.3); }
 
-/* ── CURRENCY BAR ── */
+/* ═══════════════════════════════════════════════════════════
+   CURRENCY BAR
+   ═══════════════════════════════════════════════════════════ */
 .currency-bar {
   background: rgba(5,11,14,0.6); border-bottom: 1px solid var(--glass-border);
   padding: 0.5rem clamp(0.75rem, 3vw, 2rem);
@@ -177,7 +202,9 @@ nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal)
 .rate-info { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); }
 .rate-info .rate-val { color: var(--teal); }
 
-/* ── HERO ── */
+/* ═══════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════ */
 .hero {
   min-height: clamp(60vh, 85vh, 92vh);
   display: flex; flex-direction: column;
@@ -186,13 +213,13 @@ nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal)
   text-align: center; position: relative; overflow: hidden;
 }
 .hero-eyebrow {
-  font-family: var(--mono); font-size: clamp(0.6rem, 1.8vw, 0.7rem); letter-spacing: 0.15em; color: var(--teal); text-transform: uppercase;
+  font-family: var(--mono); font-size: clamp(0.58rem, 1.8vw, 0.7rem); letter-spacing: 0.15em; color: var(--teal); text-transform: uppercase;
   background: rgba(0,229,195,0.08); border: 1px solid rgba(0,229,195,0.2);
   border-radius: 100px; padding: 0.35rem clamp(0.6rem, 2vw, 1rem); margin-bottom: 1.5rem; display: inline-block;
   animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .hero-title {
-  font-family: var(--display); font-size: clamp(2.2rem, 10vw, 6rem); font-weight: 800;
+  font-family: var(--display); font-size: clamp(2.2rem, 8vw, 6rem); font-weight: 800;
   line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 1.25rem;
   animation: fadeUp 1s 0.35s cubic-bezier(0.16,1,0.3,1) both;
 }
@@ -209,34 +236,33 @@ nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal)
   animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) both;
   padding: 0 0.5rem;
 }
+
+/* HERO STATS — 1 col → 2 col at 480px */
 .hero-stats {
   display: grid;
-  position: relative;
-  height: auto;
-  overflow: visible;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: clamp(0.6rem, 2vw, 1.2rem);
   width: 100%; max-width: 700px;
   animation: fadeUp 1s 0.65s cubic-bezier(0.16,1,0.3,1) both;
 }
-@media (min-width: 640px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 480px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+
 .hstat {
   background: var(--glass); border: 1px solid var(--glass-border-bright);
-  min-width: 0;
   border-radius: 14px; padding: clamp(0.8rem, 2.5vw, 1.2rem) clamp(0.8rem, 2.5vw, 1.5rem);
-  backdrop-filter: blur(10px); position: relative; overflow: visible;
+  backdrop-filter: blur(10px); position: relative; overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .hstat:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px var(--teal-glow); }
 .hstat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--teal), transparent); opacity: 0.6; }
 .hstat-label { font-size: clamp(0.55rem, 1.5vw, 0.65rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.35rem; }
 .hstat-val { font-family: var(--display); font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 800; line-height: 1; color: var(--teal); text-shadow: 0 0 20px rgba(0,229,195,0.3); }
-.hstat-sub { font-size: clamp(0.58rem, 1.5vw, 0.7rem); white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word; color: var(--text-dim); margin-top: 0.2rem; }
+.hstat-sub { font-size: clamp(0.58rem, 1.5vw, 0.7rem); color: var(--text-dim); margin-top: 0.2rem; line-height: 1.4; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── SECTIONS ── */
+/* ═══════════════════════════════════════════════════════════
+   SECTIONS & CONTAINER
+   ═══════════════════════════════════════════════════════════ */
 section { padding: clamp(2.5rem, 6vw, 5rem) 0; position: relative; }
 section + section { border-top: 1px solid var(--glass-border); }
 .container { max-width: 1140px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
@@ -244,91 +270,138 @@ section + section { border-top: 1px solid var(--glass-border); }
 .section-title { font-family: var(--display); font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.1; }
 .section-desc { color: var(--text-secondary); font-size: clamp(0.82rem, 2vw, 0.9rem); max-width: 580px; line-height: 1.7; margin-bottom: 2rem; }
 
-/* ── GLASS CARD ── */
-.glass-card { background: var(--glass); border: 190px solid var(--glass-border-bright); border-radius: 20px; backdrop-filter: blur(20px); position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
-.glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); }
-.glass-card:hover { transform: translateY(-2px); }
-
-/* ── STAT CARDS ── */
+/* ═══════════════════════════════════════════════════════════
+   STAT CARDS — unified responsive grid
+   1 col (xs) → 2 col (sm 480+) → 2 col (md 640+) → 4 col (lg 900+ only where needed)
+   ═══════════════════════════════════════════════════════════ */
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: clamp(0.6rem, 2vw, 1rem);
   margin-bottom: 2rem;
 }
-@media (min-width: 640px) { .summary-grid { grid-template-columns: repeat(1, 1fr); } }
-@media (min-width: 900px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
-.stat-card { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 16px; padding: clamp(1rem, 3vw, 1.4rem) clamp(1rem, 3vw, 1.6rem); position: relative; overflow: hidden; transition: all 0.3s; }
+@media (min-width: 480px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.stat-card {
+  background: var(--glass); border: 1px solid var(--glass-border-bright);
+  border-radius: 16px; padding: clamp(1rem, 3vw, 1.4rem) clamp(1rem, 3vw, 1.6rem);
+  position: relative; overflow: hidden; transition: all 0.3s;
+}
 .stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
-.stat-card.teal::after { background: linear-gradient(90deg, var(--teal), var(--cyan)); }
-.stat-card.amber::after { background: linear-gradient(90deg, var(--amber), #ff8c40); }
-.stat-card.red::after { background: linear-gradient(90deg, var(--red), #ff8080); }
+.stat-card.teal::after   { background: linear-gradient(90deg, var(--teal), var(--cyan)); }
+.stat-card.amber::after  { background: linear-gradient(90deg, var(--amber), #ff8c40); }
+.stat-card.red::after    { background: linear-gradient(90deg, var(--red), #ff8080); }
 .stat-card.purple::after { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
-.stat-card.emerald::after { background: linear-gradient(90deg, var(--emerald), var(--teal)); }
+.stat-card.emerald::after{ background: linear-gradient(90deg, var(--emerald), var(--teal)); }
 .stat-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
 .sc-label { font-size: clamp(0.58rem, 1.5vw, 0.65rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem; }
-.sc-val { font-family: var(--display); font-size: clamp(1.2rem, 4vw, 1.7rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.25rem; }
-.sc-val.teal { color: var(--teal); }
-.sc-val.amber { color: var(--amber); }
-.sc-val.red { color: var(--red); }
-.sc-val.emerald { color: var(--emerald); }
+.sc-val { font-family: var(--display); font-size: clamp(1.1rem, 3.5vw, 1.7rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.25rem; }
+.sc-val.teal   { color: var(--teal); }
+.sc-val.amber  { color: var(--amber); }
+.sc-val.red    { color: var(--red); }
+.sc-val.emerald{ color: var(--emerald); }
 .sc-note { font-size: clamp(0.62rem, 1.5vw, 0.7rem); color: var(--text-dim); line-height: 1.5; }
 
-/* ── TABLE ── */
+/* ═══════════════════════════════════════════════════════════
+   TABLES
+   ═══════════════════════════════════════════════════════════ */
 .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--glass-border); -webkit-overflow-scrolling: touch; }
-table { width: 100%; border-collapse: collapse; min-width: 480px; }
-thead th { background: rgba(0,229,195,0.05); color: var(--teal); font-size: clamp(0.58rem, 1.5vw, 0.65rem); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem clamp(0.6rem, 2vw, 1rem); text-align: right; border-bottom: 1px solid var(--glass-border); white-space: nowrap; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  background: rgba(0,229,195,0.05); color: var(--teal);
+  font-size: clamp(0.55rem, 1.3vw, 0.65rem); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.85rem clamp(0.5rem, 1.5vw, 1rem); text-align: right;
+  border-bottom: 1px solid var(--glass-border); white-space: nowrap;
+}
 thead th:first-child { text-align: left; }
 tbody tr { border-bottom: 1px solid rgba(255,255,255,0.035); transition: background 0.15s; }
 tbody tr:last-child { border-bottom: none; }
 tbody tr:hover { background: rgba(0,229,195,0.03); }
-td { padding: clamp(0.5rem, 1.5vw, 0.65rem) clamp(0.6rem, 2vw, 1rem); font-size: clamp(0.75rem, 2vw, 0.82rem); text-align: right; white-space: nowrap; color: var(--text-primary); }
+td {
+  padding: clamp(0.45rem, 1.2vw, 0.65rem) clamp(0.5rem, 1.5vw, 1rem);
+  font-size: clamp(0.72rem, 1.8vw, 0.82rem); text-align: right;
+  white-space: nowrap; color: var(--text-primary);
+}
 td:first-child { text-align: left; color: var(--text-secondary); }
-td.hl { font-weight: 600; color: var(--teal); font-family: var(--mono); }
-td.amber { color: var(--amber); font-family: var(--mono); }
-td.red { color: var(--red); font-family: var(--mono); }
-td.green { color: var(--emerald); font-family: var(--mono); }
-td.muted { color: var(--text-dim); font-style: italic; font-size: 0.75rem; }
-.total-row td { background: rgba(0,229,195,0.06); color: var(--teal); font-weight: 700; font-size: clamp(0.75rem, 2vw, 0.85rem); font-family: var(--mono); }
+td.hl   { font-weight: 600; color: var(--teal); font-family: var(--mono); }
+td.amber{ color: var(--amber); font-family: var(--mono); }
+td.red  { color: var(--red); font-family: var(--mono); }
+td.green{ color: var(--emerald); font-family: var(--mono); }
+td.muted{ color: var(--text-dim); font-style: italic; font-size: 0.75rem; }
+.total-row td { background: rgba(0,229,195,0.06); color: var(--teal); font-weight: 700; font-size: clamp(0.72rem, 1.8vw, 0.85rem); font-family: var(--mono); }
 
-/* ── ACCORDION ── */
+/* ═══════════════════════════════════════════════════════════
+   ACCORDION
+   ═══════════════════════════════════════════════════════════ */
 .detail-accordion { display: flex; flex-direction: column; gap: 0.75rem; }
 .detail-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; overflow: hidden; }
-.detail-header { display: flex; align-items: center; justify-content: space-between; padding: clamp(0.75rem, 2.5vw, 1rem) clamp(0.75rem, 2.5vw, 1.3rem); cursor: pointer; transition: background 0.2s; gap: 0.75rem; -webkit-tap-highlight-color: transparent; }
+.detail-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: clamp(0.75rem, 2.5vw, 1rem) clamp(0.75rem, 2.5vw, 1.3rem);
+  cursor: pointer; transition: background 0.2s; gap: 0.5rem;
+  -webkit-tap-highlight-color: transparent;
+}
 .detail-header:hover { background: rgba(0,229,195,0.04); }
-.dh-left { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
-.dh-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
-.dh-name { font-size: clamp(0.8rem, 2vw, 0.85rem); font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dh-code { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); }
-.dh-right { display: flex; align-items: center; gap: clamp(0.6rem, 2vw, 1.5rem); flex-shrink: 0; }
-.dh-totals { display: flex; gap: clamp(0.6rem, 2vw, 1.5rem); flex-wrap: wrap; }
+.dh-left { display: flex; align-items: center; gap: 0.5rem; min-width: 0; flex: 1; }
+.dh-icon {
+  width: 30px; height: 30px; flex-shrink: 0;
+  border-radius: 8px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+}
+.dh-name { font-size: clamp(0.78rem, 2vw, 0.85rem); font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dh-code { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); }
+.dh-right { display: flex; align-items: center; gap: clamp(0.5rem, 1.5vw, 1.2rem); flex-shrink: 0; }
+.dh-totals { display: flex; gap: clamp(0.5rem, 1.5vw, 1.2rem); }
+/* hide "prior" column in accordion on xs screens */
+@media (max-width: 479px) { .dh-totals .dt-item:first-child { display: none; } }
 .dt-item { text-align: right; }
-.dt-label { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); display: block; }
-.dt-val { font-family: var(--mono); font-size: clamp(0.78rem, 2vw, 0.9rem); color: var(--teal); font-weight: 400; }
-.dh-toggle { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-dim); flex-shrink: 0; transition: transform 0.3s, background 0.2s; }
+.dt-label { font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); display: block; }
+.dt-val { font-family: var(--mono); font-size: clamp(0.75rem, 1.8vw, 0.88rem); color: var(--teal); font-weight: 400; }
+.dh-toggle {
+  width: 24px; height: 24px; flex-shrink: 0;
+  border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: var(--text-dim);
+  transition: transform 0.3s, background 0.2s;
+}
 .detail-item.open .dh-toggle { transform: rotate(180deg); background: rgba(0,229,195,0.1); color: var(--teal); }
 .detail-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); border-top: 0 solid var(--glass-border); }
-.detail-item.open .detail-body { max-height: 800px; border-top-width: 1px; }
+.detail-item.open .detail-body { max-height: 900px; border-top-width: 1px; }
 
-/* Mobile: hide prior column on accordion */
-@media (max-width: 540px) {
-  .dh-totals .dt-item:first-child { display: none; }
+/* ═══════════════════════════════════════════════════════════
+   PROPOSALS — 1 col → 2 col (480+) → 3 col (820+)
+   ═══════════════════════════════════════════════════════════ */
+.proposals-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
-
-/* ── PROPOSALS ── */
-.proposals-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-@media (min-width: 520px) { .proposals-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 480px) { .proposals-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 820px) { .proposals-grid { grid-template-columns: repeat(3, 1fr); } }
-.proposal-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px; padding: clamp(1.1rem, 3vw, 1.6rem); position: relative; overflow: hidden; transition: all 0.3s; }
-.proposal-card::before { content: ''; position: absolute; inset: 0; border-radius: 18px; background: linear-gradient(135deg, rgba(255,183,64,0.05) 0%, transparent 60%); pointer-events: none; }
+
+.proposal-card {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 18px; padding: clamp(1.1rem, 3vw, 1.6rem);
+  position: relative; overflow: hidden; transition: all 0.3s;
+}
+.proposal-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,183,64,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
 .proposal-card:hover { transform: translateY(-4px); border-color: rgba(255,183,64,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--amber-glow); }
-.p-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
-.p-title { font-size: clamp(0.9rem, 2.5vw, 1rem); font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.p-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; flex-shrink: 0; }
+.p-title { font-size: clamp(0.88rem, 2.5vw, 1rem); font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
 .p-desc { font-size: clamp(0.75rem, 2vw, 0.8rem); color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
 .p-badge { display: inline-block; padding: 0.28rem 0.7rem; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.3); border-radius: 100px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber); }
 
-/* ── LOT CALC ── */
-.lot-calc { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; }
+/* ═══════════════════════════════════════════════════════════
+   LOT CALCULATOR
+   ═══════════════════════════════════════════════════════════ */
+.lot-calc {
+  background: var(--glass); border: 1px solid var(--glass-border-bright);
+  border-radius: 20px; padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem;
+}
 .lot-select-wrap { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
 .lot-select-label { font-size: 0.8rem; color: var(--text-secondary); }
 select {
@@ -341,260 +414,231 @@ select {
   padding-right: 2.2rem;
 }
 select:focus { border-color: rgba(0,229,195,0.4); }
-.lot-result-panel { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
-@media (min-width: 480px) { .lot-result-panel { grid-template-columns: repeat(4, 1fr); } }
+
+/* Lot result panel: 2 col → 4 col at 480px */
+.lot-result-panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+@media (min-width: 480px) { .lot-result-panel { grid-template-columns: repeat(2, 1fr); } }
 .lot-result-panel.visible { opacity: 1; transform: translateY(0); }
 .lr-item { background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.15); border-radius: 12px; padding: clamp(0.75rem, 2vw, 1rem) clamp(0.75rem, 2vw, 1.2rem); }
 .lr-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.35rem; }
-.lr-val { font-family: var(--display); font-size: clamp(1.1rem, 3vw, 1.5rem); font-weight: 800; color: var(--teal); }
+.lr-val { font-family: var(--display); font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 800; color: var(--teal); }
 
-/* ── CHART WRAP ── */
-.chart-wrap { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; position: relative; }
-.chart-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); pointer-events: none; }
+/* ═══════════════════════════════════════════════════════════
+   CHART WRAP
+   ═══════════════════════════════════════════════════════════ */
+.chart-wrap {
+  background: var(--glass); border: 1px solid var(--glass-border-bright);
+  border-radius: 20px; padding: clamp(1.2rem, 3vw, 2rem); margin-bottom: 2rem; position: relative;
+}
+.chart-wrap::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent);
+  pointer-events: none;
+}
 .chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
-.chart-title { font-family: var(--display); font-size: clamp(0.95rem, 2.5vw, 1.1rem); font-weight: 700; color: var(--text-primary); }
+.chart-title { font-family: var(--display); font-size: clamp(0.92rem, 2.5vw, 1.1rem); font-weight: 700; color: var(--text-primary); }
 .chart-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem; }
 
-/* ── DONUT + BAR GRID ── */
+/* Charts two-col: stacked → side by side at 900px */
 .charts-two-col {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
 }
-@media (min-width: 920px) {
-  .charts-two-col { grid-template-columns: 1fr 1fr; align-items: start; }
-}
+@media (min-width: 900px) { .charts-two-col { grid-template-columns: 1fr ; align-items: center; } }
 
-/* ── RADIAL BARS ── */
-.radial-bar-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem;flex-wrap: wrap; }
-.rb-label { width: clamp(110px, 25vw, 180px); min-width: clamp(90px, 18vw, 130px); font-size: clamp(0.68rem, 1.8vw, 0.78rem); color: var(--text-secondary); text-align: right; line-height: 1.3; }
-.rb-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; position: relative; }
+/* ═══════════════════════════════════════════════════════════
+   RADIAL BARS
+   ═══════════════════════════════════════════════════════════ */
+.radial-bar-item {
+  display: flex; align-items: center; gap: clamp(0.4rem, 1.5vw, 0.75rem);
+  margin-bottom: clamp(0.6rem, 1.5vw, 0.9rem); flex-wrap: wrap;
+}
+.rb-label {
+  /* fluid width: fills space on xs, fixed on larger */
+  width: clamp(90px, 22vw, 180px);
+  min-width: 0;
+  font-size: clamp(0.65rem, 1.6vw, 0.78rem); color: var(--text-secondary);
+  text-align: right; line-height: 1.3; flex-shrink: 0;
+}
+@media (max-width: 479px) { .rb-label { width: 100%; text-align: left; } }
+.rb-track { flex: 1; min-width: 60px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; position: relative; }
 .rb-fill { height: 100%; border-radius: 3px; position: relative; animation: barGrow 1.5s cubic-bezier(0.16,1,0.3,1) both; }
 @keyframes barGrow { from { width: 0 !important; } }
 .rb-fill::after { content: ''; position: absolute; right: 0; top: -3px; width: 12px; height: 12px; border-radius: 50%; background: inherit; filter: brightness(1.5); box-shadow: 0 0 8px currentColor; }
-.rb-val { width: clamp(72px, 15vw, 100px); font-family: var(--mono); font-size: clamp(0.64rem, 1.6vw, 0.73rem); color: var(--text-secondary); text-align: right; }
-.rb-pct { width: 40px; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); text-align: right; }
+.rb-val { font-family: var(--mono); font-size: clamp(0.62rem, 1.4vw, 0.73rem); color: var(--text-secondary); text-align: right; min-width: 0; white-space: nowrap; }
+.rb-pct { width: 40px; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); text-align: right; flex-shrink: 0; }
+/* On xs, stack label on its own row */
+@media (max-width: 479px) {
+  .radial-bar-item { flex-wrap: wrap; }
+  .rb-label { width: 100%; text-align: left; margin-bottom: 0.2rem; }
+  .rb-track { order: 2; }
+  .rb-val   { order: 3; }
+  .rb-pct   { order: 4; }
+}
 
-/* ── LEGEND ── */
-.legend { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; margin-bottom: 1.25rem; }
-.legend-item { display: flex; align-items: center; gap: 6px; font-size: clamp(0.65rem, 1.6vw, 0.72rem); color: var(--text-secondary); }
+/* ═══════════════════════════════════════════════════════════
+   LEGEND
+   ═══════════════════════════════════════════════════════════ */
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; margin-bottom: 1.25rem; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: clamp(0.62rem, 1.5vw, 0.72rem); color: var(--text-secondary); }
 .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 
-/* ── PERIOD TAGS ── */
+/* ═══════════════════════════════════════════════════════════
+   PERIOD TAGS
+   ═══════════════════════════════════════════════════════════ */
 .period-wrap { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-.period-tag { font-size: clamp(0.62rem, 1.6vw, 0.68rem); font-weight: 500; letter-spacing: 0.05em; padding: 0.28rem 0.7rem; border-radius: 6px; }
+.period-tag { font-size: clamp(0.6rem, 1.5vw, 0.68rem); font-weight: 500; letter-spacing: 0.05em; padding: 0.28rem 0.7rem; border-radius: 6px; }
 .period-prior { background: rgba(255,183,64,0.1); color: var(--amber); border: 1px solid rgba(255,183,64,0.25); }
-.period-prop { background: rgba(0,229,195,0.08); color: var(--teal); border: 1px solid rgba(0,229,195,0.2); }
+.period-prop  { background: rgba(0,229,195,0.08); color: var(--teal); border: 1px solid rgba(0,229,195,0.2); }
 
-/* ── NOTICE ── */
-.notice { background: rgba(255,183,64,0.07); border: 1px solid rgba(255,183,64,0.2); border-radius: 12px; padding: 0.85rem 1.2rem; font-size: clamp(0.75rem, 2vw, 0.82rem); color: rgba(255,183,64,0.85); line-height: 1.6; margin-bottom: 1.75rem; }
+/* ═══════════════════════════════════════════════════════════
+   NOTICE
+   ═══════════════════════════════════════════════════════════ */
+.notice {
+  background: rgba(255,183,64,0.07); border: 1px solid rgba(255,183,64,0.2);
+  border-radius: 12px; padding: 0.85rem 1.2rem;
+  font-size: clamp(0.72rem, 1.8vw, 0.82rem); color: rgba(255,183,64,0.85); line-height: 1.6; margin-bottom: 1.75rem;
+}
 
-/* ── ACTUALS indicators ── */
+/* ═══════════════════════════════════════════════════════════
+   ACTUALS CHANGE INDICATORS
+   ═══════════════════════════════════════════════════════════ */
 .change-up { color: var(--red); font-size: 0.72rem; }
 .change-dn { color: var(--emerald); font-size: 0.72rem; }
 .change-nt { color: var(--text-dim); font-size: 0.72rem; }
 
-/* ── FOOTER ── */
-footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-border); padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem); text-align: center; padding-bottom: calc(clamp(2rem, 5vw, 3rem) + var(--safe-bottom)); }
-.footer-brand { font-family: var(--display); font-size: 1.2rem; font-weight: 800; color: var(--teal); margin-bottom: 0.5rem; }
-.footer-sub { font-size: clamp(0.68rem, 1.8vw, 0.75rem); color: var(--text-dim); line-height: 1.8; }
-
-/* ── SCROLL REVEAL ── */
+/* ═══════════════════════════════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════════════════════════════ */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1); }
 .reveal.visible { opacity: 1; transform: none; }
 
 #particleCanvas { position: absolute; inset: 0; pointer-events: none; }
 
-/* ══════════════════════════════════════════════════════
-   MONEY FLOW — Mobile-first responsive redesign
-   ══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   MONEY FLOW SECTION
+   ═══════════════════════════════════════════════════════════ */
 
-/* Summary Strip: 3 cols desktop, 2+1 mobile */
+/* Summary strip: 3 col → 2+1 on xs */
 .flow-summary-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
   margin-bottom: 1.25rem;
 }
-@media (max-width: 520px) {
+@media (max-width: 479px) {
   .flow-summary-strip { grid-template-columns: repeat(2, 1fr); }
   .fss-card:nth-child(3) { grid-column: span 2; }
 }
-.fss-card {
-  background: rgba(0,229,195,0.04); border: 1px solid rgba(0,229,195,0.12);
-  border-radius: 12px; padding: clamp(0.75rem, 2vw, 1rem) clamp(0.75rem, 2vw, 1.2rem);
-  text-align: center;
-}
-.fss-label { font-size: clamp(0.58rem, 1.5vw, 0.62rem); letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
-.fss-val { font-family: var(--display); font-size: clamp(1rem, 3.5vw, 1.3rem); font-weight: 800; color: var(--teal); word-break: break-all; }
-.fss-val.amber { color: var(--amber); }
+.fss-card { background: rgba(0,229,195,0.04); border: 1px solid rgba(0,229,195,0.12); border-radius: 12px; padding: clamp(0.75rem, 2vw, 1rem) clamp(0.75rem, 2vw, 1.2rem); text-align: center; }
+.fss-label { font-size: clamp(0.56rem, 1.4vw, 0.62rem); letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+.fss-val { font-family: var(--display); font-size: clamp(0.95rem, 3.5vw, 1.3rem); font-weight: 800; color: var(--teal); word-break: break-all; }
+.fss-val.amber   { color: var(--amber); }
 .fss-val.surplus { color: var(--emerald); }
 .fss-val.deficit { color: var(--red); }
 
-/* ── FLOW LAYOUT: stacked on mobile, side-by-side on desktop ── */
+/* Flow layout: stacked → side by side at 860px */
 .flow-layout {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 @media (min-width: 860px) {
-  .flow-layout {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-  .flow-svg-col {
-    flex: 1;
-    min-width: 0;
-  }
-  .flow-list-col {
-    width: 340px;
-    flex-shrink: 0;
-  }
+  .flow-layout { flex-direction: row; align-items: flex-start; gap: 1.5rem; }
+  .flow-svg-col  { flex: 1; min-width: 0; }
+  .flow-list-col { width: 320px; flex-shrink: 0; }
 }
 
-/* Mobile SVG: replaced with a vertical sankey-style list */
-.flow-svg-col { position: relative; }
-
-/* Desktop SVG */
-#flowSvgWrap {
-  display: none;
-}
-@media (min-width: 860px) {
+/* Mobile: show sankey, hide SVG. Desktop: flip. */
+#flowSvgWrap { display: none; }
+#flowMobileSankey { display: block; }
+@media (min-width: 660px) {
   #flowSvgWrap { display: block; }
   #flowMobileSankey { display: none; }
 }
 
-/* Mobile Sankey (visual bar chart) */
-#flowMobileSankey {
-  display: block;
-  background: rgba(0,0,0,0.2);
-  border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  overflow: hidden;
-}
-.ms-income-bar {
-  background: linear-gradient(90deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1));
-  border-bottom: 1px solid rgba(0,229,195,0.15);
-  padding: 0.85rem 1rem;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 0.5rem;
-}
-.ms-income-label { font-family: var(--display); font-size: 0.7rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; }
-.ms-income-val { font-family: var(--mono); font-size: 0.82rem; color: var(--teal); font-weight: 400; }
-.ms-cats-wrap { padding: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.ms-cat-bar {
-  border-radius: 8px; padding: 0.5rem 0.75rem;
-  display: flex; align-items: center; gap: 0.6rem;
-  position: relative; overflow: hidden;
-}
-.ms-cat-bg {
-  position: absolute; inset: 0; border-radius: 8px;
-  opacity: 0.12;
-}
-.ms-cat-fill {
-  position: absolute; left: 0; top: 0; bottom: 0;
-  border-radius: 8px;
-  opacity: 0.18;
-  animation: barGrow 1.2s cubic-bezier(0.16,1,0.3,1) both;
-}
-.ms-cat-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; position: relative; z-index: 1; }
-.ms-cat-name { flex: 1; font-size: 0.75rem; color: var(--text-secondary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; z-index: 1; }
-.ms-cat-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); position: relative; z-index: 1; flex-shrink: 0; }
-.ms-cat-amt { font-family: var(--mono); font-size: 0.75rem; position: relative; z-index: 1; flex-shrink: 0; text-align: right; min-width: 80px; }
-.ms-cat-del { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; line-height: 1; padding: 2px 5px; border-radius: 5px; transition: all 0.2s; flex-shrink: 0; position: relative; z-index: 1; -webkit-tap-highlight-color: transparent; }
-.ms-cat-del:hover { background: rgba(255,77,109,0.15); color: var(--red); }
-.ms-surplus-bar {
-  border-radius: 8px; padding: 0.55rem 0.75rem;
-  display: flex; align-items: center; gap: 0.6rem;
-  position: relative; overflow: hidden;
-}
+#flowSvg { width: 100%; height: auto; }
 
-/* ── FLOW CATEGORY LIST (right col desktop / below sankey mobile) ── */
+/* Mobile sankey bars */
+#flowMobileSankey { background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 14px; overflow: hidden; }
+.ms-income-bar { background: linear-gradient(90deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1)); border-bottom: 1px solid rgba(0,229,195,0.15); padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.ms-income-label { font-family: var(--display); font-size: 0.7rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; }
+.ms-income-val { font-family: var(--mono); font-size: 0.82rem; color: var(--teal); }
+.ms-cats-wrap { padding: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.ms-cat-bar { border-radius: 8px; padding: 0.5rem 0.75rem; display: flex; align-items: center; gap: 0.6rem; position: relative; overflow: hidden; }
+.ms-cat-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; opacity: 0.18; animation: barGrow 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+.ms-cat-dot  { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; position: relative; z-index: 1; }
+.ms-cat-name { flex: 1; font-size: 0.75rem; color: var(--text-secondary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: relative; z-index: 1; }
+.ms-cat-pct  { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); position: relative; z-index: 1; flex-shrink: 0; }
+.ms-cat-amt  { font-family: var(--mono); font-size: 0.75rem; position: relative; z-index: 1; flex-shrink: 0; text-align: right; min-width: 70px; }
+.ms-cat-del  { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; line-height: 1; padding: 2px 5px; border-radius: 5px; transition: all 0.2s; flex-shrink: 0; position: relative; z-index: 1; -webkit-tap-highlight-color: transparent; }
+.ms-cat-del:hover { background: rgba(255,77,109,0.15); color: var(--red); }
+.ms-surplus-bar { border-radius: 8px; padding: 0.55rem 0.75rem; display: flex; align-items: center; gap: 0.6rem; position: relative; overflow: hidden; }
+
+/* Flow category list (right col / below sankey on mobile) */
 .flow-cat-list { display: flex; flex-direction: column; gap: 7px; }
-.flow-cat-row {
-  display: flex; align-items: center; gap: 10px;
-  background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
-  border-radius: 10px; padding: 8px 12px; transition: background 0.2s;
-}
+.flow-cat-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; padding: 8px 12px; transition: background 0.2s; }
 .flow-cat-row:hover { background: rgba(0,229,195,0.04); }
-.flow-cat-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-.flow-cat-name { flex: 1; font-size: clamp(0.72rem, 2vw, 0.82rem); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.flow-cat-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); width: 40px; text-align: right; flex-shrink: 0; }
-.flow-cat-amt { font-family: var(--mono); font-size: clamp(0.72rem, 2vw, 0.78rem); color: var(--teal); min-width: 90px; text-align: right; flex-shrink: 0; }
-.flow-cat-close {
-  background: none; border: none; cursor: pointer; color: var(--text-dim);
-  font-size: 1.1rem; line-height: 1; padding: 2px 6px; border-radius: 6px;
-  transition: all 0.2s; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
-}
+.flow-cat-dot  { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.flow-cat-name { flex: 1; font-size: clamp(0.7rem, 1.8vw, 0.82rem); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.flow-cat-pct  { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); width: 40px; text-align: right; flex-shrink: 0; }
+.flow-cat-amt  { font-family: var(--mono); font-size: clamp(0.68rem, 1.6vw, 0.78rem); color: var(--teal); min-width: 80px; text-align: right; flex-shrink: 0; }
+.flow-cat-close { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1.1rem; line-height: 1; padding: 2px 6px; border-radius: 6px; transition: all 0.2s; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
 .flow-cat-close:hover { background: rgba(255,77,109,0.15); color: var(--red); }
 
-.flow-add-row {
-  display: flex; align-items: center; gap: 10px;
-  border: 1px dashed rgba(0,229,195,0.2); border-radius: 10px;
-  padding: 9px 12px; cursor: pointer; transition: all 0.2s; background: transparent;
-  margin-top: 0.5rem;
-  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-}
+.flow-add-row { display: flex; align-items: center; gap: 10px; border: 1px dashed rgba(0,229,195,0.2); border-radius: 10px; padding: 9px 12px; cursor: pointer; transition: all 0.2s; background: transparent; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .flow-add-row:hover { border-color: rgba(0,229,195,0.45); background: rgba(0,229,195,0.04); }
-.flow-add-icon {
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 1.5px solid rgba(0,229,195,0.4);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--teal); font-size: 1rem; line-height: 1; flex-shrink: 0; transition: all 0.2s;
-}
+.flow-add-icon { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgba(0,229,195,0.4); display: flex; align-items: center; justify-content: center; color: var(--teal); font-size: 1rem; line-height: 1; flex-shrink: 0; transition: all 0.2s; }
 .flow-add-row:hover .flow-add-icon { background: rgba(0,229,195,0.12); border-color: rgba(0,229,195,0.7); }
 .flow-add-label { font-size: 0.78rem; color: rgba(0,229,195,0.45); font-style: italic; }
 
-.flow-add-form {
-  display: none; flex-direction: column; gap: 10px;
-  background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.2);
-  border-radius: 12px; padding: 1rem; margin-top: 0.5rem;
-}
+.flow-add-form { display: none; flex-direction: column; gap: 10px; background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.2); border-radius: 12px; padding: 1rem; margin-top: 0.5rem; }
 .flow-add-form.open { display: flex; }
 .flow-form-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.flow-form-input {
-  flex: 1; min-width: 120px;
-  background: rgba(0,0,0,0.35); border: 1px solid rgba(0,229,195,0.2);
-  border-radius: 9px; color: var(--text-primary); font-family: var(--body);
-  font-size: 0.85rem; padding: 7px 12px; outline: none; transition: border-color 0.2s;
-  -webkit-appearance: none;
-}
+.flow-form-input { flex: 1; min-width: 120px; background: rgba(0,0,0,0.35); border: 1px solid rgba(0,229,195,0.2); border-radius: 9px; color: var(--text-primary); font-family: var(--body); font-size: 0.85rem; padding: 7px 12px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
 .flow-form-input:focus { border-color: rgba(0,229,195,0.5); }
 .flow-form-input::placeholder { color: var(--text-dim); }
 .flow-form-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-.flow-btn-save {
-  background: linear-gradient(135deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1));
-  border: 1px solid rgba(0,229,195,0.4); border-radius: 9px; color: var(--teal);
-  font-family: var(--body); font-size: 0.78rem; font-weight: 600; letter-spacing: .06em;
-  padding: 8px 18px; cursor: pointer; transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-}
+.flow-btn-save   { background: linear-gradient(135deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1)); border: 1px solid rgba(0,229,195,0.4); border-radius: 9px; color: var(--teal); font-family: var(--body); font-size: 0.78rem; font-weight: 600; letter-spacing: .06em; padding: 8px 18px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .flow-btn-save:hover { box-shadow: 0 0 18px rgba(0,229,195,0.15); }
-.flow-btn-cancel {
-  background: transparent; border: 1px solid var(--glass-border-bright);
-  border-radius: 9px; color: var(--text-dim); font-family: var(--body);
-  font-size: 0.78rem; padding: 8px 14px; cursor: pointer; transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-}
+.flow-btn-cancel { background: transparent; border: 1px solid var(--glass-border-bright); border-radius: 9px; color: var(--text-dim); font-family: var(--body); font-size: 0.78rem; padding: 8px 14px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .flow-btn-cancel:hover { color: var(--text-secondary); }
 
 .flow-surplus-box { border-radius: 14px; padding: 1rem 1.25rem; margin-top: 1rem; transition: all 0.4s; }
 .flow-surplus-box.pos { background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.2); }
 .flow-surplus-box.neg { background: rgba(255,77,109,0.07); border: 1px solid rgba(255,77,109,0.25); }
-.fsb-label { font-size: 0.62rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
+.fsb-label     { font-size: 0.62rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
 .fsb-label.pos { color: rgba(0,255,136,0.6); }
 .fsb-label.neg { color: rgba(255,77,109,0.6); }
-.fsb-val { font-family: var(--display); font-size: clamp(1.3rem, 5vw, 1.6rem); font-weight: 800; }
+.fsb-val     { font-family: var(--display); font-size: clamp(1.3rem, 5vw, 1.6rem); font-weight: 800; }
 .fsb-val.pos { color: var(--emerald); }
 .fsb-val.neg { color: var(--red); }
-.fsb-mo { font-size: 0.72rem; margin-top: 3px; }
+.fsb-mo     { font-size: 0.72rem; margin-top: 3px; }
 .fsb-mo.pos { color: rgba(0,255,136,0.5); }
 .fsb-mo.neg { color: rgba(255,77,109,0.5); }
 
-/* Desktop flow SVG */
+/* Desktop SVG flow path animation */
 .flow-path-line { stroke-dasharray: 8 4; animation: flowDash 3s linear infinite; }
 @keyframes flowDash { to { stroke-dashoffset: -48; } }
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════ */
+footer {
+  background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-border);
+  padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
+  text-align: center;
+  padding-bottom: calc(clamp(2rem, 5vw, 3rem) + var(--safe-bottom));
+}
+.footer-brand { font-family: var(--display); font-size: 1.2rem; font-weight: 800; color: var(--teal); margin-bottom: 0.5rem; }
+.footer-sub { font-size: clamp(0.68rem, 1.8vw, 0.75rem); color: var(--text-dim); line-height: 1.8; }
 </style>
 </head>
 <body>
@@ -608,7 +652,8 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
 <div id="gate">
   <div class="gate-box">
     <div class="gate-orb">🌿</div>
-    <div class="gate-title">LEV Eco Village</div>
+    <div class="gate-title">LEV</div>
+    <div class="gate-title">Eco Village</div>
     <div class="gate-sub">HOA Budget 2026–2027 · Members Only</div>
     <input type="password" id="pwInput" class="gate-input" placeholder="· · · · · · ·" autocomplete="current-password" />
     <button class="gate-btn" onclick="checkPw()">Initialize Access</button>
@@ -670,7 +715,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
     <div class="hstat">
       <div class="hstat-label">Homes in Community</div>
       <div class="hstat-val" style="color:var(--purple);">43</div>
-      <div class="hstat-sub">Lots (excl. lots 22 & 23)</div>
+      <div class="hstat-sub">Lots (excl. lots 22 &amp; 23)</div>
     </div>
   </div>
 </section>
@@ -680,32 +725,27 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
   <div class="container">
     <div class="section-label reveal">Money Flow</div>
     <h2 class="section-title reveal">Where Money Moves</h2>
-    <p class="section-desc reveal">Every colón flows in from HOA dues and flows out to keep our ecosystem running. Add or remove categories to model what's left over.</p>
+    <p class="section-desc reveal">Money flows in from HOA dues and flows out to keep our ecosystem running. Add or remove categories to model what's left over.</p>
 
     <div class="chart-wrap reveal">
       <div class="chart-header">
         <div>
           <div class="chart-title">Community Fund Flow — 2026–27</div>
-          <div class="chart-sub">Tap × to remove · + to add categories</div>
+          <div class="chart-sub">Tap '×' to remove or '+' to add categories</div>
         </div>
         <div style="font-family:var(--mono);font-size:0.75rem;color:var(--teal);">
           Income: <span id="flow-hdr-income">₡104,417,829</span>
         </div>
       </div>
 
-      <!-- SUMMARY STRIP -->
       <div class="flow-summary-strip">
         <div class="fss-card"><div class="fss-label">HOA income / yr</div><div class="fss-val" id="fss-income">₡104,417,829</div></div>
         <div class="fss-card"><div class="fss-label">Total budgeted</div><div class="fss-val amber" id="fss-budget">₡88,700,000</div></div>
         <div class="fss-card"><div class="fss-label">Surplus / deficit</div><div class="fss-val surplus" id="fss-surplus">+₡15,717,829</div></div>
       </div>
 
-      <!-- FLOW LAYOUT: SVG desktop / mobile sankey -->
       <div class="flow-layout">
-
-        <!-- LEFT: visual (SVG desktop / bar mobile) -->
         <div class="flow-svg-col">
-
           <!-- Mobile Sankey -->
           <div id="flowMobileSankey">
             <div class="ms-income-bar">
@@ -714,7 +754,6 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
             </div>
             <div class="ms-cats-wrap" id="msCatsWrap"></div>
           </div>
-
           <!-- Desktop SVG -->
           <div id="flowSvgWrap">
             <svg id="flowSvg" viewBox="0 0 780 340" width="100%" style="overflow:visible;display:block;">
@@ -731,40 +770,35 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
                   <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,229,195,0.5)"/>
                 </marker>
               </defs>
-              <!-- INCOME NODE -->
               <g>
                 <rect x="10" y="100" width="130" height="110" rx="12" fill="rgba(0,229,195,0.08)" stroke="rgba(0,229,195,0.35)" stroke-width="1"/>
                 <rect x="10" y="100" width="3" height="110" rx="1" fill="url(#tealGrad)"/>
                 <text x="75" y="130" text-anchor="middle" fill="rgba(0,229,195,0.9)" font-family="Syne,sans-serif" font-size="11" font-weight="700">HOA DUES</text>
-                <text x="75" y="148" text-anchor="middle" fill="rgba(160,200,195,0.5)" font-family="JetBrains Mono,monospace" font-size="9">₡8.7M/mo</text>
-                <text x="75" y="163" text-anchor="middle" fill="rgba(160,200,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8">43 lots</text>
-                <text x="75" y="178" text-anchor="middle" fill="rgba(0,229,195,0.55)" font-family="JetBrains Mono,monospace" font-size="8">104.4M/yr</text>
-                <text x="75" y="193" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="7">total income</text>
+                <text x="75" y="148" text-anchor="middle" fill="rgba(160,200,195,1)" font-family="JetBrains Mono,monospace" font-size="11">₡8.7M/mo</text>
+                <text x="75" y="163" text-anchor="middle" fill="rgba(160,200,195,1)" font-family="JetBrains Mono,monospace" font-size="11">43 lots</text>
+                <text x="75" y="178" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="JetBrains Mono,monospace" font-size="11">104.4M/yr</text>
+                <text x="75" y="193" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="JetBrains Mono,monospace" font-size="11">total income</text>
               </g>
-              <!-- INCOME → FUND -->
               <path d="M142 155 C200 155,210 155,258 155" stroke="url(#tealGrad)" stroke-width="2.5" fill="none" stroke-dasharray="8 4" marker-end="url(#arrow)">
                 <animate attributeName="stroke-dashoffset" from="0" to="-48" dur="2s" repeatCount="indefinite"/>
               </path>
               <path d="M142 155 C200 155,210 155,258 155" stroke="rgba(0,229,195,0.07)" stroke-width="12" fill="none"/>
               <circle r="4" fill="rgba(0,229,195,0.9)" filter="url(#glow)"><animateMotion dur="2.2s" repeatCount="indefinite" path="M142 155 C200 155,210 155,258 155"/></circle>
               <circle r="2.5" fill="rgba(0,229,195,0.6)"><animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M142 155 C200 155,210 155,258 155"/></circle>
-              <!-- FUND NODE -->
               <g>
                 <rect x="260" y="82" width="158" height="146" rx="14" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.25)" stroke-width="1.5"/>
                 <rect x="260" y="82" width="158" height="3" rx="1" fill="url(#tealGrad)"/>
-                <text x="339" y="114" text-anchor="middle" fill="rgba(120,160,155,0.45)" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2">COMMUNITY FUND</text>
+                <text x="339" y="114" text-anchor="middle" fill="rgba(120,160,155,1)" font-family="JetBrains Mono,monospace" font-size="11" letter-spacing="2">COMMUNITY FUND</text>
                 <text x="339" y="140" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="Syne,sans-serif" font-size="19" font-weight="800" filter="url(#glow)" id="fundLabel">₡88.7M</text>
-                <text x="339" y="158" text-anchor="middle" fill="rgba(120,160,155,0.5)" font-family="JetBrains Mono,monospace" font-size="9">budgeted 2026–27</text>
-                <text x="339" y="175" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="8" id="fundMonthly">≈₡7.4M / month</text>
-                <text x="339" y="192" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="8" id="fundSurplusLabel">surplus ₡15.7M</text>
-                <text x="339" y="207" text-anchor="middle" fill="rgba(120,160,155,0.3)" font-family="JetBrains Mono,monospace" font-size="7" id="fundPct">84.9% committed</text>
+                <text x="339" y="158" text-anchor="middle" fill="rgba(120,160,155,1)" font-family="JetBrains Mono,monospace" font-size="9">budgeted 2026–27</text>
+                <text x="339" y="175" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="JetBrains Mono,monospace" font-size="11" id="fundMonthly">≈₡7.4M / month</text>
+                <text x="339" y="192" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="JetBrains Mono,monospace" font-size="11" id="fundSurplusLabel">surplus ₡15.7M</text>
+                <text x="339" y="207" text-anchor="middle" fill="rgba(120,160,155,1)" font-family="JetBrains Mono,monospace" font-size="11" id="fundPct">84.9% committed</text>
               </g>
-              <!-- Dynamic expense nodes -->
               <g id="expenseNodes"></g>
             </svg>
           </div>
 
-          <!-- Surplus box always visible below visual -->
           <div class="flow-surplus-box pos" id="flowSurplusBox">
             <div class="fsb-label pos" id="fsbLabel">UNALLOCATED SURPLUS</div>
             <div class="fsb-val pos" id="fsbVal">+₡15,717,829</div>
@@ -772,12 +806,9 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
           </div>
         </div>
 
-        <!-- RIGHT: category list + add -->
         <div class="flow-list-col">
           <div style="font-size:0.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.6rem;">Budget categories</div>
           <div class="flow-cat-list" id="flowCatList"></div>
-
-          <!-- ADD FORM -->
           <div class="flow-add-form" id="flowAddForm">
             <div class="flow-form-row">
               <input class="flow-form-input" id="flowNewName" placeholder="Category name">
@@ -793,11 +824,10 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
             <span class="flow-add-label">Add a category…</span>
           </div>
         </div>
+      </div>
+    </div>
 
-      </div><!-- /.flow-layout -->
-    </div><!-- /.chart-wrap -->
-
-    <!-- DONUT + BAR -->
+    <!-- Donut + Bar: stacked → 2 col at 900px -->
     <div class="charts-two-col reveal">
       <div class="chart-wrap" style="margin-bottom:0;">
         <div class="chart-header">
@@ -853,10 +883,10 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
           <tr><td>Staff Benefits (SS, 13th mo, vacation, severance)</td><td class="hl cv" data-crc="13900000" data-freq="annual">₡13,900,000</td><td class="cv" data-crc="1158333" data-freq="monthly">₡1,158,333</td><td>15.7%</td></tr>
           <tr><td>Routine Maintenance (vehicles, buildings, pool, garden)</td><td class="hl cv" data-crc="18000000" data-freq="annual">₡18,000,000</td><td class="cv" data-crc="1500000" data-freq="monthly">₡1,500,000</td><td>20.3%</td></tr>
           <tr><td>Professional Services (accounting, legal, software)</td><td class="hl cv" data-crc="6700000" data-freq="annual">₡6,700,000</td><td class="cv" data-crc="558333" data-freq="monthly">₡558,333</td><td>7.6%</td></tr>
-          <tr><td>Utilities (electricity, telephone & internet)</td><td class="hl cv" data-crc="6000000" data-freq="annual">₡6,000,000</td><td class="cv" data-crc="500000" data-freq="monthly">₡500,000</td><td>6.8%</td></tr>
-          <tr><td>Office & Meeting Expenses</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td class="cv" data-crc="75000" data-freq="monthly">₡75,000</td><td>1.0%</td></tr>
+          <tr><td>Utilities (electricity, telephone &amp; internet)</td><td class="hl cv" data-crc="6000000" data-freq="annual">₡6,000,000</td><td class="cv" data-crc="500000" data-freq="monthly">₡500,000</td><td>6.8%</td></tr>
+          <tr><td>Office &amp; Meeting Expenses</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td class="cv" data-crc="75000" data-freq="monthly">₡75,000</td><td>1.0%</td></tr>
           <tr><td>Insurance (workers risk, liability, vehicle, fire)</td><td class="hl cv" data-crc="3100000" data-freq="annual">₡3,100,000</td><td class="cv" data-crc="258333" data-freq="monthly">₡258,333</td><td>3.5%</td></tr>
-          <tr><td>Taxes & Permits (vehicles, municipal, corporate, water)</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td class="cv" data-crc="166667" data-freq="monthly">₡166,667</td><td>2.3%</td></tr>
+          <tr><td>Taxes &amp; Permits (vehicles, municipal, corporate, water)</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td class="cv" data-crc="166667" data-freq="monthly">₡166,667</td><td>2.3%</td></tr>
           <tr><td>Biodigester Maintenance</td><td class="hl cv" data-crc="3000000" data-freq="annual">₡3,000,000</td><td class="cv" data-crc="250000" data-freq="monthly">₡250,000</td><td>3.4%</td></tr>
           <tr><td>Reserve Fund (5% of base budget)</td><td class="hl cv" data-crc="4000000" data-freq="annual">₡4,000,000</td><td class="cv" data-crc="333333" data-freq="monthly">₡333,333</td><td>4.5%</td></tr>
           <tr class="total-row"><td>TOTAL BASE ESSENTIAL BUDGET 2026–27</td><td class="cv" data-crc="88700000" data-freq="annual">₡88,700,000</td><td class="cv" data-crc="7391667" data-freq="monthly">₡7,391,667</td><td>100%</td></tr>
@@ -873,7 +903,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
     <div class="section-label reveal">Accountant-Level</div>
     <h2 class="section-title reveal">Full Detailed Proposal</h2>
     <p class="section-desc reveal">All individual QuickBooks line items. "Prior avg/mo" = actual 2025–26 monthly averages — not a prior year budget.</p>
-    <div class="notice reveal">ℹ️ Gap between base budget (₡88.7M) and detailed total (₡95.8M): depreciation ₡1.87M (non-cash) + contingency & reserve ₡8.4M + multipurpose court ₡180k.</div>
+    <div class="notice reveal">ℹ️ Gap between base budget (₡88.7M) and detailed total (₡95.8M): depreciation ₡1.87M (non-cash) + contingency &amp; reserve ₡8.4M + multipurpose court ₡180k.</div>
     <div class="detail-accordion reveal" id="accordion"></div>
     <div style="background:rgba(0,229,195,0.06);border:1px solid rgba(0,229,195,0.2);border-radius:16px;padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:1.25rem;" class="reveal">
       <div style="font-size:clamp(0.78rem,2vw,0.85rem);font-weight:600;color:var(--text-primary);">GRAND TOTAL — Detailed Proposal 2026–27</div>
@@ -892,7 +922,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
     <h2 class="section-title reveal">Actuals vs. Proposed</h2>
     <p class="section-desc reveal">Actual spending April 2025 – March 2026. Two extraordinary items not expected to repeat: road repair and security system.</p>
     <div class="summary-grid reveal" style="margin-bottom:1.5rem;">
-      <div class="stat-card amber"><div class="sc-label">Total Operating (excl. extraordinary)</div><div class="sc-val amber cv" data-crc="82906934" data-freq="annual">₡82,906,934</div><div class="sc-note">2025–26 · excludes road repair & security</div></div>
+      <div class="stat-card amber"><div class="sc-label">Total Operating (excl. extraordinary)</div><div class="sc-val amber cv" data-crc="82906934" data-freq="annual">₡82,906,934</div><div class="sc-note">2025–26 · excludes road repair &amp; security</div></div>
       <div class="stat-card red"><div class="sc-label">Road Repair (extraordinary)</div><div class="sc-val red cv" data-crc="39284087" data-freq="annual">₡39,284,087</div><div class="sc-note">Plastic → concrete pavers · NOT in 2026–27</div></div>
       <div class="stat-card red"><div class="sc-label">Security System (extraordinary)</div><div class="sc-val red cv" data-crc="3846169" data-freq="annual">₡3,846,169</div><div class="sc-note">Installed after robberies · NOT in 2026–27</div></div>
       <div class="stat-card teal"><div class="sc-label">HOA Fee Income 2025–26</div><div class="sc-val teal cv" data-crc="104417829" data-freq="annual">₡104,417,829</div><div class="sc-note">Monthly avg: <span class="cv" data-crc="8701486" data-freq="monthly">₡8,701,486</span></div></div>
@@ -911,9 +941,9 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
           <tr><td>Routine Maintenance</td><td class="amber cv" data-crc="17325916" data-freq="annual">₡17,325,916</td><td class="cv" data-crc="1443826" data-freq="monthly">₡1,443,826</td><td class="hl cv" data-crc="18000000" data-freq="annual">₡18,000,000</td><td><span class="change-up">↑ +3.9%</span></td></tr>
           <tr><td>Utilities</td><td class="amber cv" data-crc="5585725" data-freq="annual">₡5,585,725</td><td class="cv" data-crc="465477" data-freq="monthly">₡465,477</td><td class="hl cv" data-crc="6000000" data-freq="annual">₡6,000,000</td><td><span class="change-up">↑ +7.4%</span></td></tr>
           <tr><td>Insurance</td><td class="amber cv" data-crc="3060151" data-freq="annual">₡3,060,151</td><td class="cv" data-crc="255013" data-freq="monthly">₡255,013</td><td class="hl cv" data-crc="3100000" data-freq="annual">₡3,100,000</td><td><span class="change-up">↑ +1.3%</span></td></tr>
-          <tr><td>Taxes & Permits</td><td class="amber cv" data-crc="1954730" data-freq="annual">₡1,954,730</td><td class="cv" data-crc="162894" data-freq="monthly">₡162,894</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td><span class="change-up">↑ +2.3%</span></td></tr>
+          <tr><td>Taxes &amp; Permits</td><td class="amber cv" data-crc="1954730" data-freq="annual">₡1,954,730</td><td class="cv" data-crc="162894" data-freq="monthly">₡162,894</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td><span class="change-up">↑ +2.3%</span></td></tr>
           <tr><td>Biodigester</td><td class="amber cv" data-crc="2813248" data-freq="annual">₡2,813,248</td><td class="cv" data-crc="234437" data-freq="monthly">₡234,437</td><td class="hl cv" data-crc="3000000" data-freq="annual">₡3,000,000</td><td><span class="change-up">↑ +6.7%</span></td></tr>
-          <tr><td>Office & Meetings</td><td class="amber cv" data-crc="583115" data-freq="annual">₡583,115</td><td class="cv" data-crc="48593" data-freq="monthly">₡48,593</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td><span class="change-up">↑ +54.3%</span></td></tr>
+          <tr><td>Office &amp; Meetings</td><td class="amber cv" data-crc="583115" data-freq="annual">₡583,115</td><td class="cv" data-crc="48593" data-freq="monthly">₡48,593</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td><span class="change-up">↑ +54.3%</span></td></tr>
           <tr class="total-row"><td>Total Operating (excl. extraordinary)</td><td class="cv" data-crc="82906934" data-freq="annual">₡82,906,934</td><td>—</td><td class="cv" data-crc="88700000" data-freq="annual">₡88,700,000</td><td><span style="color:var(--amber);font-family:var(--mono);font-size:0.8rem;">↑ +6.9%</span></td></tr>
         </tbody>
       </table>
@@ -944,7 +974,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
       <div class="proposal-card">
         <div class="p-icon-wrap">🏊</div>
         <div class="p-title">Pool Renovation</div>
-        <p class="p-desc">Capital improvements: new showers, repair broken tiles, re-grout, refresh loungers, better signage. Ongoing pool maintenance (₡395k/mo) is already in base budget — this covers one-time renovation only.</p>
+        <p class="p-desc">Capital improvements: new showers, repair broken tiles, re-grout, refresh loungers, better signage. Ongoing pool maintenance (₡395k/mo) is already in base budget.</p>
         <span class="p-badge">Vote Required · Cost TBD · Currently "No"</span>
       </div>
     </div>
@@ -1037,8 +1067,10 @@ async function fetchRates() {
 
 function updateRateDisplay() {
   const src = ratesLoaded ? 'live rate' : 'est. Apr 2026';
-  document.getElementById('rate-display').innerHTML = `$1 = <span class="rate-val">₡${Math.round(rates.USD)}</span> &nbsp;·&nbsp; €1 = <span class="rate-val">₡${Math.round(rates.EUR)}</span> &nbsp;<span style="color:var(--text-dim);font-size:0.62rem;">${src}</span>`;
-  document.getElementById('footer-rate').textContent = `$1 = ₡${Math.round(rates.USD)} · €1 = ₡${Math.round(rates.EUR)} (${src})`;
+  document.getElementById('rate-display').innerHTML =
+    `$1 = <span class="rate-val">₡${Math.round(rates.USD)}</span> &nbsp;·&nbsp; €1 = <span class="rate-val">₡${Math.round(rates.EUR)}</span> &nbsp;<span style="color:var(--text-dim);font-size:0.62rem;">${src}</span>`;
+  document.getElementById('footer-rate').textContent =
+    `$1 = ₡${Math.round(rates.USD)} · €1 = ₡${Math.round(rates.EUR)} (${src})`;
 }
 
 function fmt(crc) {
@@ -1064,6 +1096,11 @@ function fmtShort(crc) {
 function refreshAll() {
   document.querySelectorAll('.cv[data-crc]').forEach(el => {
     el.textContent = fmt(parseFloat(el.dataset.crc));
+  });
+  // Refresh accordion dt-val spans (they don't have .cv)
+  document.querySelectorAll('.dt-val[data-crc]').forEach(el => {
+    const v = parseFloat(el.dataset.crc);
+    el.textContent = v > 0 ? fmt(v) : '—';
   });
   refreshLotTable();
   updateLotResult();
@@ -1095,10 +1132,8 @@ let flowCats = [
 ];
 let flowNextId = 20;
 
-function flowTotal() { return flowCats.reduce((s, c) => s + c.amt, 0); }
+function flowTotal()   { return flowCats.reduce((s, c) => s + c.amt, 0); }
 function flowSurplus() { return FLOW_INCOME - flowTotal(); }
-
-function isMobile() { return window.innerWidth < 860; }
 
 function flowRender() {
   const bud = flowTotal();
@@ -1112,17 +1147,14 @@ function flowRender() {
   surEl.textContent = (sur >= 0 ? '+' : '') + fmt(sur);
   surEl.className = 'fss-val ' + (sur >= 0 ? 'surplus' : 'deficit');
 
-  // mobile income header val
   const msInc = document.getElementById('ms-income-val');
   if (msInc) msInc.textContent = fmtShort(FLOW_INCOME) + ' / yr';
 
-  // fund node labels
   document.getElementById('fundLabel').textContent = fmtShort(bud);
   document.getElementById('fundMonthly').textContent = '≈' + fmtShort(bud / 12) + ' / month';
   document.getElementById('fundSurplusLabel').textContent = (sur >= 0 ? 'surplus ' : 'deficit ') + fmtShort(Math.abs(sur));
   document.getElementById('fundPct').textContent = pct.toFixed(1) + '% committed';
 
-  // surplus box
   const box = document.getElementById('flowSurplusBox');
   const lbl = document.getElementById('fsbLabel');
   const val = document.getElementById('fsbVal');
@@ -1139,12 +1171,11 @@ function flowRender() {
     mo.className  = 'fsb-mo neg';    mo.textContent  = fmt(Math.abs(sur) / 12) + ' / month over income';
   }
 
-  flowRenderCatList(); // right-column list (all breakpoints)
-  flowRenderMobileSankey(bud, sur); // mobile horizontal bars
-  flowRenderSvg(bud, sur); // desktop svg
+  flowRenderCatList();
+  flowRenderMobileSankey(bud, sur);
+  flowRenderSvg(bud, sur);
 }
 
-// Right-column category list
 function flowRenderCatList() {
   const list = document.getElementById('flowCatList');
   list.innerHTML = '';
@@ -1158,13 +1189,11 @@ function flowRenderCatList() {
       <div class="flow-cat-name">${c.name}</div>
       <div class="flow-cat-pct">${pct}%</div>
       <div class="flow-cat-amt">${fmt(c.amt)}</div>
-      <button class="flow-cat-close" onclick="flowRemoveCat(${c.id})" title="Remove">×</button>
-    `;
+      <button class="flow-cat-close" onclick="flowRemoveCat(${c.id})" title="Remove">×</button>`;
     list.appendChild(row);
   });
 }
 
-// Mobile sankey (horizontal proportion bars)
 function flowRenderMobileSankey(bud, sur) {
   const wrap = document.getElementById('msCatsWrap');
   if (!wrap) return;
@@ -1180,11 +1209,9 @@ function flowRenderMobileSankey(bud, sur) {
       <div class="ms-cat-name">${c.name}</div>
       <div class="ms-cat-pct">${pct.toFixed(1)}%</div>
       <div class="ms-cat-amt" style="color:${col};">${fmt(c.amt)}</div>
-      <button class="ms-cat-del" onclick="flowRemoveCat(${c.id})" title="Remove">×</button>
-    `;
+      <button class="ms-cat-del" onclick="flowRemoveCat(${c.id})" title="Remove">×</button>`;
     wrap.appendChild(div);
   });
-  // surplus bar
   const surPct = Math.abs(sur / FLOW_INCOME * 100);
   const sc = sur >= 0 ? '#00ff88' : '#ff4d6d';
   const sd = document.createElement('div');
@@ -1195,27 +1222,21 @@ function flowRenderMobileSankey(bud, sur) {
     <div class="ms-cat-dot" style="background:${sc};border-radius:50%;"></div>
     <div class="ms-cat-name" style="color:${sc};font-size:0.72rem;">${sur>=0?'Unallocated surplus':'Deficit'}</div>
     <div class="ms-cat-pct" style="color:${sc};">${(sur>=0?'+':'-')}${surPct.toFixed(1)}%</div>
-    <div class="ms-cat-amt" style="color:${sc};">${(sur>=0?'+':'')}${fmt(sur)}</div>
-  `;
+    <div class="ms-cat-amt" style="color:${sc};">${(sur>=0?'+':'')}${fmt(sur)}</div>`;
   wrap.appendChild(sd);
 }
 
-// Desktop SVG
 function flowRenderSvg(bud, sur) {
   const g = document.getElementById('expenseNodes');
   if (!g) return;
   g.innerHTML = '';
   const NS = 'http://www.w3.org/2000/svg';
-
-  const startX = 470;
-  const nodeW  = 200;
-  const nodeH  = 38;
+  const startX = 470, nodeW = 200, nodeH = 38;
   const totalSlots = flowCats.length + 1;
-  const svgUsableH = 320;
-  const spacing = Math.min(46, (svgUsableH - 20) / totalSlots);
+  const svgUsableH = Math.max(320, totalSlots * 50);
+  const spacing = Math.min(45, (svgUsableH - 20) / totalSlots);
   const startY  = Math.max(10, (svgUsableH - totalSlots * spacing) / 2);
-  const fundCY  = 155;
-  const fundRX  = 418;
+  const fundCY  = 155, fundRX = 418;
   const neededH = startY + totalSlots * spacing + 20;
   const vbH = Math.max(280, neededH);
   document.getElementById('flowSvg').setAttribute('viewBox', `0 0 780 ${vbH}`);
@@ -1245,7 +1266,6 @@ function flowRenderSvg(bud, sur) {
     const amtEl = mk('text'); amtEl.setAttribute('x',startX+9); amtEl.setAttribute('y',ny+27); amtEl.setAttribute('fill','rgba(160,200,195,0.5)'); amtEl.setAttribute('font-family','JetBrains Mono,monospace'); amtEl.setAttribute('font-size','7.5'); amtEl.textContent = fmtShort(c.amt)+' · '+pct+'%'; g.appendChild(amtEl);
   });
 
-  // Surplus node
   const si = flowCats.length, ny = startY + si * spacing, my = ny + nodeH / 2, sc = sur>=0?'#00ff88':'#ff4d6d';
   const path2 = `M${fundRX} ${fundCY} C${fundRX+35} ${fundCY},${startX-25} ${my},${startX} ${my}`;
 
@@ -1263,10 +1283,7 @@ function flowRenderSvg(bud, sur) {
   const amt2 = mk('text'); amt2.setAttribute('x',startX+9); amt2.setAttribute('y',ny+27); amt2.setAttribute('fill','rgba(160,200,195,0.5)'); amt2.setAttribute('font-family','JetBrains Mono,monospace'); amt2.setAttribute('font-size','7.5'); amt2.textContent = (sur>=0?'+':'')+fmtShort(sur)+' · '+(sur/FLOW_INCOME*100).toFixed(1)+'%'; g.appendChild(amt2);
 }
 
-function flowRemoveCat(id) {
-  flowCats = flowCats.filter(c => c.id !== id);
-  flowRender();
-}
+function flowRemoveCat(id) { flowCats = flowCats.filter(c => c.id !== id); flowRender(); }
 function flowOpenAdd() {
   document.getElementById('flowAddForm').classList.add('open');
   document.getElementById('flowAddTrigger').style.display = 'none';
@@ -1287,7 +1304,6 @@ function flowSaveNew() {
   flowCancelAdd();
   flowRender();
 }
-
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('flowNewAmt')?.addEventListener('keydown', e => { if (e.key === 'Enter') flowSaveNew(); });
   document.getElementById('flowNewName')?.addEventListener('keydown', e => { if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); document.getElementById('flowNewAmt').focus(); } });
@@ -1417,9 +1433,7 @@ function buildAccordion() {
   });
 }
 
-function toggleAccordion(header) {
-  header.parentElement.classList.toggle('open');
-}
+function toggleAccordion(header) { header.parentElement.classList.toggle('open'); }
 
 // ── RADIAL BARS ───────────────────────────────────────────────────────────────
 const barData = [
@@ -1469,7 +1483,6 @@ function buildCharts() {
         }}}
     });
   }
-
   const bCtx = document.getElementById('barChart');
   if (bCtx && !barChartInst) {
     barChartInst = new Chart(bCtx, {
@@ -1490,7 +1503,6 @@ function buildCharts() {
       }
     });
   }
-
   const iCtx = document.getElementById('incomeSpendChart');
   if (iCtx && !incomeChartInst) {
     const months = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
@@ -1582,7 +1594,6 @@ function init() {
   initNav();
   fetchRates().then(() => { buildCharts(); });
   setTimeout(buildCharts, 500);
-  // Re-render flow on resize (switches between mobile sankey and desktop SVG)
   window.addEventListener('resize', () => { flowRender(); });
 }
 </script>
