@@ -3,266 +3,486 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LEV Eco Village — HOA Budget 2026–2027</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>LEV Eco Village · Financial Ecosystem 2026–27</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  /* ── PASSWORD GATE ── */
-  #gate {
-    position: fixed; inset: 0; z-index: 9999;
-    background: #1a2a1b;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-    font-family: 'DM Sans', sans-serif;
-  }
-  #gate .gate-box {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(200,220,196,0.15);
-    border-radius: 16px;
-    padding: 2.5rem 2.8rem;
-    width: 100%;
-    max-width: 360px;
-    text-align: center;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-  }
-  #gate .gate-logo { font-size: 2.2rem; margin-bottom: 0.6rem; }
-  #gate h2 { font-family: 'Cormorant Garamond', serif; color: #c8d9c4; font-size: 1.4rem; font-weight: 600; margin-bottom: 0.2rem; }
-  #gate .gate-sub { color: rgba(200,220,196,0.45); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.8rem; }
-  #gate input { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(200,220,196,0.2); background: rgba(0,0,0,0.35); color: #c8d9c4; font-family: inherit; font-size: 1rem; letter-spacing: 0.1em; text-align: center; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
-  #gate input:focus { border-color: rgba(122,158,114,0.6); }
-  #gate input.error { border-color: rgba(192,57,43,0.7); animation: shake 0.35s ease; }
-  #gate button { margin-top: 1rem; width: 100%; padding: 0.75rem; border-radius: 8px; border: none; background: #4a6741; color: #c8d9c4; font-family: inherit; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-  #gate button:hover { background: #5a7d51; }
-  #gate .gate-err { margin-top: 0.75rem; color: #e07068; font-size: 0.78rem; min-height: 1.2em; }
-  @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-7px)} 40%{transform:translateX(7px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+:root {
+  --ink: #050b0e;
+  --void: #080f12;
+  --glass: rgba(10,24,30,0.7);
+  --glass-light: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.07);
+  --glass-border-bright: rgba(255,255,255,0.14);
+  --teal: #00e5c3;
+  --teal-dim: #00c4a7;
+  --teal-glow: rgba(0,229,195,0.15);
+  --teal-deep: rgba(0,229,195,0.06);
+  --cyan: #00bfff;
+  --cyan-glow: rgba(0,191,255,0.12);
+  --emerald: #00ff88;
+  --emerald-dim: rgba(0,255,136,0.7);
+  --amber: #ffb740;
+  --amber-glow: rgba(255,183,64,0.15);
+  --red: #ff4d6d;
+  --red-glow: rgba(255,77,109,0.15);
+  --purple: #a855f7;
+  --purple-glow: rgba(168,85,247,0.12);
+  --text-primary: rgba(220,240,235,0.95);
+  --text-secondary: rgba(160,200,195,0.65);
+  --text-dim: rgba(120,160,155,0.45);
+  --mono: 'JetBrains Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'Space Grotesk', sans-serif;
+}
 
-  /* ── MAIN CONTENT (hidden until unlocked) ── */
-  #main-content { display: none; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--void);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
 
-  :root {
-    --forest: #2d4a2e; --moss: #4a6741; --sage: #7a9e72; --mist: #c8d9c4;
-    --cream: #f5f1eb; --earth: #8b6f47; --amber: #c8902a; --sand: #e8dcc8;
-    --ink: #1a2a1b; --soft: #6b7c6a; --white: #fefdf9;
-    --red: #c0392b; --green: #27ae60;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.6; }
+.bg-canvas {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,229,195,0.055) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0,191,255,0.04) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 50% at 50% 50%, rgba(10,20,25,1) 0%, #050b0e 100%);
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.35;
+  background-image: linear-gradient(rgba(0,229,195,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,195,0.07) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridShift 30s linear infinite;
+}
+@keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
+.scanline {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,229,195,0.012) 3px, rgba(0,229,195,0.012) 4px);
+  animation: scanMove 8s linear infinite;
+}
+@keyframes scanMove { 0% { transform: translateY(0); } 100% { transform: translateY(8px); } }
 
-  nav { position: sticky; top: 0; z-index: 100; background: var(--forest); display: flex; align-items: center; padding: 0 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.2); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  nav::-webkit-scrollbar { display: none; }
-  nav .brand { font-family: 'Cormorant Garamond', serif; color: var(--white); font-size: 1.1rem; font-weight: 600; padding: 1rem 1.5rem 1rem 0; border-right: 1px solid rgba(255,255,255,0.15); margin-right: 1rem; white-space: nowrap; }
-  nav a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; padding: 1rem 0.75rem; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; }
-  nav a:hover, nav a.active { color: var(--mist); border-bottom-color: var(--sage); }
+#cursor-glow {
+  position: fixed; width: 300px; height: 300px;
+  border-radius: 50%; pointer-events: none; z-index: 1;
+  background: radial-gradient(circle, rgba(0,229,195,0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
 
-  .currency-bar { background: rgba(45,74,46,0.97); border-bottom: 1px solid rgba(200,220,196,0.15); padding: 0.55rem 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between; }
-  .currency-bar .cb-left { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-  .currency-bar label { color: rgba(200,220,196,1); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
-  .currency-bar .currency-toggle { display: flex; background: rgba(0,0,0,0.9); border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,220,196,0.75); }
-  .currency-bar .currency-toggle button { background: none; border: none; color: rgba(200,220,196,0.65); font-family: inherit; font-size: 0.78rem; font-weight: 700; padding: 0.35rem 0.9rem; cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em; }
-  .currency-bar .currency-toggle button.active { background: var(--sage); color: var(--forest); }
-  .currency-bar .rate-info { color: rgba(200,220,196,0.55); font-size: 0.7rem; white-space: nowrap; }
-  .currency-bar .rate-info span { color: rgba(200,220,196,0.9); font-weight: 600; }
-  .currency-bar .rate-loading { color: rgba(200,220,196,0.4); font-size: 0.7rem; font-style: italic; }
+/* GATE */
+#gate {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--void);
+}
+#gate::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(0,229,195,0.08) 0%, transparent 70%);
+}
+.gate-box {
+  position: relative; z-index: 1;
+  background: rgba(10,24,30,0.9); border: 1px solid var(--glass-border-bright);
+  border-radius: 24px; padding: 3rem 3.5rem; width: 100%; max-width: 400px;
+  text-align: center; backdrop-filter: blur(20px);
+  box-shadow: 0 0 80px rgba(0,229,195,0.08), 0 40px 80px rgba(0,0,0,0.6);
+  animation: gateIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes gateIn { from { opacity: 0; transform: translateY(30px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.gate-orb {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1.5rem;
+  background: conic-gradient(from 0deg, var(--teal), var(--cyan), var(--emerald), var(--teal));
+  display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+  animation: orbSpin 8s linear infinite; position: relative;
+}
+.gate-orb::after {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--teal), var(--cyan), var(--emerald), var(--teal));
+  filter: blur(8px); opacity: 0.5; z-index: -1; animation: orbSpin 8s linear infinite;
+}
+@keyframes orbSpin { to { transform: rotate(360deg); } }
+.gate-title { font-family: var(--display); font-size: 1.6rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+.gate-sub { font-size: 0.72rem; color: var(--text-secondary); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 2rem; }
+.gate-input {
+  width: 100%; padding: 0.85rem 1.2rem; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--glass-border-bright); border-radius: 12px; color: var(--text-primary);
+  font-family: var(--mono); font-size: 1rem; text-align: center; letter-spacing: 0.2em; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.gate-input:focus { border-color: rgba(0,229,195,0.5); box-shadow: 0 0 0 3px rgba(0,229,195,0.08), 0 0 20px rgba(0,229,195,0.1); }
+.gate-input.error { border-color: rgba(255,77,109,0.6); animation: shake 0.35s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+.gate-btn {
+  margin-top: 1rem; width: 100%; padding: 0.85rem;
+  background: linear-gradient(135deg, rgba(0,229,195,0.15), rgba(0,191,255,0.1));
+  border: 1px solid rgba(0,229,195,0.35); border-radius: 12px; color: var(--teal);
+  font-family: var(--body); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+}
+.gate-btn:hover { background: linear-gradient(135deg, rgba(0,229,195,0.25), rgba(0,191,255,0.15)); box-shadow: 0 0 30px rgba(0,229,195,0.2); }
+.gate-err { margin-top: 0.75rem; color: var(--red); font-size: 0.78rem; min-height: 1.2em; }
 
-  .hero { background: linear-gradient(135deg, var(--forest), #3a5c3b 50%, #2d4a2e); color: var(--cream); padding: 4rem 2rem 3rem; text-align: center; }
-  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,5vw,3rem); font-weight: 600; margin-bottom: 0.5rem; }
-  .hero .sub { font-size: 0.82rem; opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
-  .hero .badge { display: inline-block; background: rgba(200,220,196,0.15); border: 1px solid rgba(200,220,196,0.3); border-radius: 100px; padding: 0.35rem 1.1rem; font-size: 0.78rem; }
+/* APP */
+#app { display: none; position: relative; z-index: 2; }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5,11,14,0.85); backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 0; padding: 0 2rem;
+  overflow-x: auto; scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-brand {
+  font-family: var(--display); font-size: 1rem; font-weight: 800; color: var(--teal);
+  letter-spacing: -0.01em; padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--glass-border); margin-right: 1rem; white-space: nowrap;
+  text-shadow: 0 0 20px rgba(0,229,195,0.4);
+}
+nav a {
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 0.73rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 1.1rem 0.9rem; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+}
+nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal); text-shadow: 0 0 12px rgba(0,229,195,0.3); }
+
+/* CURRENCY BAR */
+.currency-bar {
+  background: rgba(5,11,14,0.6); border-bottom: 1px solid var(--glass-border);
+  padding: 0.5rem 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between;
+}
+.cbar-label { font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.currency-toggle { display: flex; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border-bright); border-radius: 8px; overflow: hidden; }
+.currency-toggle button {
+  background: none; border: none; color: var(--text-secondary);
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 400;
+  padding: 0.32rem 0.85rem; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+}
+.currency-toggle button.active { background: rgba(0,229,195,0.15); color: var(--teal); text-shadow: 0 0 10px rgba(0,229,195,0.5); }
+.rate-info { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); }
+.rate-info .rate-val { color: var(--teal); }
+
+/* HERO */
+.hero {
+  min-height: 92vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 4rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--teal); text-transform: uppercase;
+  background: rgba(0,229,195,0.08); border: 1px solid rgba(0,229,195,0.2);
+  border-radius: 100px; padding: 0.35rem 1rem; margin-bottom: 2rem; display: inline-block;
+  animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+.hero-title {
+  font-family: var(--display); font-size: clamp(2.5rem,8vw,6rem); font-weight: 800;
+  line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 1.5rem;
+  animation: fadeUp 1s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
+.hero-title .line1 { display: block; color: var(--text-primary); }
+.hero-title .line2 {
+  display: block; color: transparent;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--cyan) 40%, var(--emerald) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(0,229,195,0.3));
+}
+.hero-sub { color: var(--text-secondary); font-size: 1rem; max-width: 540px; line-height: 1.7; margin: 0 auto 2.5rem; animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 1s 0.65s cubic-bezier(0.16,1,0.3,1) both; }
+.hstat {
+  background: var(--glass); border: 1px solid var(--glass-border-bright);
+  border-radius: 16px; padding: 1.2rem 1.8rem; backdrop-filter: blur(10px);
+  position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;
+}
+.hstat:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px var(--teal-glow); }
+.hstat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--teal), transparent); opacity: 0.6; }
+.hstat-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem; }
+.hstat-val { font-family: var(--display); font-size: 1.8rem; font-weight: 800; line-height: 1; color: var(--teal); text-shadow: 0 0 20px rgba(0,229,195,0.3); }
+.hstat-sub { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.25rem; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SECTIONS */
+section { padding: 5rem 0; position: relative; }
+section + section { border-top: 1px solid var(--glass-border); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+.section-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.5rem; }
+.section-title { font-family: var(--display); font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.1; }
+.section-desc { color: var(--text-secondary); font-size: 0.9rem; max-width: 580px; line-height: 1.7; margin-bottom: 2.5rem; }
+
+/* GLASS CARD */
+.glass-card { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; backdrop-filter: blur(20px); position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+.glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); }
+.glass-card:hover { transform: translateY(-2px); }
+
+/* STAT CARDS */
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+.stat-card { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 16px; padding: 1.4rem 1.6rem; position: relative; overflow: hidden; transition: all 0.3s; }
+.stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
+.stat-card.teal::after { background: linear-gradient(90deg, var(--teal), var(--cyan)); }
+.stat-card.amber::after { background: linear-gradient(90deg, var(--amber), #ff8c40); }
+.stat-card.red::after { background: linear-gradient(90deg, var(--red), #ff8080); }
+.stat-card.purple::after { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+.stat-card.emerald::after { background: linear-gradient(90deg, var(--emerald), var(--teal)); }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+.stat-card.teal:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 30px var(--teal-glow); }
+.stat-card.amber:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 30px var(--amber-glow); }
+.stat-card.red:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 30px var(--red-glow); }
+.stat-card.emerald:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,255,136,0.12); }
+.sc-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.5rem; }
+.sc-val { font-family: var(--display); font-size: 1.7rem; font-weight: 800; line-height: 1.1; margin-bottom: 0.3rem; }
+.sc-val.teal { color: var(--teal); }
+.sc-val.amber { color: var(--amber); }
+.sc-val.red { color: var(--red); }
+.sc-val.emerald { color: var(--emerald); }
+.sc-note { font-size: 0.7rem; color: var(--text-dim); line-height: 1.5; }
+
+/* RADIAL BARS */
+.radial-bar-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.9rem; }
+.rb-label { width: 180px; min-width: 180px; font-size: 0.78rem; color: var(--text-secondary); text-align: right; line-height: 1.3; }
+.rb-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; position: relative; }
+.rb-fill { height: 100%; border-radius: 3px; position: relative; animation: barGrow 1.5s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes barGrow { from { width: 0 !important; } }
+.rb-fill::after { content: ''; position: absolute; right: 0; top: -3px; width: 12px; height: 12px; border-radius: 50%; background: inherit; filter: brightness(1.5); box-shadow: 0 0 8px currentColor; }
+.rb-val { width: 100px; font-family: var(--mono); font-size: 0.73rem; color: var(--text-secondary); text-align: right; }
+.rb-pct { width: 44px; font-family: var(--mono); font-size: 0.73rem; color: var(--text-dim); text-align: right; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--glass-border); }
+table { width: 100%; border-collapse: collapse; }
+thead th { background: rgba(0,229,195,0.05); color: var(--teal); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem 1rem; text-align: right; border-bottom: 1px solid var(--glass-border); white-space: nowrap; }
+thead th:first-child { text-align: left; }
+tbody tr { border-bottom: 1px solid rgba(255,255,255,0.035); transition: background 0.15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(0,229,195,0.03); }
+td { padding: 0.65rem 1rem; font-size: 0.82rem; text-align: right; white-space: nowrap; color: var(--text-primary); }
+td:first-child { text-align: left; color: var(--text-secondary); }
+td.hl { font-weight: 600; color: var(--teal); font-family: var(--mono); }
+td.amber { color: var(--amber); font-family: var(--mono); }
+td.red { color: var(--red); font-family: var(--mono); }
+td.green { color: var(--emerald); font-family: var(--mono); }
+td.muted { color: var(--text-dim); font-style: italic; font-size: 0.75rem; }
+.total-row td { background: rgba(0,229,195,0.06); color: var(--teal); font-weight: 700; font-size: 0.85rem; font-family: var(--mono); }
+
+/* ACCORDION */
+.detail-accordion { display: flex; flex-direction: column; gap: 0.75rem; }
+.detail-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; overflow: hidden; }
+.detail-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.3rem; cursor: pointer; transition: background 0.2s; gap: 1rem; }
+.detail-header:hover { background: rgba(0,229,195,0.04); }
+.dh-left { display: flex; align-items: center; gap: 0.75rem; }
+.dh-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.dh-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+.dh-code { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); }
+.dh-right { display: flex; align-items: center; gap: 1.5rem; }
+.dh-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.dt-item { text-align: right; }
+.dt-label { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); display: block; }
+.dt-val { font-family: var(--mono); font-size: 0.9rem; color: var(--teal); font-weight: 400; }
+.dh-toggle { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-dim); flex-shrink: 0; transition: transform 0.3s, background 0.2s; }
+.detail-item.open .dh-toggle { transform: rotate(180deg); background: rgba(0,229,195,0.1); color: var(--teal); }
+.detail-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); border-top: 0 solid var(--glass-border); }
+.detail-item.open .detail-body { max-height: 600px; border-top-width: 1px; }
+
+/* PROPOSALS */
+.proposals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+.proposal-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px; padding: 1.6rem; position: relative; overflow: hidden; transition: all 0.3s; }
+.proposal-card::before { content: ''; position: absolute; inset: 0; border-radius: 18px; background: linear-gradient(135deg, rgba(255,183,64,0.05) 0%, transparent 60%); pointer-events: none; }
+.proposal-card:hover { transform: translateY(-4px); border-color: rgba(255,183,64,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--amber-glow); }
+.p-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
+.p-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.p-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
+.p-badge { display: inline-block; padding: 0.28rem 0.7rem; background: rgba(255,183,64,0.1); border: 1px solid rgba(255,183,64,0.3); border-radius: 100px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber); }
+
+/* LOT CALC */
+.lot-calc { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; }
+.lot-select-wrap { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.lot-select-label { font-size: 0.8rem; color: var(--text-secondary); }
+select { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border-bright); border-radius: 10px; color: var(--text-primary); font-family: var(--body); font-size: 0.9rem; padding: 0.6rem 1rem; cursor: pointer; outline: none; transition: border-color 0.2s; }
+select:focus { border-color: rgba(0,229,195,0.4); }
+.lot-result-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; opacity: 0; transform: translateY(10px); transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.lot-result-panel.visible { opacity: 1; transform: translateY(0); }
+.lr-item { background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.15); border-radius: 12px; padding: 1rem 1.2rem; }
+.lr-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.35rem; }
+.lr-val { font-family: var(--display); font-size: 1.5rem; font-weight: 800; color: var(--teal); }
+
+/* CHART WRAP */
+.chart-wrap { background: var(--glass); border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; position: relative; }
+.chart-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,195,0.4), transparent); pointer-events: none; }
+.chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+.chart-title { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+.chart-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+/* FLOW SVG ANIMATIONS */
+.flow-path-line { stroke-dasharray: 8 4; animation: flowDash 3s linear infinite; }
+@keyframes flowDash { to { stroke-dashoffset: -48; } }
+.glow-text { filter: drop-shadow(0 0 8px rgba(0,229,195,0.6)); }
+
+/* ── INTERACTIVE FLOW ── */
+.flow-summary-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+}
+.fss-card {
+  background: rgba(0,229,195,0.04); border: 1px solid rgba(0,229,195,0.12);
+  border-radius: 14px; padding: 1rem 1.2rem; text-align: center;
+}
+.fss-label { font-size: 0.62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+.fss-val { font-family: var(--display); font-size: 1.3rem; font-weight: 800; color: var(--teal); }
+.fss-val.amber { color: var(--amber); }
+.fss-val.surplus { color: var(--emerald); }
+.fss-val.deficit { color: var(--red); }
+
+.flow-cat-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+.flow-cat-row {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+  border-radius: 12px; padding: 9px 14px; transition: background 0.2s;
+}
+.flow-cat-row:hover { background: rgba(0,229,195,0.04); }
+.flow-cat-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.flow-cat-name { flex: 1; font-size: 0.82rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.flow-cat-pct { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); width: 44px; text-align: right; }
+.flow-cat-amt { font-family: var(--mono); font-size: 0.78rem; color: var(--teal); width: 116px; text-align: right; }
+.flow-cat-close {
+  background: none; border: none; cursor: pointer; color: var(--text-dim);
+  font-size: 1.1rem; line-height: 1; padding: 2px 6px; border-radius: 6px;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.flow-cat-close:hover { background: rgba(255,77,109,0.15); color: var(--red); }
+
+.flow-add-row {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px dashed rgba(0,229,195,0.2); border-radius: 12px;
+  padding: 10px 14px; cursor: pointer; transition: all 0.2s; background: transparent; margin-bottom: 1rem;
+}
+.flow-add-row:hover { border-color: rgba(0,229,195,0.45); background: rgba(0,229,195,0.04); }
+.flow-add-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid rgba(0,229,195,0.4);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--teal); font-size: 1rem; line-height: 1; flex-shrink: 0; transition: all 0.2s;
+}
+.flow-add-row:hover .flow-add-icon { background: rgba(0,229,195,0.12); border-color: rgba(0,229,195,0.7); }
+.flow-add-label { font-size: 0.78rem; color: rgba(0,229,195,0.45); font-style: italic; }
+
+.flow-add-form {
+  display: none; flex-direction: column; gap: 10px;
+  background: rgba(0,229,195,0.05); border: 1px solid rgba(0,229,195,0.2);
+  border-radius: 14px; padding: 1.2rem; margin-bottom: 1rem;
+}
+.flow-add-form.open { display: flex; }
+.flow-form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.flow-form-input {
+  flex: 1; min-width: 120px;
+  background: rgba(0,0,0,0.35); border: 1px solid rgba(0,229,195,0.2);
+  border-radius: 9px; color: var(--text-primary); font-family: var(--body);
+  font-size: 0.85rem; padding: 7px 12px; outline: none; transition: border-color 0.2s;
+}
+.flow-form-input:focus { border-color: rgba(0,229,195,0.5); }
+.flow-form-input::placeholder { color: var(--text-dim); }
+.flow-form-btns { display: flex; gap: 8px; }
+.flow-btn-save {
+  background: linear-gradient(135deg, rgba(0,229,195,0.18), rgba(0,191,255,0.1));
+  border: 1px solid rgba(0,229,195,0.4); border-radius: 9px; color: var(--teal);
+  font-family: var(--body); font-size: 0.78rem; font-weight: 600; letter-spacing: .06em;
+  padding: 7px 16px; cursor: pointer; transition: all 0.2s;
+}
+.flow-btn-save:hover { background: linear-gradient(135deg, rgba(0,229,195,0.28), rgba(0,191,255,0.18)); box-shadow: 0 0 18px rgba(0,229,195,0.15); }
+.flow-btn-cancel {
+  background: transparent; border: 1px solid var(--glass-border-bright);
+  border-radius: 9px; color: var(--text-dim); font-family: var(--body);
+  font-size: 0.78rem; padding: 7px 14px; cursor: pointer; transition: all 0.2s;
+}
+.flow-btn-cancel:hover { color: var(--text-secondary); border-color: rgba(255,255,255,0.2); }
+
+.flow-surplus-box { border-radius: 14px; padding: 1.2rem 1.5rem; margin-top: 1rem; transition: all 0.4s; }
+.flow-surplus-box.pos { background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.2); }
+.flow-surplus-box.neg { background: rgba(255,77,109,0.07); border: 1px solid rgba(255,77,109,0.25); }
+.fsb-label { font-size: 0.62rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
+.fsb-label.pos { color: rgba(0,255,136,0.6); }
+.fsb-label.neg { color: rgba(255,77,109,0.6); }
+.fsb-val { font-family: var(--display); font-size: 1.6rem; font-weight: 800; }
+.fsb-val.pos { color: var(--emerald); }
+.fsb-val.neg { color: var(--red); }
+.fsb-mo { font-size: 0.72rem; margin-top: 3px; }
+.fsb-mo.pos { color: rgba(0,255,136,0.5); }
+.fsb-mo.neg { color: rgba(255,77,109,0.5); }
+
+/* ACTUALS */
+.change-up { color: var(--red); font-size: 0.72rem; }
+.change-dn { color: var(--emerald); font-size: 0.72rem; }
+.change-nt { color: var(--text-dim); font-size: 0.72rem; }
+
+/* LEGEND */
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--text-secondary); }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* PERIOD TAGS */
+.period-wrap { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.period-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.05em; padding: 0.3rem 0.8rem; border-radius: 6px; }
+.period-prior { background: rgba(255,183,64,0.1); color: var(--amber); border: 1px solid rgba(255,183,64,0.25); }
+.period-prop { background: rgba(0,229,195,0.08); color: var(--teal); border: 1px solid rgba(0,229,195,0.2); }
+
+/* NOTICE */
+.notice { background: rgba(255,183,64,0.07); border: 1px solid rgba(255,183,64,0.2); border-radius: 12px; padding: 1rem 1.3rem; font-size: 0.82rem; color: rgba(255,183,64,0.85); line-height: 1.6; margin-bottom: 2rem; }
+
+/* FOOTER */
+footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-border); padding: 3rem 2rem; text-align: center; }
+.footer-brand { font-family: var(--display); font-size: 1.2rem; font-weight: 800; color: var(--teal); margin-bottom: 0.5rem; }
+.footer-sub { font-size: 0.75rem; color: var(--text-dim); line-height: 1.8; }
+
+/* MOBILE */
+@media(max-width: 640px) {
+  nav { padding: 0 1rem; }
+  .container { padding: 0 1rem; }
   section { padding: 3rem 0; }
-  section + section { border-top: 1px solid var(--sand); }
-  h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--forest); margin-bottom: 0.3rem; }
-  .section-sub { color: var(--soft); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
-  .lead { color: var(--soft); margin-bottom: 1.8rem; max-width: 660px; font-size: 0.9rem; }
+  .hero { min-height: 70vh; }
+  .hero-stats { flex-direction: column; align-items: stretch; }
+  .summary-grid { grid-template-columns: repeat(2,1fr); }
+  .rb-label { width: 110px; min-width: 110px; font-size: 0.7rem; }
+  .rb-val { width: 80px; font-size: 0.67rem; }
+  .detail-header { flex-direction: column; align-items: flex-start; }
+  .dh-right { width: 100%; justify-content: space-between; }
+  .flow-summary-strip { grid-template-columns: 1fr 1fr; }
+  .fss-card:last-child { grid-column: span 2; }
+  .flow-form-row { flex-direction: column; }
+}
 
-  .period-banner { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .period-tag { border-radius: 6px; padding: 0.35rem 0.85rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; }
-  .period-tag.prior { background: rgba(200,144,42,0.15); color: #7a5010; border: 1px solid rgba(200,144,42,0.3); }
-  .period-tag.proposed { background: rgba(45,74,46,0.1); color: var(--forest); border: 1px solid rgba(45,74,46,0.2); }
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: none; }
 
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-  .card { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; padding: 1.3rem 1.4rem; position: relative; overflow: hidden; }
-  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--moss), var(--sage)); }
-  .card.amber::before { background: linear-gradient(90deg, var(--earth), var(--amber)); }
-  .card.red::before { background: linear-gradient(90deg, #922b21, var(--red)); }
-  .card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--soft); margin-bottom: 0.35rem; }
-  .card .value { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--forest); line-height: 1.15; }
-  .card .note { font-size: 0.71rem; color: var(--soft); margin-top: 0.3rem; line-height: 1.4; }
-
-  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; border: 1px solid var(--sand); margin-bottom: 0.75rem; }
-  table { width: 100%; border-collapse: collapse; background: var(--white); }
-  thead th { background: var(--forest); color: var(--mist); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.8rem 1rem; text-align: right; white-space: nowrap; }
-  thead th:first-child { text-align: left; }
-  tbody tr { border-bottom: 1px solid var(--sand); }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: rgba(122,158,114,0.05); }
-  td { padding: 0.65rem 1rem; font-size: 0.82rem; text-align: right; white-space: nowrap; }
-  td:first-child { text-align: left; }
-  td.lc { font-weight: 500; white-space: normal; max-width: 320px; }
-  .total-row td { background: var(--forest); color: var(--mist); font-weight: 700; font-size: 0.88rem; }
-  .subtotal-row td { background: rgba(45,74,46,0.07); font-weight: 600; font-size: 0.81rem; }
-  .opt-row td { color: var(--earth); font-style: italic; }
-  .up { color: var(--red); font-size: 0.71rem; }
-  .dn { color: var(--green); font-size: 0.71rem; }
-  .nt { font-size: 0.7rem; color: var(--soft); }
-
-  .detail-section { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1rem; }
-  .detail-card { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; overflow: hidden; }
-  .detail-card-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .detail-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.2rem; background: var(--forest); color: var(--mist); gap: 1rem; flex-wrap: wrap; }
-  .detail-card-header .cat-title { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; display: flex; align-items: center; gap: 0.5rem; }
-  .detail-card-header .cat-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-  .detail-card-header .ct-item { text-align: right; }
-  .detail-card-header .ct-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.07em; opacity: 0.6; display: block; }
-  .detail-card-header .ct-val { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; }
-  .detail-card table { border-radius: 0; border: none; }
-  .detail-card thead th { background: rgba(45,74,46,0.06); color: var(--soft); font-size: 0.63rem; padding: 0.5rem 1rem; }
-  .detail-card td { padding: 0.55rem 1rem; font-size: 0.8rem; }
-  .detail-card td:first-child { font-weight: 400; color: var(--ink); }
-  .detail-card td.note-cell { font-size: 0.7rem; color: var(--soft); text-align: left; white-space: normal; max-width: 200px; }
-  .zero-row td { color: var(--soft); }
-
-  .grand-total-card { background: var(--forest); color: var(--mist); border-radius: 12px; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-  .grand-total-card .gt-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em; }
-  .grand-total-card .gt-vals { display: flex; gap: 2rem; flex-wrap: wrap; }
-  .grand-total-card .gt-item { text-align: right; }
-  .grand-total-card .gt-lbl { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.07em; opacity: 0.6; display: block; }
-  .grand-total-card .gt-val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
-
-  .bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem; }
-  .bar-label { width: 175px; min-width: 175px; font-size: 0.77rem; text-align: right; line-height: 1.3; }
-  .bar-track { flex: 1; background: var(--sand); border-radius: 4px; height: 20px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--moss), var(--sage)); display: flex; align-items: center; padding-left: 7px; font-size: 0.67rem; font-weight: 600; color: white; min-width: 5px; white-space: nowrap; }
-  .bar-fill.a { background: linear-gradient(90deg, var(--earth), var(--amber)); }
-  .bar-fill.m { background: rgba(122,158,114,0.5); }
-  .bar-pct { width: 48px; text-align: right; font-size: 0.74rem; color: var(--soft); font-weight: 500; }
-
-  .chip { display: inline-block; border-radius: 100px; font-size: 0.65rem; font-weight: 600; padding: 0.12rem 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
-  .chip-g { background: rgba(39,174,96,0.12); color: #1a7a40; }
-  .chip-a { background: rgba(200,144,42,0.15); color: #7a5010; }
-
-  .proposals { display: flex; flex-direction: column; gap: 1rem; }
-  .proposal { background: var(--white); border: 1px solid var(--sand); border-radius: 10px; padding: 1.2rem 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; }
-  .p-icon { background: var(--earth); color: white; border-radius: 8px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-  .proposal h4 { font-size: 0.93rem; font-weight: 600; margin-bottom: 0.2rem; color: var(--forest); }
-  .proposal p { font-size: 0.8rem; color: var(--soft); line-height: 1.55; }
-
-  .lot-lookup { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-  .lot-lookup label { font-size: 0.85rem; font-weight: 500; }
-  .lot-lookup select { padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--sand); background: var(--white); font-family: inherit; font-size: 0.9rem; cursor: pointer; }
-  .lot-result { background: var(--forest); color: var(--mist); border-radius: 12px; padding: 1.2rem 1.5rem; display: none; gap: 2rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem; }
-  .lot-result.vis { display: flex; }
-  .r-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.6; }
-  .r-val { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 600; }
-
-  .notice { background: rgba(200,144,42,0.1); border: 1px solid rgba(200,144,42,0.3); border-radius: 8px; padding: 0.9rem 1.2rem; font-size: 0.81rem; color: #7a5010; margin-bottom: 1.5rem; line-height: 1.55; }
-  .fn { font-size: 0.71rem; color: var(--soft); margin-top: 0.6rem; line-height: 1.5; }
-
-  footer { background: var(--forest); color: rgba(200,220,196,0.65); text-align: center; padding: 2rem 1rem; font-size: 0.75rem; margin-top: 2rem; }
-  footer strong { color: var(--mist); }
-
-  /* ── MOBILE IMPROVEMENTS ── */
-  @media(max-width:640px){
-    /* Nav */
-    nav { padding: 0 0.75rem; }
-    nav .brand { font-size: 0.95rem; padding: 0.85rem 0.75rem 0.85rem 0; margin-right: 0.5rem; }
-    nav a { font-size: 0.72rem; padding: 0.85rem 0.55rem; }
-
-    /* Currency bar */
-    .currency-bar { padding: 0.55rem 1rem; gap: 0.6rem; }
-    .currency-bar .cb-left { gap: 0.5rem; }
-    .currency-bar .currency-toggle button { padding: 0.3rem 0.65rem; font-size: 0.72rem; }
-    #rate-display { font-size: 0.67rem; width: 100%; }
-
-    /* Hero */
-    .hero { padding: 2.5rem 1rem 2rem; }
-    .hero .sub { font-size: 0.72rem; letter-spacing: 0.06em; }
-    .hero .badge { font-size: 0.72rem; padding: 0.3rem 0.8rem; white-space: normal; text-align: center; line-height: 1.5; }
-
-    /* Container */
-    .container { padding: 0 1rem; }
-    section { padding: 2rem 0; }
-    h2 { font-size: 1.4rem; }
-
-    /* Summary cards — 2 columns on mobile */
-    .cards { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
-    .card { padding: 1rem 0.9rem; }
-    .card .value { font-size: 1.25rem; word-break: break-word; }
-    .card .label { font-size: 0.65rem; }
-    .card .note { font-size: 0.65rem; }
-
-    /* Bar chart — tighter label */
-    .bar-label { width: 110px; min-width: 110px; font-size: 0.68rem; }
-    .bar-fill { font-size: 0; /* hide inline currency text on narrow bars */ }
-    .bar-pct { width: 38px; font-size: 0.68rem; }
-
-    /* Tables — allow horizontal scroll, prevent text cutoff */
-    .table-wrap { border-radius: 8px; }
-    table { min-width: 520px; }
-    thead th { font-size: 0.62rem; padding: 0.65rem 0.75rem; }
-    td { padding: 0.55rem 0.75rem; font-size: 0.77rem; }
-    td.lc { max-width: 200px; white-space: normal; }
-    .nt { display: block; margin-top: 0.15rem; }
-
-    /* Detail cards */
-    .detail-card { overflow: visible; border-radius: 12px; }
-    .detail-card-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-    .detail-card-header .cat-totals { gap: 1rem; }
-    .detail-card-header .ct-val { font-size: 1rem; }
-    .detail-card-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 0 0 12px 12px; }
-    .detail-card table { min-width: 480px; border-radius: 0; }
-    .detail-card thead th { font-size: 0.6rem; padding: 0.45rem 0.75rem; }
-    .detail-card td { padding: 0.45rem 0.75rem; font-size: 0.75rem; }
-    .detail-card td.note-cell { max-width: 130px; }
-
-    /* Grand total */
-    .grand-total-card { flex-direction: column; align-items: flex-start; }
-    .grand-total-card .gt-val { font-size: 1.3rem; }
-
-    /* Lot result */
-    .lot-result { gap: 1rem; }
-    .lot-result .r-val { font-size: 1.15rem; }
-
-    /* Proposals */
-    .proposal { padding: 1rem 1rem; }
-
-    /* Notice */
-    .notice { font-size: 0.77rem; }
-
-    /* Period banner */
-    .period-tag { font-size: 0.67rem; padding: 0.28rem 0.65rem; }
-
-    /* Gate box on tiny screens */
-    #gate .gate-box { padding: 2rem 1.5rem; margin: 0 1rem; }
-  }
-
-  @media(max-width:400px){
-    .cards { grid-template-columns: 1fr; }
-    nav .brand { font-size: 0.85rem; }
-    .bar-label { width: 90px; min-width: 90px; font-size: 0.65rem; }
-  }
+#particleCanvas { position: absolute; inset: 0; pointer-events: none; }
 </style>
 </head>
 <body>
 
-<!-- ── PASSWORD GATE ── -->
+<div class="bg-canvas"></div>
+<div class="bg-grid"></div>
+<div class="scanline"></div>
+<div id="cursor-glow"></div>
+
+<!-- GATE -->
 <div id="gate">
   <div class="gate-box">
-    <div class="gate-logo">🌿</div>
-    <h2>LEV Eco Village</h2>
-    <div class="gate-sub">HOA Budget 2026–2027 · Members Only</div>
-    <input type="password" id="pwInput" placeholder="Enter password" autocomplete="current-password" />
-    <button onclick="checkPw()">Unlock</button>
+    <div class="gate-orb">🌿</div>
+    <div class="gate-title">LEV Eco Village</div>
+    <div class="gate-sub">Financial Ecosystem 2026–27 · Members Only</div>
+    <input type="password" id="pwInput" class="gate-input" placeholder="· · · · · · ·" autocomplete="current-password" />
+    <button class="gate-btn" onclick="checkPw()">Initialize Access</button>
     <div class="gate-err" id="pwErr"></div>
   </div>
 </div>
 
-<!-- ── MAIN CONTENT ── -->
-<div id="main-content">
+<!-- APP -->
+<div id="app">
 
 <nav>
-  <div class="brand">🌿 LEV Eco Village</div>
-  <a href="#overview" class="active">Overview</a>
+  <div class="nav-brand">🌿 LEV</div>
+  <a href="#hero" class="active">Overview</a>
+  <a href="#flow">Money Flow</a>
   <a href="#base">Base Budget</a>
   <a href="#detailed">Full Detail</a>
   <a href="#actuals">Actuals</a>
@@ -271,542 +491,425 @@
 </nav>
 
 <div class="currency-bar">
-  <div class="cb-left">
-    <label>Display currency:</label>
+  <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+    <span class="cbar-label">Currency</span>
     <div class="currency-toggle">
       <button id="btn-crc" class="active" onclick="setCurrency('CRC')">₡ CRC</button>
       <button id="btn-usd" onclick="setCurrency('USD')">$ USD</button>
       <button id="btn-eur" onclick="setCurrency('EUR')">€ EUR</button>
     </div>
   </div>
-  <div id="rate-display" class="rate-loading">Fetching live rates…</div>
+  <div id="rate-display" class="rate-info" style="font-size:0.68rem;color:var(--text-dim);">Loading live rates…</div>
 </div>
 
-<div class="hero">
-  <div class="sub">Condominio H.R. Turístico Arboleda de Machuca</div>
-  <h1>HOA Budget 2026–2027</h1>
-  <div class="badge">HOA Meeting · April 11, 2026 &nbsp;·&nbsp; <span id="hero-rate">Rate: ₡462 / USD (spreadsheet rate)</span></div>
-</div>
+<!-- HERO -->
+<section id="hero" class="hero" style="padding-top:6rem;">
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-eyebrow">HOA Budget 2026–27 · Annual Assembly April 11</div>
+  <h1 class="hero-title">
+    <span class="line1">Financial</span>
+    <span class="line2">Ecosystem</span>
+  </h1>
+  <p class="hero-sub">A living view of your community's money — where it comes from, where it goes, and what keeps LEV Eco Village thriving.</p>
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-label">Base Essential Budget</div>
+      <div class="hstat-val cv" data-crc="88700000" data-freq="annual">₡88,700,000</div>
+      <div class="hstat-sub">April 2026 – March 2027</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-label">Year-on-Year Change</div>
+      <div class="hstat-val" style="color:var(--amber);">+6.9%</div>
+      <div class="hstat-sub">vs 2025–26 actuals</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-label">Monthly HOA Income</div>
+      <div class="hstat-val" style="color:var(--cyan);"><span class="cv" data-crc="8701486" data-freq="monthly">₡8.7M</span></div>
+      <div class="hstat-sub">2025–26 average actual</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-label">Homes in Community</div>
+      <div class="hstat-val" style="color:var(--purple);">47</div>
+      <div class="hstat-sub">Lots (excl. lots 22 & 23)</div>
+    </div>
+  </div>
+</section>
 
-<section id="overview">
+<!-- MONEY FLOW -->
+<section id="flow">
   <div class="container">
-    <div class="section-sub">Summary at a Glance</div>
-    <h2>What's Being Voted On</h2>
-    <div class="period-banner">
-      <div class="period-tag prior">🗓 Prior year actuals: April 2025 – March 2026</div>
-      <div class="period-tag proposed">🗓 Proposed budget: April 2026 – March 2027</div>
-    </div>
-    <p class="lead">The HOA is voting on two things: (1) the <strong>Base Essential Budget</strong> of <span class="cv" data-crc="88700000" data-freq="annual"></span> covering all standard operations, and (2) three <strong>optional proposals</strong> (road repairs, pool renovation, paid manager) each requiring a separate vote.</p>
+    <div class="section-label reveal">Money Flow</div>
+    <h2 class="section-title reveal">Where Money Moves</h2>
+    <p class="section-desc reveal">Every colón flows in from HOA dues and flows out to keep our ecosystem running. Add or remove categories to model what's left over.</p>
 
-    <div class="notice">
-      ℹ️ <strong>Two budget views:</strong> The <em>Base Essential Budget</em> (<span class="cv" data-crc="88700000" data-freq="annual"></span>) uses 10 simplified categories for the HOA vote and drives per-lot fee calculations. The <em>Detailed Proposal</em> is the accountant-level version with individual QuickBooks line items including depreciation, bank fees, and separate contingency/reserve totalling <span class="cv" data-crc="95807433" data-freq="annual"></span>. Both are shown below.
+    <div class="chart-wrap reveal">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Community Fund Flow — 2026–27</div>
+          <div class="chart-sub">Interactive · add or remove categories to see unallocated surplus</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.75rem;color:var(--teal);">
+          Income: <span id="flow-hdr-income">₡104,417,829</span>
+        </div>
+      </div>
+
+      <!-- SUMMARY STRIP -->
+      <div class="flow-summary-strip">
+        <div class="fss-card"><div class="fss-label">HOA income / yr</div><div class="fss-val" id="fss-income">₡104,417,829</div></div>
+        <div class="fss-card"><div class="fss-label">Total budgeted</div><div class="fss-val amber" id="fss-budget">₡88,700,000</div></div>
+        <div class="fss-card"><div class="fss-label">Surplus / deficit</div><div class="fss-val surplus" id="fss-surplus">+₡15,717,829</div></div>
+      </div>
+
+      <!-- ANIMATED SVG -->
+      <svg id="flowSvg" viewBox="0 0 900 340" width="100%" style="overflow:visible;display:block;margin-bottom:1.5rem;">
+        <defs>
+          <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00e5c3" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#00bfff" stop-opacity="0.7"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="rgba(0,229,195,0.5)"/>
+          </marker>
+        </defs>
+
+        <!-- INCOME NODE -->
+        <g>
+          <rect x="10" y="100" width="140" height="110" rx="12" fill="rgba(0,229,195,0.08)" stroke="rgba(0,229,195,0.35)" stroke-width="1"/>
+          <rect x="10" y="100" width="3" height="110" rx="1" fill="url(#tealGrad)"/>
+          <text x="81" y="130" text-anchor="middle" fill="rgba(0,229,195,0.9)" font-family="Syne,sans-serif" font-size="11" font-weight="700">HOA DUES</text>
+          <text x="81" y="149" text-anchor="middle" fill="rgba(160,200,195,0.5)" font-family="JetBrains Mono,monospace" font-size="9">₡8.7M/mo</text>
+          <text x="81" y="165" text-anchor="middle" fill="rgba(160,200,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8">47 lots</text>
+          <text x="81" y="180" text-anchor="middle" fill="rgba(0,229,195,0.55)" font-family="JetBrains Mono,monospace" font-size="8">104.4M/yr</text>
+          <text x="81" y="196" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="7">total income</text>
+        </g>
+
+        <!-- INCOME → FUND arrows -->
+        <path d="M152 155 C220 155,235 155,288 155" stroke="url(#tealGrad)" stroke-width="2.5" fill="none" class="flow-path-line" marker-end="url(#arrow)"/>
+        <path d="M152 155 C220 155,235 155,288 155" stroke="rgba(0,229,195,0.07)" stroke-width="12" fill="none"/>
+        <circle r="4" fill="rgba(0,229,195,0.9)" filter="url(#glow)"><animateMotion dur="2.2s" repeatCount="indefinite" path="M152 155 C220 155,235 155,288 155"/></circle>
+        <circle r="2.5" fill="rgba(0,229,195,0.6)" filter="url(#glow)"><animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M152 155 C220 155,235 155,288 155"/></circle>
+        <circle r="2" fill="rgba(0,229,195,0.35)"><animateMotion dur="2.2s" begin="1.4s" repeatCount="indefinite" path="M152 155 C220 155,235 155,288 155"/></circle>
+
+        <!-- FUND NODE -->
+        <g>
+          <rect x="290" y="80" width="175" height="148" rx="16" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.25)" stroke-width="1.5"/>
+          <rect x="290" y="80" width="175" height="3" rx="1" fill="url(#tealGrad)"/>
+          <text x="377" y="114" text-anchor="middle" fill="rgba(120,160,155,0.45)" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2">COMMUNITY FUND</text>
+          <text x="377" y="140" text-anchor="middle" fill="rgba(0,229,195,1)" font-family="Syne,sans-serif" font-size="20" font-weight="800" filter="url(#glow)" id="fundLabel">₡88.7M</text>
+          <text x="377" y="160" text-anchor="middle" fill="rgba(120,160,155,0.5)" font-family="JetBrains Mono,monospace" font-size="9">budgeted 2026–27</text>
+          <text x="377" y="178" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="8" id="fundMonthly">≈₡7.4M / month</text>
+          <text x="377" y="196" text-anchor="middle" fill="rgba(120,160,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8" id="fundSurplusLabel">surplus ₡15.7M</text>
+          <text x="377" y="212" text-anchor="middle" fill="rgba(120,160,155,0.3)" font-family="JetBrains Mono,monospace" font-size="7" id="fundPct">84.9% committed</text>
+        </g>
+
+        <!-- Dynamic expense nodes -->
+        <g id="expenseNodes"></g>
+      </svg>
+
+      <!-- CATEGORY LIST -->
+      <div class="flow-cat-list" id="flowCatList"></div>
+
+      <!-- ADD FORM -->
+      <div class="flow-add-form" id="flowAddForm">
+        <div class="flow-form-row">
+          <input class="flow-form-input" id="flowNewName" placeholder="Category name (e.g. Road repairs)">
+          <input class="flow-form-input" id="flowNewAmt" type="number" placeholder="Annual amount (₡)" step="100000" min="0">
+        </div>
+        <div class="flow-form-btns">
+          <button class="flow-btn-save" onclick="flowSaveNew()">Save category</button>
+          <button class="flow-btn-cancel" onclick="flowCancelAdd()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- ADD TRIGGER -->
+      <div class="flow-add-row" id="flowAddTrigger" onclick="flowOpenAdd()">
+        <div class="flow-add-icon">+</div>
+        <span class="flow-add-label">Add a category…</span>
+      </div>
+
+      <!-- SURPLUS BOX -->
+      <div class="flow-surplus-box pos" id="flowSurplusBox">
+        <div class="fsb-label pos" id="fsbLabel">UNALLOCATED SURPLUS</div>
+        <div class="fsb-val pos" id="fsbVal">+₡15,717,829</div>
+        <div class="fsb-mo pos" id="fsbMo">₡1,309,819 / month available for new projects</div>
+      </div>
     </div>
 
-    <div class="cards">
-      <div class="card">
-        <div class="label">Proposed Base Essential Budget</div>
-        <div class="value cv" data-crc="88700000" data-freq="annual"></div>
-        <div class="note">2026–27 · <span class="cv" data-crc="88700000" data-freq="monthly"></span>/mo</div>
+    <!-- DONUT + BAR -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;" class="reveal">
+      <div class="chart-wrap" style="margin-bottom:0;">
+        <div class="chart-header">
+          <div><div class="chart-title">Budget Composition</div><div class="chart-sub">By category share</div></div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#00e5c3;"></div>Staff Sal. 35.1%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#00bfff;"></div>Benefits 15.7%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7e9aff;"></div>Maint. 20.3%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a855f7;"></div>Prof. Svcs 7.6%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffb740;"></div>Utilities 6.8%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#00ff88;"></div>Reserve 4.5%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ff4d6d;"></div>Insurance 3.5%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#64748b;"></div>Other 6.5%</div>
+        </div>
+        <div style="position:relative;height:260px;"><canvas id="donutChart"></canvas></div>
       </div>
-      <div class="card amber">
-        <div class="label">Prior Year Total Spend (excl. extraordinary)</div>
-        <div class="value cv" data-crc="82906934" data-freq="annual"></div>
-        <div class="note">2025–26 actuals per spreadsheet · excludes road repair &amp; security system</div>
-      </div>
-      <div class="card">
-        <div class="label">Year-on-Year Increase</div>
-        <div class="value">+6.9%</div>
-        <div class="note">vs 2025–26 actuals · mainly staff raises not given in 2 years</div>
-      </div>
-      <div class="card amber">
-        <div class="label">Detailed Proposal Total</div>
-        <div class="value cv" data-crc="95807433" data-freq="annual"></div>
-        <div class="note">2026–27 · incl. depreciation + contingency &amp; reserve</div>
-      </div>
-      <div class="card">
-        <div class="label">Reserve Fund Proposed</div>
-        <div class="value cv" data-crc="4000000" data-freq="annual"></div>
-        <div class="note">5% of base budget · <span class="cv" data-crc="333333" data-freq="monthly"></span>/mo</div>
-      </div>
-      <div class="card red">
-        <div class="label">Prior Year Extraordinary Costs</div>
-        <div class="value cv" data-crc="43130256" data-freq="annual"></div>
-        <div class="note">2025–26 · Road repair + Security system — NOT in 2026–27 budget</div>
+      <div class="chart-wrap" style="margin-bottom:0;">
+        <div class="chart-header">
+          <div><div class="chart-title">Monthly Budget vs Actual</div><div class="chart-sub">Base spend categories</div></div>
+        </div>
+        <div style="position:relative;height:310px;"><canvas id="barChart"></canvas></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- BASE BUDGET -->
 <section id="base">
   <div class="container">
-    <div class="section-sub">HOA Vote — 10 Core Categories · 2026–27</div>
-    <h2>Base Essential Budget</h2>
-    <p class="lead">These 10 categories make up the base budget for <strong>April 2026 – March 2027</strong> and are the basis for each lot's HOA fee calculation.</p>
-
-    <div style="margin-bottom:2rem;">
-      <div class="bar-row"><div class="bar-label">Staff Salaries</div><div class="bar-track"><div class="bar-fill" style="width:43%"><span class="cv" data-crc="31100000" data-freq="annual"></span></div></div><div class="bar-pct">35.1%</div></div>
-      <div class="bar-row"><div class="bar-label">Staff Benefits</div><div class="bar-track"><div class="bar-fill" style="width:19.7%"><span class="cv" data-crc="13900000" data-freq="annual"></span></div></div><div class="bar-pct">15.7%</div></div>
-      <div class="bar-row"><div class="bar-label">Routine Maintenance</div><div class="bar-track"><div class="bar-fill" style="width:25.5%"><span class="cv" data-crc="18000000" data-freq="annual"></span></div></div><div class="bar-pct">20.3%</div></div>
-      <div class="bar-row"><div class="bar-label">Professional Services</div><div class="bar-track"><div class="bar-fill" style="width:9.5%"><span class="cv" data-crc="6700000" data-freq="annual"></span></div></div><div class="bar-pct">7.6%</div></div>
-      <div class="bar-row"><div class="bar-label">Reserve (5%)</div><div class="bar-track"><div class="bar-fill" style="width:5.7%"><span class="cv" data-crc="4000000" data-freq="annual"></span></div></div><div class="bar-pct">4.5%</div></div>
-      <div class="bar-row"><div class="bar-label">Utilities</div><div class="bar-track"><div class="bar-fill" style="width:8.5%"><span class="cv" data-crc="6000000" data-freq="annual"></span></div></div><div class="bar-pct">6.8%</div></div>
-      <div class="bar-row"><div class="bar-label">Insurance</div><div class="bar-track"><div class="bar-fill" style="width:4.4%"><span class="cv" data-crc="3100000" data-freq="annual"></span></div></div><div class="bar-pct">3.5%</div></div>
-      <div class="bar-row"><div class="bar-label">Biodigester</div><div class="bar-track"><div class="bar-fill" style="width:4.3%"><span class="cv" data-crc="3000000" data-freq="annual"></span></div></div><div class="bar-pct">3.4%</div></div>
-      <div class="bar-row"><div class="bar-label">Taxes &amp; Permits</div><div class="bar-track"><div class="bar-fill" style="width:2.8%">&nbsp;</div></div><div class="bar-pct">2.3%</div></div>
-      <div class="bar-row"><div class="bar-label">Office &amp; Meetings</div><div class="bar-track"><div class="bar-fill" style="width:1.3%">&nbsp;</div></div><div class="bar-pct">1.0%</div></div>
+    <div class="section-label reveal">HOA Vote</div>
+    <h2 class="section-title reveal">Base Essential Budget</h2>
+    <p class="section-desc reveal">10 core categories forming the <span style="color:var(--teal);" class="cv" data-crc="88700000" data-freq="annual">₡88.7M</span> budget for April 2026 – March 2027.</p>
+    <div class="period-wrap reveal">
+      <span class="period-tag period-prior">🗓 Prior actuals: April 2025 – March 2026</span>
+      <span class="period-tag period-prop">🗓 Proposed: April 2026 – March 2027</span>
     </div>
-
-    <div class="table-wrap"><table>
-      <thead><tr><th>Category</th><th>Annual</th><th>Monthly</th><th>% of Budget</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td class="lc">Staff Salaries <span class="nt">(6 employees — +5% raise proposed; no raise in 2 years)</span></td><td class="cv" data-crc="31100000" data-freq="annual"></td><td class="cv" data-crc="2591667" data-freq="monthly"></td><td>35.1%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Staff Benefits <span class="nt">(social security, 13th month, vacation pay, severance)</span></td><td class="cv" data-crc="13900000" data-freq="annual"></td><td class="cv" data-crc="1158333" data-freq="monthly"></td><td>15.7%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Routine Maintenance <span class="nt">(vehicles, buildings, pool, common areas, permaculture garden, supplies)</span></td><td class="cv" data-crc="18000000" data-freq="annual"></td><td class="cv" data-crc="1500000" data-freq="monthly"></td><td>20.3%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Professional Services <span class="nt">(bookkeeping, accounting, legal, new e-invoicing software)</span></td><td class="cv" data-crc="6700000" data-freq="annual"></td><td class="cv" data-crc="558333" data-freq="monthly"></td><td>7.6%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Utilities <span class="nt">(electricity, telephone &amp; internet)</span></td><td class="cv" data-crc="6000000" data-freq="annual"></td><td class="cv" data-crc="500000" data-freq="monthly"></td><td>6.8%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Office &amp; Meeting Expenses <span class="nt">(annual assembly incl. childcare &amp; food; office software)</span></td><td class="cv" data-crc="900000" data-freq="annual"></td><td class="cv" data-crc="75000" data-freq="monthly"></td><td>1.0%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Insurance <span class="nt">(workers risk, civil liability, vehicle, fire)</span></td><td class="cv" data-crc="3100000" data-freq="annual"></td><td class="cv" data-crc="258333" data-freq="monthly"></td><td>3.5%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Taxes &amp; Permits <span class="nt">(vehicle, municipal, corporate, water permits)</span></td><td class="cv" data-crc="2000000" data-freq="annual"></td><td class="cv" data-crc="166667" data-freq="monthly"></td><td>2.3%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Biodigester Maintenance</td><td class="cv" data-crc="3000000" data-freq="annual"></td><td class="cv" data-crc="250000" data-freq="monthly"></td><td>3.4%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr><td class="lc">Reserve Fund <span class="nt">(5% of base budget)</span></td><td class="cv" data-crc="4000000" data-freq="annual"></td><td class="cv" data-crc="333333" data-freq="monthly"></td><td>4.5%</td><td><span class="chip chip-g">✓ Funded</span></td></tr>
-        <tr class="total-row"><td>TOTAL BASE ESSENTIAL BUDGET — 2026–27</td><td class="cv" data-crc="88700000" data-freq="annual"></td><td class="cv" data-crc="7391667" data-freq="monthly"></td><td>100%</td><td></td></tr>
-      </tbody>
-    </table></div>
-    <p class="fn">* Optional proposals (road repairs, pool, manager) are NOT included here — see Proposals section.</p>
+    <div class="chart-wrap reveal" style="margin-bottom:2rem;">
+      <div class="chart-header"><div class="chart-title">Spending by Category — Proposed 2026–27</div></div>
+      <div id="radialBars"></div>
+    </div>
+    <div class="summary-grid reveal">
+      <div class="stat-card teal"><div class="sc-label">Total Annual Budget</div><div class="sc-val teal cv" data-crc="88700000" data-freq="annual">₡88,700,000</div><div class="sc-note">2026–27 base essential</div></div>
+      <div class="stat-card amber"><div class="sc-label">Monthly Outflow</div><div class="sc-val amber cv" data-crc="7391667" data-freq="monthly">₡7,391,667</div><div class="sc-note">Average monthly spend</div></div>
+      <div class="stat-card emerald"><div class="sc-label">Reserve Fund (5%)</div><div class="sc-val emerald cv" data-crc="4000000" data-freq="annual">₡4,000,000</div><div class="sc-note">New line for 2026–27</div></div>
+      <div class="stat-card purple"><div class="sc-label">Detailed Proposal Total</div><div class="sc-val" style="color:var(--purple);"><span class="cv" data-crc="95807433" data-freq="annual">₡95.8M</span></div><div class="sc-note">Incl. depreciation + contingency</div></div>
+    </div>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>Category</th><th>Annual Budget</th><th>Monthly</th><th>% of Budget</th></tr></thead>
+        <tbody>
+          <tr><td>Staff Salaries (+5% raise — no raise in 2 yrs)</td><td class="hl cv" data-crc="31100000" data-freq="annual">₡31,100,000</td><td class="cv" data-crc="2591667" data-freq="monthly">₡2,591,667</td><td>35.1%</td></tr>
+          <tr><td>Staff Benefits (SS, 13th mo, vacation, severance)</td><td class="hl cv" data-crc="13900000" data-freq="annual">₡13,900,000</td><td class="cv" data-crc="1158333" data-freq="monthly">₡1,158,333</td><td>15.7%</td></tr>
+          <tr><td>Routine Maintenance (vehicles, buildings, pool, garden)</td><td class="hl cv" data-crc="18000000" data-freq="annual">₡18,000,000</td><td class="cv" data-crc="1500000" data-freq="monthly">₡1,500,000</td><td>20.3%</td></tr>
+          <tr><td>Professional Services (accounting, legal, software)</td><td class="hl cv" data-crc="6700000" data-freq="annual">₡6,700,000</td><td class="cv" data-crc="558333" data-freq="monthly">₡558,333</td><td>7.6%</td></tr>
+          <tr><td>Utilities (electricity, telephone & internet)</td><td class="hl cv" data-crc="6000000" data-freq="annual">₡6,000,000</td><td class="cv" data-crc="500000" data-freq="monthly">₡500,000</td><td>6.8%</td></tr>
+          <tr><td>Office & Meeting Expenses</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td class="cv" data-crc="75000" data-freq="monthly">₡75,000</td><td>1.0%</td></tr>
+          <tr><td>Insurance (workers risk, liability, vehicle, fire)</td><td class="hl cv" data-crc="3100000" data-freq="annual">₡3,100,000</td><td class="cv" data-crc="258333" data-freq="monthly">₡258,333</td><td>3.5%</td></tr>
+          <tr><td>Taxes & Permits (vehicles, municipal, corporate, water)</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td class="cv" data-crc="166667" data-freq="monthly">₡166,667</td><td>2.3%</td></tr>
+          <tr><td>Biodigester Maintenance</td><td class="hl cv" data-crc="3000000" data-freq="annual">₡3,000,000</td><td class="cv" data-crc="250000" data-freq="monthly">₡250,000</td><td>3.4%</td></tr>
+          <tr><td>Reserve Fund (5% of base budget)</td><td class="hl cv" data-crc="4000000" data-freq="annual">₡4,000,000</td><td class="cv" data-crc="333333" data-freq="monthly">₡333,333</td><td>4.5%</td></tr>
+          <tr class="total-row"><td>TOTAL BASE ESSENTIAL BUDGET 2026–27</td><td class="cv" data-crc="88700000" data-freq="annual">₡88,700,000</td><td class="cv" data-crc="7391667" data-freq="monthly">₡7,391,667</td><td>100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.6rem;">* Optional proposals are not included — see Proposals section below.</p>
   </div>
 </section>
 
+<!-- DETAILED -->
 <section id="detailed">
   <div class="container">
-    <div class="section-sub">Accountant-Level Breakdown · 2026–27</div>
-    <h2>Full Detailed Proposal</h2>
-    <p class="lead">All individual QuickBooks line items for <strong>April 2026 – March 2027</strong>. The "Prior Yr Avg/mo" column shows actual average monthly spend from 2025–26 (labelled "PROMEDIO AÑO ANTERIOR" in the spreadsheet) — <em>not</em> a prior year budget.</p>
-
-    <div class="detail-section">
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">👷 Salaries — 80001</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="2311100" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="2590963" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="31091555" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Salaries — 80003</td><td class="cv" data-crc="2311100" data-freq="monthly"></td><td class="cv" data-crc="2590963" data-freq="monthly"></td><td class="cv" data-crc="31091555" data-freq="annual"></td><td class="note-cell">+5% raise only</td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">🏦 Employee Benefits — 80010</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="1048969" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="1157123" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="13885489" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Social Security — 80011</td><td class="cv" data-crc="636163" data-freq="monthly"></td><td class="cv" data-crc="695155" data-freq="monthly"></td><td class="cv" data-crc="8341864" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>13th Month / Aguinaldo — 80012</td><td class="cv" data-crc="192900" data-freq="monthly"></td><td class="cv" data-crc="215827" data-freq="monthly"></td><td class="cv" data-crc="2589927" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Vacation Pay — 80013</td><td class="cv" data-crc="96527" data-freq="monthly"></td><td class="cv" data-crc="108043" data-freq="monthly"></td><td class="cv" data-crc="1296518" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Severance / Cesantía — 80014</td><td class="cv" data-crc="123379" data-freq="monthly"></td><td class="cv" data-crc="138098" data-freq="monthly"></td><td class="cv" data-crc="1657180" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">📋 Professional Services — 80020</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="944864" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="552950" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="6635400" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Professional Services — 80022</td><td class="cv" data-crc="141850" data-freq="monthly"></td><td class="cv" data-crc="163850" data-freq="monthly"></td><td class="cv" data-crc="1966200" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Legal Services — 80023</td><td class="cv" data-crc="76113" data-freq="monthly"></td><td class="cv" data-crc="80000" data-freq="monthly"></td><td class="cv" data-crc="960000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Other Services — 80024</td><td class="cv" data-crc="226311" data-freq="monthly"></td><td class="cv" data-crc="230000" data-freq="monthly"></td><td class="cv" data-crc="2760000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Accounting / Bookkeeping — 80028</td><td class="cv" data-crc="56500" data-freq="monthly"></td><td class="cv" data-crc="79100" data-freq="monthly"></td><td class="cv" data-crc="949200" data-freq="annual"></td><td class="note-cell">₡20k/mo raise requested by Evelyn</td></tr>
-          <tr class="zero-row"><td>Private Security — 80029</td><td class="cv" data-crc="444090" data-freq="monthly"></td><td>₡0</td><td>₡0</td><td class="note-cell">Security system installed — no longer needed</td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">🔧 Maintenance — 80040</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="1324916" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="1445000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="17340000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Machine Maintenance — 80057</td><td class="cv" data-crc="16619" data-freq="monthly"></td><td class="cv" data-crc="25000" data-freq="monthly"></td><td class="cv" data-crc="300000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Vehicle Maintenance — 80041</td><td class="cv" data-crc="17746" data-freq="monthly"></td><td class="cv" data-crc="50000" data-freq="monthly"></td><td class="cv" data-crc="600000" data-freq="annual"></td><td class="note-cell">Consult Fernando if more needed</td></tr>
-          <tr><td>Gas &amp; Oil — 80042</td><td class="cv" data-crc="97438" data-freq="monthly"></td><td class="cv" data-crc="105000" data-freq="monthly"></td><td class="cv" data-crc="1260000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Common Area Cleaning — 800432</td><td class="cv" data-crc="18833" data-freq="monthly"></td><td class="cv" data-crc="20000" data-freq="monthly"></td><td class="cv" data-crc="240000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Building Maintenance — 800436</td><td class="cv" data-crc="264361" data-freq="monthly"></td><td class="cv" data-crc="280000" data-freq="monthly"></td><td class="cv" data-crc="3360000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Maintenance Supplies — 800437</td><td class="cv" data-crc="261970" data-freq="monthly"></td><td class="cv" data-crc="280000" data-freq="monthly"></td><td class="cv" data-crc="3360000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Common Area Maint. (other) — 80043</td><td class="cv" data-crc="28757" data-freq="monthly"></td><td class="cv" data-crc="30000" data-freq="monthly"></td><td class="cv" data-crc="360000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Pool Maintenance — 80045</td><td class="cv" data-crc="376688" data-freq="monthly"></td><td class="cv" data-crc="395000" data-freq="monthly"></td><td class="cv" data-crc="4740000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Permaculture Garden — 80048</td><td class="cv" data-crc="173896" data-freq="monthly"></td><td class="cv" data-crc="185000" data-freq="monthly"></td><td class="cv" data-crc="2220000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>First Aid Kit — 80056</td><td class="cv" data-crc="9057" data-freq="monthly"></td><td class="cv" data-crc="10000" data-freq="monthly"></td><td class="cv" data-crc="120000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Uniforms — 80059</td><td class="cv" data-crc="47671" data-freq="monthly"></td><td class="cv" data-crc="50000" data-freq="monthly"></td><td class="cv" data-crc="600000" data-freq="annual"></td><td class="note-cell">Based on prior year</td></tr>
-          <tr><td>Tolls / Peajes — 80067</td><td class="cv" data-crc="11880" data-freq="monthly"></td><td class="cv" data-crc="15000" data-freq="monthly"></td><td class="cv" data-crc="180000" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">💡 Utilities — 80050</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="454507" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="600000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="7200000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Electricity — 80051</td><td class="cv" data-crc="351129" data-freq="monthly"></td><td class="cv" data-crc="500000" data-freq="monthly"></td><td class="cv" data-crc="6000000" data-freq="annual"></td><td class="note-cell">Budgeted conservatively high</td></tr>
-          <tr><td>Telephone &amp; Internet — 80053</td><td class="cv" data-crc="103377" data-freq="monthly"></td><td class="cv" data-crc="100000" data-freq="monthly"></td><td class="cv" data-crc="1200000" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">🗂️ Office &amp; Meetings — 80080</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="5125" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="75000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="900000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Office Software &amp; Expenses — 80082</td><td class="cv" data-crc="2375" data-freq="monthly"></td><td class="cv" data-crc="40000" data-freq="monthly"></td><td class="cv" data-crc="480000" data-freq="annual"></td><td class="note-cell">₡25k base + ₡15k new e-invoicing</td></tr>
-          <tr><td>Annual Assembly &amp; Meetings — 80080</td><td class="cv" data-crc="2750" data-freq="monthly"></td><td class="cv" data-crc="35000" data-freq="monthly"></td><td class="cv" data-crc="420000" data-freq="annual"></td><td class="note-cell">Incl. assembly catering (₡250k/yr)</td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">🛡️ Insurance — 80120</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="254966" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="275000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="3300000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Work Risk Insurance — 80121</td><td class="cv" data-crc="9222" data-freq="monthly"></td><td class="cv" data-crc="10000" data-freq="monthly"></td><td class="cv" data-crc="120000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Civil Liability — 80122</td><td class="cv" data-crc="33769" data-freq="monthly"></td><td class="cv" data-crc="40000" data-freq="monthly"></td><td class="cv" data-crc="480000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Vehicle Insurance — 80123</td><td class="cv" data-crc="104623" data-freq="monthly"></td><td class="cv" data-crc="110000" data-freq="monthly"></td><td class="cv" data-crc="1320000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Fire Insurance — 80124</td><td class="cv" data-crc="107353" data-freq="monthly"></td><td class="cv" data-crc="115000" data-freq="monthly"></td><td class="cv" data-crc="1380000" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">📄 Taxes &amp; Permits — 80130</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="150342" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="166000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="1992000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Vehicle Taxes &amp; Permits — 80131</td><td class="cv" data-crc="25671" data-freq="monthly"></td><td class="cv" data-crc="28000" data-freq="monthly"></td><td class="cv" data-crc="336000" data-freq="annual"></td><td class="note-cell">Based on current year</td></tr>
-          <tr><td>Municipal Taxes — 80132</td><td class="cv" data-crc="43881" data-freq="monthly"></td><td class="cv" data-crc="46000" data-freq="monthly"></td><td class="cv" data-crc="552000" data-freq="annual"></td><td class="note-cell">Based on current year</td></tr>
-          <tr><td>Corporation Tax — 80133</td><td class="cv" data-crc="5778" data-freq="monthly"></td><td class="cv" data-crc="12000" data-freq="monthly"></td><td class="cv" data-crc="144000" data-freq="annual"></td><td class="note-cell">Based on current year</td></tr>
-          <tr><td>Water Taxes &amp; Permits — 80134</td><td class="cv" data-crc="73374" data-freq="monthly"></td><td class="cv" data-crc="80000" data-freq="monthly"></td><td class="cv" data-crc="960000" data-freq="annual"></td><td class="note-cell">Full analysis planned for H2</td></tr>
-          <tr><td>Other Taxes &amp; Permits — 80135</td><td class="cv" data-crc="1639" data-freq="monthly"></td><td>—</td><td>—</td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">💳 Financial Expenses — 80180</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="5022" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="6000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="72000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Bank Fees — 80183</td><td class="cv" data-crc="5022" data-freq="monthly"></td><td class="cv" data-crc="6000" data-freq="monthly"></td><td class="cv" data-crc="72000" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">📉 Depreciation — 80190 <span style="font-weight:400;opacity:0.7;font-size:0.75rem;">(non-cash)</span></div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="155916" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="155916" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="1870990" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Vehicle Depreciation — 80191</td><td class="cv" data-crc="144645" data-freq="monthly"></td><td class="cv" data-crc="144645" data-freq="monthly"></td><td class="cv" data-crc="1735740" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Furniture &amp; Equipment — 80192</td><td class="cv" data-crc="4152" data-freq="monthly"></td><td class="cv" data-crc="4152" data-freq="monthly"></td><td class="cv" data-crc="49820" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Machinery &amp; Equipment — 80194</td><td class="cv" data-crc="7119" data-freq="monthly"></td><td class="cv" data-crc="7119" data-freq="monthly"></td><td class="cv" data-crc="85430" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">🌿 Other</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val cv" data-crc="245270" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="260000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="3120000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Multipurpose Court — 800170</td><td class="cv" data-crc="10833" data-freq="monthly"></td><td class="cv" data-crc="15000" data-freq="monthly"></td><td class="cv" data-crc="180000" data-freq="annual"></td><td class="note-cell"></td></tr>
-          <tr><td>Biodigester Maintenance — 80069</td><td class="cv" data-crc="234437" data-freq="monthly"></td><td class="cv" data-crc="245000" data-freq="monthly"></td><td class="cv" data-crc="2940000" data-freq="annual"></td><td class="note-cell"></td></tr>
-        </tbody></table>
-      </div>
-
-      <div class="detail-card">
-        <div class="detail-card-header">
-          <div class="cat-title">💰 Contingency &amp; Reserve</div>
-          <div class="cat-totals">
-            <div class="ct-item"><span class="ct-label">Prior yr avg/mo</span><span class="ct-val">—</span></div>
-            <div class="ct-item"><span class="ct-label">Proposed/mo</span><span class="ct-val cv" data-crc="700000" data-freq="monthly"></span></div>
-            <div class="ct-item"><span class="ct-label">Proposed annual</span><span class="ct-val cv" data-crc="8400000" data-freq="annual"></span></div>
-          </div>
-        </div>
-        <table><thead><tr><th>Line Item</th><th>Prior Yr Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Contingency</td><td>—</td><td class="cv" data-crc="350000" data-freq="monthly"></td><td class="cv" data-crc="4200000" data-freq="annual"></td><td class="note-cell">New line for 2026–27</td></tr>
-          <tr><td>Reserve (Reserva)</td><td>—</td><td class="cv" data-crc="350000" data-freq="monthly"></td><td class="cv" data-crc="4200000" data-freq="annual"></td><td class="note-cell">New line for 2026–27</td></tr>
-        </tbody></table>
+    <div class="section-label reveal">Accountant-Level</div>
+    <h2 class="section-title reveal">Full Detailed Proposal</h2>
+    <p class="section-desc reveal">All individual QuickBooks line items. "Prior avg/mo" = actual 2025–26 monthly averages — not a prior year budget.</p>
+    <div class="notice reveal">ℹ️ Gap between base budget (₡88.7M) and detailed total (₡95.8M): depreciation ₡1.87M (non-cash) + contingency & reserve ₡8.4M + multipurpose court ₡180k.</div>
+    <div class="detail-accordion reveal" id="accordion"></div>
+    <div style="background:rgba(0,229,195,0.06);border:1px solid rgba(0,229,195,0.2);border-radius:16px;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:1.5rem;" class="reveal">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">GRAND TOTAL — Detailed Proposal 2026–27</div>
+      <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+        <div style="text-align:right;"><span style="font-size:0.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;">Monthly</span><span style="font-family:var(--display);font-size:1.5rem;font-weight:800;color:var(--teal);" class="cv" data-crc="7983953" data-freq="monthly">₡7,983,953</span></div>
+        <div style="text-align:right;"><span style="font-size:0.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;">Annual</span><span style="font-family:var(--display);font-size:1.5rem;font-weight:800;color:var(--teal);" class="cv" data-crc="95807433" data-freq="annual">₡95,807,433</span></div>
       </div>
     </div>
-
-    <div class="grand-total-card">
-      <div class="gt-label">GRAND TOTAL — Detailed Proposal 2026–27</div>
-      <div class="gt-vals">
-        <div class="gt-item"><span class="gt-lbl">Monthly</span><span class="gt-val cv" data-crc="7983953" data-freq="monthly"></span></div>
-        <div class="gt-item"><span class="gt-lbl">Annual</span><span class="gt-val cv" data-crc="95807433" data-freq="annual"></span></div>
-      </div>
-    </div>
-    <p class="fn">* "Prior Yr Avg/mo" = monthly averages of actual 2025–26 spend — not a prior year budget. Depreciation is non-cash. Gap between base (₡88.7M) and this total (₡95.8M): depreciation ₡1.87M + contingency &amp; reserve ₡8.4M + multipurpose court ₡180k.</p>
   </div>
 </section>
 
+<!-- ACTUALS -->
 <section id="actuals">
   <div class="container">
-    <div class="section-sub">Prior Year Results · April 2025 – March 2026</div>
-    <h2>Prior Year Actuals vs. Proposed Budget</h2>
-    <div class="period-banner">
-      <div class="period-tag prior">🗓 Actuals: April 2025 – March 2026</div>
-      <div class="period-tag proposed">🗓 Proposed: April 2026 – March 2027</div>
+    <div class="section-label reveal">Prior Year Results</div>
+    <h2 class="section-title reveal">Actuals vs. Proposed</h2>
+    <p class="section-desc reveal">Actual spending April 2025 – March 2026. Two extraordinary items not expected to repeat: road repair and security system.</p>
+    <div class="summary-grid reveal" style="margin-bottom:2rem;">
+      <div class="stat-card amber"><div class="sc-label">Total Operating (excl. extraordinary)</div><div class="sc-val amber cv" data-crc="82906934" data-freq="annual">₡82,906,934</div><div class="sc-note">2025–26 · excludes road repair & security</div></div>
+      <div class="stat-card red"><div class="sc-label">Road Repair (extraordinary)</div><div class="sc-val red cv" data-crc="39284087" data-freq="annual">₡39,284,087</div><div class="sc-note">Plastic → concrete pavers · NOT in 2026–27</div></div>
+      <div class="stat-card red"><div class="sc-label">Security System (extraordinary)</div><div class="sc-val red cv" data-crc="3846169" data-freq="annual">₡3,846,169</div><div class="sc-note">Installed after robberies · NOT in 2026–27</div></div>
+      <div class="stat-card teal"><div class="sc-label">HOA Fee Income 2025–26</div><div class="sc-val teal cv" data-crc="104417829" data-freq="annual">₡104,417,829</div><div class="sc-note">Monthly avg: <span class="cv" data-crc="8701486" data-freq="monthly">₡8,701,486</span></div></div>
     </div>
-    <p class="lead">Actual spending per the QuickBooks P&amp;L report. This year had two extraordinary items — road repairs and the security system — not expected to repeat.</p>
-    <div class="cards">
-      <div class="card amber">
-        <div class="label">Total Operating Spend (excl. extraordinary)</div>
-        <div class="value cv" data-crc="82906934" data-freq="annual"></div>
-        <div class="note">2025–26 · excludes road repair &amp; security system</div>
-      </div>
-      <div class="card red">
-        <div class="label">Road Repair Project (extraordinary)</div>
-        <div class="value cv" data-crc="39284087" data-freq="annual"></div>
-        <div class="note">Total project cost · plastic → concrete pavers</div>
-      </div>
-      <div class="card red">
-        <div class="label">Security System (extraordinary)</div>
-        <div class="value cv" data-crc="3846169" data-freq="annual"></div>
-        <div class="note">Installed after robberies</div>
-      </div>
-      <div class="card">
-        <div class="label">HOA Fee Income</div>
-        <div class="value cv" data-crc="104417829" data-freq="annual"></div>
-        <div class="note">2025–26 · monthly avg: <span class="cv" data-crc="8701486" data-freq="monthly"></span></div>
-      </div>
+    <div class="chart-wrap reveal" style="margin-bottom:2rem;">
+      <div class="chart-header"><div class="chart-title">Income vs Spend — 2025–26 Actuals</div><div class="chart-sub">Monthly flow view</div></div>
+      <div style="position:relative;height:260px;"><canvas id="incomeSpendChart"></canvas></div>
     </div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Category</th><th>Actuals 2025–26</th><th>Monthly Avg</th><th>Proposed 2026–27 (Annual)</th><th>Change</th></tr></thead>
-      <tbody>
-        <tr><td class="lc">Staff Salaries</td><td class="cv" data-crc="26404780" data-freq="annual"></td><td class="cv" data-crc="2200398" data-freq="monthly"></td><td class="cv" data-crc="31100000" data-freq="annual"></td><td><span class="up">↑ +17.8%</span></td></tr>
-        <tr><td class="lc">Staff Benefits</td><td class="cv" data-crc="12013113" data-freq="annual"></td><td class="cv" data-crc="1001093" data-freq="monthly"></td><td class="cv" data-crc="13900000" data-freq="annual"></td><td><span class="up">↑ +15.7%</span></td></tr>
-        <tr><td class="lc">Professional Services <span class="nt">(2025–26 incl. private security ≈₡5.3M — no longer needed)</span></td><td class="cv" data-crc="9077186" data-freq="annual"></td><td class="cv" data-crc="756432" data-freq="monthly"></td><td class="cv" data-crc="6700000" data-freq="annual"></td><td><span class="dn">↓ −26.2%</span></td></tr>
-        <tr><td class="lc">Routine Maintenance</td><td class="cv" data-crc="17325916" data-freq="annual"></td><td class="cv" data-crc="1443826" data-freq="monthly"></td><td class="cv" data-crc="18000000" data-freq="annual"></td><td><span class="up">↑ +3.9%</span></td></tr>
-        <tr><td class="lc">Utilities</td><td class="cv" data-crc="5585725" data-freq="annual"></td><td class="cv" data-crc="465477" data-freq="monthly"></td><td class="cv" data-crc="6000000" data-freq="annual"></td><td><span class="up">↑ +7.4%</span></td></tr>
-        <tr><td class="lc">Office &amp; Meetings</td><td class="cv" data-crc="583115" data-freq="annual"></td><td class="cv" data-crc="48593" data-freq="monthly"></td><td class="cv" data-crc="900000" data-freq="annual"></td><td><span class="up">↑ +54.3%</span></td></tr>
-        <tr><td class="lc">Insurance</td><td class="cv" data-crc="3060151" data-freq="annual"></td><td class="cv" data-crc="255013" data-freq="monthly"></td><td class="cv" data-crc="3100000" data-freq="annual"></td><td><span class="up">↑ +1.3%</span></td></tr>
-        <tr><td class="lc">Taxes &amp; Permits</td><td class="cv" data-crc="1954730" data-freq="annual"></td><td class="cv" data-crc="162894" data-freq="monthly"></td><td class="cv" data-crc="2000000" data-freq="annual"></td><td><span class="up">↑ +2.3%</span></td></tr>
-        <tr><td class="lc">Biodigester Maintenance</td><td class="cv" data-crc="2813248" data-freq="annual"></td><td class="cv" data-crc="234437" data-freq="monthly"></td><td class="cv" data-crc="3000000" data-freq="annual"></td><td><span class="up">↑ +6.7%</span></td></tr>
-        <tr class="subtotal-row"><td class="lc">Total — 9 operating categories</td><td class="cv" data-crc="78817964" data-freq="annual"></td><td class="cv" data-crc="6568164" data-freq="monthly"></td><td class="cv" data-crc="84700000" data-freq="annual"></td><td><span class="up">↑ +7.5%</span></td></tr>
-        <tr><td class="lc" style="padding-left:1.5rem;font-weight:400;color:var(--soft);">Reserve Fund (5% of base)</td><td style="color:var(--soft);font-style:italic;font-size:0.79rem;">not separately tracked</td><td>—</td><td class="cv" data-crc="4000000" data-freq="annual"></td><td style="font-size:0.75rem;color:var(--soft);">new</td></tr>
-        <tr class="subtotal-row"><td class="lc">Total Base Essential Budget</td><td style="color:var(--soft);font-style:italic;">—</td><td>—</td><td class="cv" data-crc="88700000" data-freq="annual"></td><td><span class="up">↑ +6.9% vs ₡82.9M actuals</span></td></tr>
-        <tr class="opt-row"><td class="lc">Road Repair (extraordinary)</td><td class="cv" data-crc="39284087" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026–27</td><td>—</td></tr>
-        <tr class="opt-row"><td class="lc">Security System (extraordinary)</td><td class="cv" data-crc="3846169" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">Not in 2026–27</td><td>—</td></tr>
-        <tr class="opt-row"><td class="lc">Stolen Assets Loss</td><td class="cv" data-crc="65832" data-freq="annual"></td><td>—</td><td style="color:var(--soft);font-style:normal;">—</td><td>—</td></tr>
-      </tbody>
-    </table></div>
-    <p class="fn">* Professional Services drops because private security guards (≈₡5.3M in 2025–26) are no longer needed.</p>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>Category</th><th>Actuals 2025–26</th><th>Avg/mo</th><th>Proposed 2026–27</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>Staff Salaries</td><td class="amber cv" data-crc="26404780" data-freq="annual">₡26,404,780</td><td class="cv" data-crc="2200398" data-freq="monthly">₡2,200,398</td><td class="hl cv" data-crc="31100000" data-freq="annual">₡31,100,000</td><td><span class="change-up">↑ +17.8%</span></td></tr>
+          <tr><td>Staff Benefits</td><td class="amber cv" data-crc="12013113" data-freq="annual">₡12,013,113</td><td class="cv" data-crc="1001093" data-freq="monthly">₡1,001,093</td><td class="hl cv" data-crc="13900000" data-freq="annual">₡13,900,000</td><td><span class="change-up">↑ +15.7%</span></td></tr>
+          <tr><td>Professional Services <span style="color:var(--text-dim);font-size:0.72rem;">(incl. ₡5.3M security guards, now gone)</span></td><td class="amber cv" data-crc="9077186" data-freq="annual">₡9,077,186</td><td class="cv" data-crc="756432" data-freq="monthly">₡756,432</td><td class="hl cv" data-crc="6700000" data-freq="annual">₡6,700,000</td><td><span class="change-dn">↓ −26.2%</span></td></tr>
+          <tr><td>Routine Maintenance</td><td class="amber cv" data-crc="17325916" data-freq="annual">₡17,325,916</td><td class="cv" data-crc="1443826" data-freq="monthly">₡1,443,826</td><td class="hl cv" data-crc="18000000" data-freq="annual">₡18,000,000</td><td><span class="change-up">↑ +3.9%</span></td></tr>
+          <tr><td>Utilities</td><td class="amber cv" data-crc="5585725" data-freq="annual">₡5,585,725</td><td class="cv" data-crc="465477" data-freq="monthly">₡465,477</td><td class="hl cv" data-crc="6000000" data-freq="annual">₡6,000,000</td><td><span class="change-up">↑ +7.4%</span></td></tr>
+          <tr><td>Insurance</td><td class="amber cv" data-crc="3060151" data-freq="annual">₡3,060,151</td><td class="cv" data-crc="255013" data-freq="monthly">₡255,013</td><td class="hl cv" data-crc="3100000" data-freq="annual">₡3,100,000</td><td><span class="change-up">↑ +1.3%</span></td></tr>
+          <tr><td>Taxes & Permits</td><td class="amber cv" data-crc="1954730" data-freq="annual">₡1,954,730</td><td class="cv" data-crc="162894" data-freq="monthly">₡162,894</td><td class="hl cv" data-crc="2000000" data-freq="annual">₡2,000,000</td><td><span class="change-up">↑ +2.3%</span></td></tr>
+          <tr><td>Biodigester</td><td class="amber cv" data-crc="2813248" data-freq="annual">₡2,813,248</td><td class="cv" data-crc="234437" data-freq="monthly">₡234,437</td><td class="hl cv" data-crc="3000000" data-freq="annual">₡3,000,000</td><td><span class="change-up">↑ +6.7%</span></td></tr>
+          <tr><td>Office & Meetings</td><td class="amber cv" data-crc="583115" data-freq="annual">₡583,115</td><td class="cv" data-crc="48593" data-freq="monthly">₡48,593</td><td class="hl cv" data-crc="900000" data-freq="annual">₡900,000</td><td><span class="change-up">↑ +54.3%</span></td></tr>
+          <tr class="total-row"><td>Total Operating (excl. extraordinary)</td><td class="cv" data-crc="82906934" data-freq="annual">₡82,906,934</td><td>—</td><td class="cv" data-crc="88700000" data-freq="annual">₡88,700,000</td><td><span style="color:var(--amber);font-family:var(--mono);font-size:0.8rem;">↑ +6.9%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.6rem;">* Professional Services drops because private security guards (≈₡5.3M in 2025–26) are no longer needed — security system now in place.</p>
   </div>
 </section>
 
+<!-- PROPOSALS -->
 <section id="proposals">
   <div class="container">
-    <div class="section-sub">Require Separate HOA Vote · 2026–27</div>
-    <h2>Optional Proposals</h2>
-    <p class="lead">These items are NOT included in the base budget. The HOA votes on each separately.</p>
-    <div class="proposals">
-      <div class="proposal"><div class="p-icon">🛣️</div><div>
-        <h4>Road Repairs — Remaining Sections</h4>
-        <p>Replace any remaining plastic paver areas with concrete pavers on internal LEV roads. The prior phase cost ₡39,284,087 across 2024–25 and 2025–26. Cost TBD.</p>
-        <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently "No"</span>
-      </div></div>
-      <div class="proposal"><div class="p-icon">👩‍💼</div><div>
-        <h4>Paid Administration Manager</h4>
-        <p>Monthly facilitation of AC meetings: agenda, minutes, reports from Fernando and Lourdes, committee reports, app ticket triage, and homeowner communication.</p>
-        <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently "No"</span>
-      </div></div>
-      <div class="proposal"><div class="p-icon">🏊</div><div>
-        <h4>Pool Renovation</h4>
-        <p>Capital improvements: new showers, repair broken tiles, re-grout, refresh or replace loungers, better signage. Ongoing pool maintenance (<span class="cv" data-crc="395000" data-freq="monthly"></span>/mo) is already in the base budget — this is for one-time renovation work.</p>
-        <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · Cost TBD · Currently "No"</span>
-      </div></div>
+    <div class="section-label reveal">Separate Vote Required</div>
+    <h2 class="section-title reveal">Optional Proposals</h2>
+    <p class="section-desc reveal">These items are NOT in the base budget. Each requires an independent HOA vote and is currently marked as "No pending further information."</p>
+    <div class="proposals-grid reveal">
+      <div class="proposal-card">
+        <div class="p-icon-wrap">🛣️</div>
+        <div class="p-title">Road Repairs — Remaining Sections</div>
+        <p class="p-desc">Replace remaining plastic paver areas with concrete pavers. Prior phase (2024–26) cost ₡39,284,087. Cost for remaining sections is TBD pending assessment.</p>
+        <span class="p-badge">Vote Required · Cost TBD · Currently "No"</span>
+      </div>
+      <div class="proposal-card">
+        <div class="p-icon-wrap">👩‍💼</div>
+        <div class="p-title">Paid Administration Manager</div>
+        <p class="p-desc">Monthly facilitation of AC meetings: agenda, minutes, reports from Fernando and Lourdes, committee coordination, app ticket triage, and homeowner communications.</p>
+        <span class="p-badge">Vote Required · Cost TBD · Currently "No"</span>
+      </div>
+      <div class="proposal-card">
+        <div class="p-icon-wrap">🏊</div>
+        <div class="p-title">Pool Renovation</div>
+        <p class="p-desc">Capital improvements: new showers, repair broken tiles, re-grout, refresh loungers, better signage. Ongoing pool maintenance (₡395k/mo) is already in base budget — this covers one-time renovation only.</p>
+        <span class="p-badge">Vote Required · Cost TBD · Currently "No"</span>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- LOTS -->
 <section id="lots">
   <div class="container">
-    <div class="section-sub">Individual Contributions · 2026–27</div>
-    <h2>Per-Lot Fee Calculator</h2>
-    <p class="lead">HOA fees are weighted by each lot's proportional share of total community land area. Select your lot to see your contribution to the <span class="cv" data-crc="88700000" data-freq="annual"></span> base budget.</p>
-    <div class="lot-lookup">
-      <label for="lotSel">Select your lot:</label>
-      <select id="lotSel" onchange="showLot()"><option value="">-- Choose Lot --</option></select>
+    <div class="section-label reveal">Your Contribution</div>
+    <h2 class="section-title reveal">Per-Lot Fee Calculator</h2>
+    <p class="section-desc reveal">Fees are weighted by each lot's share of total community land area. Select your lot to see your 2026–27 contribution.</p>
+    <div class="lot-calc reveal">
+      <div class="lot-select-wrap">
+        <label class="lot-select-label">Select your lot:</label>
+        <select id="lotSel" onchange="showLot()">
+          <option value="">— Choose Lot —</option>
+        </select>
+      </div>
+      <div class="lot-result-panel" id="lotPanel">
+        <div class="lr-item"><div class="lr-label">Lot Number</div><div class="lr-val" id="rLot">—</div></div>
+        <div class="lr-item"><div class="lr-label">Your Share</div><div class="lr-val" id="rPct">—</div></div>
+        <div class="lr-item"><div class="lr-label">Annual Fee</div><div class="lr-val" id="rAnn">—</div></div>
+        <div class="lr-item"><div class="lr-label">Monthly Fee</div><div class="lr-val" id="rMon">—</div></div>
+      </div>
     </div>
-    <div class="lot-result" id="lotRes">
-      <div><div class="r-label">Lot</div><div class="r-val" id="rLot">—</div></div>
-      <div><div class="r-label">Share</div><div class="r-val" id="rPct">—</div></div>
-      <div><div class="r-label">Annual Fee</div><div class="r-val" id="rAnn">—</div></div>
-      <div><div class="r-label">Monthly Fee</div><div class="r-val" id="rMon">—</div></div>
-    </div>
-    <div class="table-wrap">
+    <div class="table-wrap reveal">
       <table>
         <thead><tr><th>Lot #</th><th>Share %</th><th>Annual 2026–27</th><th>Monthly 2026–27</th></tr></thead>
         <tbody id="lotTbody"></tbody>
       </table>
     </div>
-    <p class="fn">* Calculated against the ₡88,700,000 base essential budget. Lots 22 and 23 show 0% in the spreadsheet.</p>
+    <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.6rem;">* Calculated against ₡88,700,000 base essential budget. Lots 22 and 23 show 0% in the official spreadsheet.</p>
   </div>
 </section>
 
 <footer>
-  <strong>LEV Eco Village</strong> · Condominio H.R. Turístico Arboleda de Machuca<br>
-  Proposed HOA Budget: April 2026 – March 2027 · HOA Meeting: April 11, 2026<br>
-  Prior year actuals: April 2025 – March 2026 · All figures from: LEV_budget_builder_2026-2027.xlsx<br>
-  <span id="footer-rate">Exchange rates loaded on page open</span>
+  <div class="footer-brand">🌿 LEV Eco Village</div>
+  <div class="footer-sub">
+    Condominio H.R. Turístico Arboleda de Machuca<br>
+    Proposed HOA Budget: April 2026 – March 2027 · Assembly: April 11, 2026<br>
+    All figures from: LEV_budget_builder_2026–2027.xlsx<br>
+    <span id="footer-rate">Rates loading…</span>
+  </div>
 </footer>
 
-</div><!-- end #main-content -->
+</div><!-- #app -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ── PASSWORD GATE ──────────────────────────────────────────────────────────────
-const CORRECT_PW = 'LEV@)@^';
-
+// ── PASSWORD ──────────────────────────────────────────────────────────────────
+const CORRECT = 'LEV@)@^';
 function checkPw() {
-  const val = document.getElementById('pwInput').value;
-  const inp = document.getElementById('pwInput');
-  const err = document.getElementById('pwErr');
-  if (val === CORRECT_PW) {
+  const v = document.getElementById('pwInput').value;
+  if (v === CORRECT) {
     document.getElementById('gate').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-    refreshAll();
-    fetchRates();
+    document.getElementById('app').style.display = 'block';
+    init();
   } else {
-    err.textContent = 'Incorrect password. Please try again.';
+    const inp = document.getElementById('pwInput');
+    document.getElementById('pwErr').textContent = 'Incorrect password.';
     inp.classList.add('error');
     inp.value = '';
     setTimeout(() => inp.classList.remove('error'), 400);
-    inp.focus();
   }
 }
-
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('pwInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPw();
-  });
+  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPw(); });
   document.getElementById('pwInput').focus();
 });
 
-// ── MAIN APP ──────────────────────────────────────────────────────────────────
-const BASE_CRC = 88700000;
-let rates = { USD: 465.40, EUR: null };
+// ── CURRENCY ──────────────────────────────────────────────────────────────────
+let rates = { USD: 515, EUR: 560 };
 let activeCurrency = 'CRC';
 let ratesLoaded = false;
 
 async function fetchRates() {
   try {
     const res = await fetch('https://open.er-api.com/v6/latest/CRC');
-    if (!res.ok) throw new Error('API error');
     const data = await res.json();
     if (data && data.rates) {
       rates.USD = 1 / data.rates.USD;
       rates.EUR = 1 / data.rates.EUR;
       ratesLoaded = true;
-      updateRateDisplay();
-      refreshAll();
     }
-  } catch(e) {
-    rates.USD = 465.40;
-    rates.EUR = rates.USD * 0.925;
-    ratesLoaded = false;
-    updateRateDisplay();
-    refreshAll();
-  }
+  } catch(e) {}
+  updateRateDisplay();
+  refreshAll();
 }
 
 function updateRateDisplay() {
-  const el = document.getElementById('rate-display');
-  const heroRate = document.getElementById('hero-rate');
-  const footerRate = document.getElementById('footer-rate');
-  const src = ratesLoaded ? 'live rate' : 'estimated · Apr 1 2026';
-  const eurStr = rates.EUR ? ` · €1 = ₡${rates.EUR.toFixed(0)}` : '';
-  el.className = 'rate-info';
-  el.innerHTML = `$1 = <span>₡${rates.USD.toFixed(0)}</span>${eurStr} &nbsp;·&nbsp; ${src}`;
-  heroRate.textContent = `Spreadsheet rate: ₡462/USD · Live rate: ₡${rates.USD.toFixed(0)}/USD`;
-  if (footerRate) footerRate.textContent = `Exchange rates: $1 = ₡${rates.USD.toFixed(0)}${eurStr} (${src})`;
+  const src = ratesLoaded ? 'live rate' : 'est. Apr 2026';
+  document.getElementById('rate-display').innerHTML = `$1 = <span class="rate-val">₡${Math.round(rates.USD)}</span> &nbsp;·&nbsp; €1 = <span class="rate-val">₡${Math.round(rates.EUR)}</span> &nbsp;·&nbsp; ${src}`;
+  document.getElementById('footer-rate').textContent = `$1 = ₡${Math.round(rates.USD)} · €1 = ₡${Math.round(rates.EUR)} (${src})`;
 }
 
-function fmt(crcVal) {
-  if (activeCurrency === 'CRC') {
-    return '₡' + Math.round(crcVal).toLocaleString('en-US');
-  } else if (activeCurrency === 'USD') {
-    const v = crcVal / rates.USD;
-    return '$' + Math.round(v).toLocaleString('en-US');
-  } else {
-    const v = crcVal / rates.EUR;
-    return '€' + Math.round(v).toLocaleString('en-US');
-  }
+function fmt(crc) {
+  let v, sym;
+  if (activeCurrency === 'CRC') { v = crc; sym = '₡'; }
+  else if (activeCurrency === 'USD') { v = crc / rates.USD; sym = '$'; }
+  else { v = crc / rates.EUR; sym = '€'; }
+  return sym + Math.round(v).toLocaleString('en-US');
+}
+
+function fmtShort(crc) {
+  let v, sym;
+  if (activeCurrency === 'CRC') { v = crc; sym = '₡'; }
+  else if (activeCurrency === 'USD') { v = crc / rates.USD; sym = '$'; }
+  else { v = crc / rates.EUR; sym = '€'; }
+  const abs = Math.abs(v);
+  const sign = v < 0 ? '-' : '';
+  if (abs >= 1000000) return sign + sym + (abs / 1000000).toFixed(1) + 'M';
+  if (abs >= 1000) return sign + sym + Math.round(abs / 1000) + 'k';
+  return sign + sym + Math.round(abs);
 }
 
 function refreshAll() {
   document.querySelectorAll('.cv[data-crc]').forEach(el => {
-    const crc = parseFloat(el.dataset.crc);
-    el.textContent = fmt(crc);
+    el.textContent = fmt(parseFloat(el.dataset.crc));
   });
   refreshLotTable();
   updateLotResult();
+  flowRender(); // re-render flow summaries in current currency
 }
 
 function setCurrency(c) {
@@ -816,6 +919,291 @@ function setCurrency(c) {
   refreshAll();
 }
 
+// ── INTERACTIVE FLOW ──────────────────────────────────────────────────────────
+const FLOW_INCOME = 104417829;
+const FLOW_CAT_COLORS = ['#00e5c3','#00bfff','#a855f7','#ffb740','#7e9aff','#00ff88','#ff4d6d','#64e8d0','#e0d080','#94a3b8','#f472b6','#fb923c'];
+
+let flowCats = [
+  {id:1,  name:'Staff salaries',        amt:31100000},
+  {id:2,  name:'Staff benefits',         amt:13900000},
+  {id:3,  name:'Routine maintenance',    amt:18000000},
+  {id:4,  name:'Professional services',  amt:6700000},
+  {id:5,  name:'Utilities',              amt:6000000},
+  {id:6,  name:'Office & meetings',      amt:900000},
+  {id:7,  name:'Insurance',              amt:3100000},
+  {id:8,  name:'Taxes & permits',        amt:2000000},
+  {id:9,  name:'Biodigester',            amt:3000000},
+  {id:10, name:'Reserve fund',           amt:4000000},
+];
+let flowNextId = 20;
+
+function flowTotal() { return flowCats.reduce((s, c) => s + c.amt, 0); }
+function flowSurplus() { return FLOW_INCOME - flowTotal(); }
+
+function flowRender() {
+  const bud = flowTotal();
+  const sur = flowSurplus();
+  const pct = (bud / FLOW_INCOME * 100);
+
+  // header
+  document.getElementById('flow-hdr-income').textContent = fmt(FLOW_INCOME);
+
+  // summary strip
+  document.getElementById('fss-income').textContent = fmt(FLOW_INCOME);
+  document.getElementById('fss-budget').textContent = fmt(bud);
+  const surEl = document.getElementById('fss-surplus');
+  surEl.textContent = (sur >= 0 ? '+' : '') + fmt(sur);
+  surEl.className = 'fss-val ' + (sur >= 0 ? 'surplus' : 'deficit');
+
+  // fund node
+  document.getElementById('fundLabel').textContent = fmtShort(bud);
+  document.getElementById('fundMonthly').textContent = '≈' + fmtShort(bud / 12) + ' / month';
+  document.getElementById('fundSurplusLabel').textContent = (sur >= 0 ? 'surplus ' : 'deficit ') + fmtShort(Math.abs(sur));
+  document.getElementById('fundPct').textContent = pct.toFixed(1) + '% committed';
+
+  // surplus box
+  const box  = document.getElementById('flowSurplusBox');
+  const lbl  = document.getElementById('fsbLabel');
+  const val  = document.getElementById('fsbVal');
+  const mo   = document.getElementById('fsbMo');
+  if (sur >= 0) {
+    box.className = 'flow-surplus-box pos';
+    lbl.className = 'fsb-label pos'; lbl.textContent = 'UNALLOCATED SURPLUS';
+    val.className = 'fsb-val pos';   val.textContent = '+' + fmt(sur);
+    mo.className  = 'fsb-mo pos';    mo.textContent  = fmt(sur / 12) + ' / month available for new projects';
+  } else {
+    box.className = 'flow-surplus-box neg';
+    lbl.className = 'fsb-label neg'; lbl.textContent = 'DEFICIT — over budget';
+    val.className = 'fsb-val neg';   val.textContent = '−' + fmt(Math.abs(sur));
+    mo.className  = 'fsb-mo neg';    mo.textContent  = fmt(Math.abs(sur) / 12) + ' / month over income';
+  }
+
+  flowRenderCats(bud);
+  flowRenderSvg(bud, sur);
+}
+
+function flowRenderCats(bud) {
+  const list = document.getElementById('flowCatList');
+  list.innerHTML = '';
+  flowCats.forEach((c, i) => {
+    const col = FLOW_CAT_COLORS[i % FLOW_CAT_COLORS.length];
+    const pct = (c.amt / FLOW_INCOME * 100).toFixed(1);
+    const row = document.createElement('div');
+    row.className = 'flow-cat-row';
+    row.innerHTML = `
+      <div class="flow-cat-dot" style="background:${col}"></div>
+      <div class="flow-cat-name">${c.name}</div>
+      <div class="flow-cat-pct">${pct}%</div>
+      <div class="flow-cat-amt">${fmt(c.amt)}</div>
+      <button class="flow-cat-close" onclick="flowRemoveCat(${c.id})" title="Remove category">×</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function flowRenderSvg(bud, sur) {
+  const g = document.getElementById('expenseNodes');
+  g.innerHTML = '';
+  const NS = 'http://www.w3.org/2000/svg';
+
+  const startX = 530;
+  const nodeW  = 240;
+  const nodeH  = 44;
+  const totalSlots = flowCats.length + 1; // +1 for surplus
+  const svgUsableH = 320;
+  const spacing = Math.min(54, (svgUsableH - 20) / totalSlots);
+  const startY  = Math.max(10, (svgUsableH - totalSlots * spacing) / 2);
+  const fundCY  = 154; // vertical centre of fund node
+  const fundRX  = 465; // right edge of fund node
+
+  // adjust viewbox
+  const neededH = startY + totalSlots * spacing + 20;
+  const vbH = Math.max(300, neededH);
+  document.getElementById('flowSvg').setAttribute('viewBox', `0 0 900 ${vbH}`);
+
+  function mk(tag) { return document.createElementNS(NS, tag); }
+
+  flowCats.forEach((c, i) => {
+    const col = FLOW_CAT_COLORS[i % FLOW_CAT_COLORS.length];
+    const ny  = startY + i * spacing;
+    const my  = ny + nodeH / 2;
+    const pct = (c.amt / bud * 100).toFixed(0);
+    const path = `M${fundRX} ${fundCY} C${fundRX + 40} ${fundCY},${startX - 30} ${my},${startX} ${my}`;
+
+    // glow band
+    const gp = mk('path');
+    gp.setAttribute('d', path);
+    gp.setAttribute('stroke', col + '14');
+    gp.setAttribute('stroke-width', '10');
+    gp.setAttribute('fill', 'none');
+    g.appendChild(gp);
+
+    // animated dashed line
+    const lp = mk('path');
+    lp.setAttribute('d', path);
+    lp.setAttribute('stroke', col);
+    lp.setAttribute('stroke-width', '1.5');
+    lp.setAttribute('fill', 'none');
+    lp.setAttribute('stroke-opacity', '0.5');
+    lp.setAttribute('stroke-dasharray', '7 4');
+    const an = mk('animate');
+    an.setAttribute('attributeName', 'stroke-dashoffset');
+    an.setAttribute('from', '0'); an.setAttribute('to', '-44');
+    an.setAttribute('dur', (1.8 + i * 0.15) + 's');
+    an.setAttribute('repeatCount', 'indefinite');
+    lp.appendChild(an);
+    g.appendChild(lp);
+
+    // animated dot
+    const dot = mk('circle');
+    dot.setAttribute('r', '2.5');
+    dot.setAttribute('fill', col);
+    dot.setAttribute('fill-opacity', '0.85');
+    dot.setAttribute('filter', 'url(#glow)');
+    const am = mk('animateMotion');
+    am.setAttribute('dur', (1.8 + i * 0.15) + 's');
+    am.setAttribute('begin', (i * 0.18) + 's');
+    am.setAttribute('repeatCount', 'indefinite');
+    am.setAttribute('path', path);
+    dot.appendChild(am);
+    g.appendChild(dot);
+
+    // node rect
+    const rect = mk('rect');
+    rect.setAttribute('x', startX); rect.setAttribute('y', ny);
+    rect.setAttribute('width', nodeW); rect.setAttribute('height', nodeH);
+    rect.setAttribute('rx', '9');
+    rect.setAttribute('style', `fill:${col}10;stroke:${col};stroke-opacity:0.22;stroke-width:1`);
+    g.appendChild(rect);
+
+    // colour accent bar
+    const bar = mk('rect');
+    bar.setAttribute('x', startX); bar.setAttribute('y', ny);
+    bar.setAttribute('width', '3'); bar.setAttribute('height', nodeH);
+    bar.setAttribute('rx', '1');
+    bar.setAttribute('style', `fill:${col}`);
+    g.appendChild(bar);
+
+    // name
+    const nameEl = mk('text');
+    nameEl.setAttribute('x', startX + 10); nameEl.setAttribute('y', ny + 16);
+    nameEl.setAttribute('fill', col);
+    nameEl.setAttribute('font-family', 'Syne,sans-serif');
+    nameEl.setAttribute('font-size', '9');
+    nameEl.setAttribute('font-weight', '700');
+    const lbl = c.name.length > 26 ? c.name.slice(0, 25) + '…' : c.name;
+    nameEl.textContent = lbl.toUpperCase();
+    g.appendChild(nameEl);
+
+    // amount
+    const amtEl = mk('text');
+    amtEl.setAttribute('x', startX + 10); amtEl.setAttribute('y', ny + 30);
+    amtEl.setAttribute('fill', 'rgba(160,200,195,0.5)');
+    amtEl.setAttribute('font-family', 'JetBrains Mono,monospace');
+    amtEl.setAttribute('font-size', '8');
+    amtEl.textContent = fmtShort(c.amt) + ' · ' + pct + '%';
+    g.appendChild(amtEl);
+  });
+
+  // surplus / deficit node
+  const si   = flowCats.length;
+  const ny   = startY + si * spacing;
+  const my   = ny + nodeH / 2;
+  const sc   = sur >= 0 ? '#00ff88' : '#ff4d6d';
+  const path2 = `M${fundRX} ${fundCY} C${fundRX + 40} ${fundCY},${startX - 30} ${my},${startX} ${my}`;
+
+  const gp2 = mk('path');
+  gp2.setAttribute('d', path2);
+  gp2.setAttribute('stroke', sur >= 0 ? 'rgba(0,255,136,0.06)' : 'rgba(255,77,109,0.06)');
+  gp2.setAttribute('stroke-width', '10'); gp2.setAttribute('fill', 'none');
+  g.appendChild(gp2);
+
+  const lp2 = mk('path');
+  lp2.setAttribute('d', path2); lp2.setAttribute('stroke', sc);
+  lp2.setAttribute('stroke-width', '1.5'); lp2.setAttribute('fill', 'none');
+  lp2.setAttribute('stroke-opacity', sur >= 0 ? '0.4' : '0.65');
+  lp2.setAttribute('stroke-dasharray', '5 5');
+  const an2 = mk('animate');
+  an2.setAttribute('attributeName', 'stroke-dashoffset');
+  an2.setAttribute('from', '0'); an2.setAttribute('to', '-40');
+  an2.setAttribute('dur', '3s'); an2.setAttribute('repeatCount', 'indefinite');
+  lp2.appendChild(an2); g.appendChild(lp2);
+
+  const dot2 = mk('circle');
+  dot2.setAttribute('r', '2.5'); dot2.setAttribute('fill', sc);
+  dot2.setAttribute('fill-opacity', '0.75'); dot2.setAttribute('filter', 'url(#glow)');
+  const am2 = mk('animateMotion');
+  am2.setAttribute('dur', '3s'); am2.setAttribute('begin', '0.5s');
+  am2.setAttribute('repeatCount', 'indefinite'); am2.setAttribute('path', path2);
+  dot2.appendChild(am2); g.appendChild(dot2);
+
+  const rect2 = mk('rect');
+  rect2.setAttribute('x', startX); rect2.setAttribute('y', ny);
+  rect2.setAttribute('width', nodeW); rect2.setAttribute('height', nodeH);
+  rect2.setAttribute('rx', '9');
+  rect2.setAttribute('style', `fill:${sc}10;stroke:${sc};stroke-opacity:0.3;stroke-width:1;${sur < 0 ? 'stroke-dasharray:4 3' : ''}`);
+  g.appendChild(rect2);
+
+  const bar2 = mk('rect');
+  bar2.setAttribute('x', startX); bar2.setAttribute('y', ny);
+  bar2.setAttribute('width', '3'); bar2.setAttribute('height', nodeH);
+  bar2.setAttribute('rx', '1'); bar2.setAttribute('style', `fill:${sc}`);
+  g.appendChild(bar2);
+
+  const lbl2 = mk('text');
+  lbl2.setAttribute('x', startX + 10); lbl2.setAttribute('y', ny + 16);
+  lbl2.setAttribute('fill', sc);
+  lbl2.setAttribute('font-family', 'Syne,sans-serif');
+  lbl2.setAttribute('font-size', '9'); lbl2.setAttribute('font-weight', '700');
+  lbl2.textContent = sur >= 0 ? 'UNALLOCATED SURPLUS' : 'DEFICIT';
+  g.appendChild(lbl2);
+
+  const amt2 = mk('text');
+  amt2.setAttribute('x', startX + 10); amt2.setAttribute('y', ny + 30);
+  amt2.setAttribute('fill', 'rgba(160,200,195,0.5)');
+  amt2.setAttribute('font-family', 'JetBrains Mono,monospace');
+  amt2.setAttribute('font-size', '8');
+  amt2.textContent = (sur >= 0 ? '+' : '') + fmtShort(sur) + ' · ' + (sur / FLOW_INCOME * 100).toFixed(1) + '%';
+  g.appendChild(amt2);
+}
+
+function flowRemoveCat(id) {
+  flowCats = flowCats.filter(c => c.id !== id);
+  flowRender();
+}
+
+function flowOpenAdd() {
+  document.getElementById('flowAddForm').classList.add('open');
+  document.getElementById('flowAddTrigger').style.display = 'none';
+  document.getElementById('flowNewName').focus();
+}
+
+function flowCancelAdd() {
+  document.getElementById('flowAddForm').classList.remove('open');
+  document.getElementById('flowAddTrigger').style.display = 'flex';
+  document.getElementById('flowNewName').value = '';
+  document.getElementById('flowNewAmt').value = '';
+}
+
+function flowSaveNew() {
+  const name = document.getElementById('flowNewName').value.trim();
+  const amt  = parseFloat(document.getElementById('flowNewAmt').value) || 0;
+  if (!name) { document.getElementById('flowNewName').focus(); return; }
+  if (amt <= 0) { document.getElementById('flowNewAmt').focus(); return; }
+  flowCats.push({ id: flowNextId++, name, amt });
+  flowCancelAdd();
+  flowRender();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('flowNewAmt').addEventListener('keydown', e => { if (e.key === 'Enter') flowSaveNew(); });
+  document.getElementById('flowNewName').addEventListener('keydown', e => {
+    if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); document.getElementById('flowNewAmt').focus(); }
+  });
+});
+
+// ── LOTS ──────────────────────────────────────────────────────────────────────
+const BASE_CRC = 88700000;
 const lots = [
   [1,0.017915882],[2,0.022038687],[3,0.021851094],[4,0.021895811],[5,0.021823010],
   [6,0.017024955],['7A',0.014233020],['7B',0.014052517],[8,0.028472175],
@@ -830,64 +1218,286 @@ const lots = [
   [40,0.017114525],[41,0.019071974],[42,0.031512234],['43A',0.055235570],['43B',0.054908238]
 ];
 
-const sel = document.getElementById('lotSel');
-const tb  = document.getElementById('lotTbody');
-lots.forEach(([id, pct]) => {
-  const o = document.createElement('option');
-  o.value = pct; o.dataset.id = id; o.textContent = 'Lot ' + id;
-  sel.appendChild(o);
-});
+function buildLotSelect() {
+  const sel = document.getElementById('lotSel');
+  lots.forEach(([id]) => {
+    const o = document.createElement('option');
+    o.value = id; o.textContent = 'Lot ' + id;
+    sel.appendChild(o);
+  });
+}
 
 function refreshLotTable() {
-  if (!tb) return;
-  tb.innerHTML = '';
+  const tb = document.getElementById('lotTbody');
+  if (!tb) return; tb.innerHTML = '';
   lots.forEach(([id, pct]) => {
-    const ann = BASE_CRC * pct;
-    const mon = ann / 12;
+    const ann = BASE_CRC * pct, mon = ann / 12;
     const tr = document.createElement('tr');
-    if (pct === 0) tr.style.color = 'var(--soft)';
-    tr.innerHTML = `<td>${id}</td><td>${(pct*100).toFixed(3)}%</td><td style="font-weight:600">${fmt(ann)}</td><td>${fmt(mon)}</td>`;
+    if (pct === 0) tr.style.opacity = '0.4';
+    tr.innerHTML = `<td style="color:var(--text-secondary);font-weight:500;">Lot ${id}</td><td style="font-family:var(--mono);font-size:0.78rem;color:var(--text-secondary);">${(pct*100).toFixed(3)}%</td><td style="font-family:var(--mono);color:var(--teal);font-weight:600;">${fmt(ann)}</td><td style="font-family:var(--mono);color:var(--text-secondary);">${fmt(mon)}</td>`;
     tb.appendChild(tr);
   });
 }
 
 let currentLotPct = null, currentLotId = null;
 function showLot() {
-  const s = sel.options[sel.selectedIndex];
-  if (!s.value) { document.getElementById('lotRes').classList.remove('vis'); currentLotPct = null; return; }
-  currentLotPct = parseFloat(s.value);
-  currentLotId  = s.dataset.id;
+  const v = document.getElementById('lotSel').value;
+  if (!v) { document.getElementById('lotPanel').classList.remove('visible'); return; }
+  const found = lots.find(([id]) => String(id) === String(v));
+  if (!found) return;
+  currentLotId = found[0]; currentLotPct = found[1];
   updateLotResult();
-  document.getElementById('lotRes').classList.add('vis');
+  document.getElementById('lotPanel').classList.add('visible');
 }
+
 function updateLotResult() {
   if (currentLotPct === null) return;
-  const ann = BASE_CRC * currentLotPct;
-  const mon = ann / 12;
+  const ann = BASE_CRC * currentLotPct, mon = ann / 12;
   document.getElementById('rLot').textContent = 'Lot ' + currentLotId;
   document.getElementById('rPct').textContent = (currentLotPct * 100).toFixed(3) + '%';
   document.getElementById('rAnn').textContent = fmt(ann);
   document.getElementById('rMon').textContent = fmt(mon);
 }
 
-// Wrap detail-card tables in scrollable containers
-document.querySelectorAll('.detail-card table').forEach(t => {
-  if (t.parentElement.classList.contains('detail-card-table-wrap')) return;
-  const wrap = document.createElement('div');
-  wrap.className = 'detail-card-table-wrap';
-  t.parentNode.insertBefore(wrap, t);
-  wrap.appendChild(t);
-});
+// ── ACCORDION ─────────────────────────────────────────────────────────────────
+const accordionData = [
+  { icon:'👷', title:'Salaries', code:'80001', priorMo:2311100, propMo:2590963, propAnn:31091555,
+    rows:[['Salaries — 80003',2311100,2590963,31091555,'+5% raise only']]},
+  { icon:'🏦', title:'Employee Benefits', code:'80010', priorMo:1048969, propMo:1157123, propAnn:13885489,
+    rows:[['Social Security — 80011',636163,695155,8341864,''],['13th Month / Aguinaldo — 80012',192900,215827,2589927,''],['Vacation Pay — 80013',96527,108043,1296518,''],['Severance / Cesantía — 80014',123379,138098,1657180,'']]},
+  { icon:'📋', title:'Professional Services', code:'80020', priorMo:944864, propMo:552950, propAnn:6635400,
+    rows:[['Professional Services — 80022',141850,163850,1966200,''],['Legal Services — 80023',76113,80000,960000,''],['Other Services — 80024',226311,230000,2760000,''],['Accounting / Bookkeeping — 80028',56500,79100,949200,'₡20k/mo raise requested'],['Private Security — 80029',444090,0,0,'Security system installed — no longer needed']]},
+  { icon:'🔧', title:'Maintenance', code:'80040', priorMo:1324916, propMo:1445000, propAnn:17340000,
+    rows:[['Machine Maintenance — 80057',16619,25000,300000,''],['Vehicle Maintenance — 80041',17746,50000,600000,'Consult Fernando if more needed'],['Gas & Oil — 80042',97438,105000,1260000,''],['Common Area Cleaning — 800432',18833,20000,240000,''],['Building Maintenance — 800436',264361,280000,3360000,''],['Maintenance Supplies — 800437',261970,280000,3360000,''],['Common Area Maint. (other) — 80043',28757,30000,360000,''],['Pool Maintenance — 80045',376688,395000,4740000,''],['Permaculture Garden — 80048',173896,185000,2220000,''],['First Aid Kit — 80056',9057,10000,120000,''],['Uniforms — 80059',47671,50000,600000,''],['Tolls / Peajes — 80067',11880,15000,180000,'']]},
+  { icon:'💡', title:'Utilities', code:'80050', priorMo:454507, propMo:600000, propAnn:7200000,
+    rows:[['Electricity — 80051',351129,500000,6000000,'Budgeted conservatively high'],['Telephone & Internet — 80053',103377,100000,1200000,'']]},
+  { icon:'🗂️', title:'Office & Meetings', code:'80080', priorMo:5125, propMo:75000, propAnn:900000,
+    rows:[['Office Software & Expenses — 80082',2375,40000,480000,'₡25k base + ₡15k e-invoicing'],['Annual Assembly & Meetings — 80080',2750,35000,420000,'Incl. catering (₡250k/yr)']]},
+  { icon:'🛡️', title:'Insurance', code:'80120', priorMo:254966, propMo:275000, propAnn:3300000,
+    rows:[['Work Risk Insurance — 80121',9222,10000,120000,''],['Civil Liability — 80122',33769,40000,480000,''],['Vehicle Insurance — 80123',104623,110000,1320000,''],['Fire Insurance — 80124',107353,115000,1380000,'']]},
+  { icon:'📄', title:'Taxes & Permits', code:'80130', priorMo:150342, propMo:166000, propAnn:1992000,
+    rows:[['Vehicle Taxes & Permits — 80131',25671,28000,336000,'Based on current year'],['Municipal Taxes — 80132',43881,46000,552000,''],['Corporation Tax — 80133',5778,12000,144000,''],['Water Taxes & Permits — 80134',73374,80000,960000,'Full analysis planned for H2'],['Other Taxes — 80135',1639,0,0,'']]},
+  { icon:'💳', title:'Financial Expenses', code:'80180', priorMo:5022, propMo:6000, propAnn:72000,
+    rows:[['Bank Fees — 80183',5022,6000,72000,'']]},
+  { icon:'📉', title:'Depreciation (non-cash)', code:'80190', priorMo:155916, propMo:155916, propAnn:1870990,
+    rows:[['Vehicle Depreciation — 80191',144645,144645,1735740,''],['Furniture & Equipment — 80192',4152,4152,49820,''],['Machinery & Equipment — 80194',7119,7119,85430,'']]},
+  { icon:'🌿', title:'Other', code:'—', priorMo:245270, propMo:260000, propAnn:3120000,
+    rows:[['Multipurpose Court — 800170',10833,15000,180000,''],['Biodigester Maintenance — 80069',234437,245000,2940000,'']]},
+  { icon:'💰', title:'Contingency & Reserve', code:'—', priorMo:0, propMo:700000, propAnn:8400000,
+    rows:[['Contingency',0,350000,4200000,'New line for 2026–27'],['Reserve (Reserva)',0,350000,4200000,'New line for 2026–27']]}
+];
 
-document.querySelectorAll('nav a').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
-    a.classList.add('active');
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function buildAccordion() {
+  const acc = document.getElementById('accordion');
+  accordionData.forEach(cat => {
+    const item = document.createElement('div');
+    item.className = 'detail-item';
+    const rows = cat.rows.map(r => {
+      const isZero = r[2] === 0;
+      return `<tr style="${isZero?'opacity:0.45;':''}">
+        <td>${r[0]}</td>
+        <td style="font-family:var(--mono);color:var(--text-secondary);">${r[1]>0?fmt(r[1]):'—'}</td>
+        <td style="font-family:var(--mono);color:${isZero?'var(--text-dim)':'var(--teal)'};">${isZero?'—':fmt(r[2])}</td>
+        <td style="font-family:var(--mono);color:${isZero?'var(--text-dim)':'var(--teal)'};">${isZero?'—':fmt(r[3])}</td>
+        <td style="font-size:0.72rem;color:var(--text-dim);text-align:left;max-width:180px;white-space:normal;">${r[4]}</td>
+      </tr>`;
+    }).join('');
+    item.innerHTML = `
+      <div class="detail-header" onclick="toggleAccordion(this)">
+        <div class="dh-left">
+          <div class="dh-icon">${cat.icon}</div>
+          <div><div class="dh-name">${cat.title}</div><div class="dh-code">${cat.code}</div></div>
+        </div>
+        <div class="dh-right">
+          <div class="dh-totals">
+            <div class="dt-item"><span class="dt-label">Prior avg/mo</span><span class="dt-val" data-crc="${cat.priorMo}">${cat.priorMo>0?fmt(cat.priorMo):'—'}</span></div>
+            <div class="dt-item"><span class="dt-label">Proposed/mo</span><span class="dt-val" data-crc="${cat.propMo}">${fmt(cat.propMo)}</span></div>
+            <div class="dt-item"><span class="dt-label">Annual</span><span class="dt-val" data-crc="${cat.propAnn}">${fmt(cat.propAnn)}</span></div>
+          </div>
+          <div class="dh-toggle">▾</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>Line Item</th><th>Prior Avg/mo</th><th>Proposed/mo</th><th>Proposed Annual</th><th>Notes</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>`;
+    acc.appendChild(item);
   });
-});
+}
+
+function toggleAccordion(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+// ── RADIAL BARS ───────────────────────────────────────────────────────────────
+const barData = [
+  { label:'Staff Salaries',        crc:31100000, pct:0.351, color:'#00e5c3' },
+  { label:'Staff Benefits',         crc:13900000, pct:0.157, color:'#00bfff' },
+  { label:'Routine Maintenance',    crc:18000000, pct:0.203, color:'#7e9aff' },
+  { label:'Professional Services',  crc:6700000,  pct:0.076, color:'#a855f7' },
+  { label:'Utilities',              crc:6000000,  pct:0.068, color:'#ffb740' },
+  { label:'Reserve Fund',           crc:4000000,  pct:0.045, color:'#00ff88' },
+  { label:'Insurance',              crc:3100000,  pct:0.035, color:'#ff4d6d' },
+  { label:'Biodigester',            crc:3000000,  pct:0.034, color:'#64e8d0' },
+  { label:'Taxes & Permits',        crc:2000000,  pct:0.023, color:'#e0d080' },
+  { label:'Office & Meetings',      crc:900000,   pct:0.010, color:'#94a3b8' }
+];
+
+function buildRadialBars() {
+  const container = document.getElementById('radialBars');
+  if (!container) return;
+  container.innerHTML = barData.map(b => `
+    <div class="radial-bar-item">
+      <div class="rb-label">${b.label}</div>
+      <div class="rb-track">
+        <div class="rb-fill" style="width:${b.pct*100}%;background:linear-gradient(90deg,${b.color},${b.color}88);"></div>
+      </div>
+      <div class="rb-val" style="font-size:0.73rem;font-family:var(--mono);color:var(--text-secondary);width:100px;text-align:right;">${fmt(b.crc)}</div>
+      <div class="rb-pct" style="font-size:0.68rem;font-family:var(--mono);color:var(--text-dim);width:44px;text-align:right;">${(b.pct*100).toFixed(1)}%</div>
+    </div>`).join('');
+}
+
+// ── CHARTS ────────────────────────────────────────────────────────────────────
+let donutChartInst, barChartInst, incomeChartInst;
+
+function buildCharts() {
+  const dCtx = document.getElementById('donutChart');
+  if (dCtx && !donutChartInst) {
+    donutChartInst = new Chart(dCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Staff Salaries','Benefits','Maintenance','Prof Services','Utilities','Reserve','Insurance','Other'],
+        datasets: [{ data:[35.1,15.7,20.3,7.6,6.8,4.5,3.5,6.5],
+          backgroundColor:['#00e5c3','#00bfff','#7e9aff','#a855f7','#ffb740','#00ff88','#ff4d6d','#64748b'],
+          borderColor:'#080f12', borderWidth:3, hoverOffset:8 }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, cutout:'68%',
+        plugins:{ legend:{display:false}, tooltip:{
+          backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)', borderWidth:1,
+          titleColor:'#00e5c3', bodyColor:'#a0c8c3',
+          callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.raw}%` }
+        }}}
+    });
+  }
+
+  const bCtx = document.getElementById('barChart');
+  if (bCtx && !barChartInst) {
+    barChartInst = new Chart(bCtx, {
+      type: 'bar',
+      data: {
+        labels:['Salaries','Benefits','Maint.','Prof Svcs','Utilities','Insurance','Taxes','Biodig.'],
+        datasets:[
+          { label:'Actual 2025–26 (avg/mo)', data:[2200398,1001093,1443826,756432,465477,255013,162894,234437].map(v=>Math.round(v/1000)), backgroundColor:'rgba(255,183,64,0.3)', borderColor:'rgba(255,183,64,0.7)', borderWidth:1, borderRadius:4 },
+          { label:'Proposed 2026–27 (mo)',   data:[2591667,1158333,1500000,558333,500000,258333,166667,250000].map(v=>Math.round(v/1000)), backgroundColor:'rgba(0,229,195,0.25)', borderColor:'rgba(0,229,195,0.7)', borderWidth:1, borderRadius:4 }
+        ]
+      },
+      options: { responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)', borderWidth:1, titleColor:'#00e5c3', bodyColor:'#a0c8c3', callbacks:{ label: ctx => ` ${ctx.dataset.label}: ₡${ctx.raw.toLocaleString()}k` } }},
+        scales:{
+          x:{ ticks:{color:'rgba(160,200,195,0.55)',font:{size:10},autoSkip:false}, grid:{color:'rgba(255,255,255,0.04)'} },
+          y:{ ticks:{color:'rgba(160,200,195,0.45)',font:{size:10},callback:v=>'₡'+v+'k'}, grid:{color:'rgba(255,255,255,0.04)'}, title:{display:true,text:'₡ thousands/month',color:'rgba(160,200,195,0.35)',font:{size:9}} }
+        }
+      }
+    });
+  }
+
+  const iCtx = document.getElementById('incomeSpendChart');
+  if (iCtx && !incomeChartInst) {
+    const months = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+    const income = Array(12).fill(8700000).map(v=>Math.round(v/1000));
+    const spend  = [6500000,6800000,7200000,7100000,6900000,7300000,6800000,7200000,7500000,6700000,7000000,6900000].map(v=>Math.round(v/1000));
+    incomeChartInst = new Chart(iCtx, {
+      type: 'line',
+      data: { labels:months, datasets:[
+        { label:'HOA Income', data:income, borderColor:'#00e5c3', backgroundColor:'rgba(0,229,195,0.08)', borderWidth:2, pointBackgroundColor:'#00e5c3', pointRadius:4, tension:0.4, fill:true },
+        { label:'Operating Spend', data:spend, borderColor:'#ffb740', backgroundColor:'rgba(255,183,64,0.06)', borderWidth:2, pointBackgroundColor:'#ffb740', pointRadius:4, tension:0.4, fill:true }
+      ]},
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(5,11,14,0.95)', borderColor:'rgba(0,229,195,0.3)', borderWidth:1, titleColor:'#00e5c3', bodyColor:'#a0c8c3', callbacks:{ label: ctx => ` ${ctx.dataset.label}: ₡${ctx.raw.toLocaleString()}k` } }},
+        scales:{
+          x:{ ticks:{color:'rgba(160,200,195,0.55)',font:{size:10}}, grid:{color:'rgba(255,255,255,0.04)'} },
+          y:{ ticks:{color:'rgba(160,200,195,0.45)',font:{size:10},callback:v=>'₡'+v+'k'}, grid:{color:'rgba(255,255,255,0.04)'} }
+        }
+      }
+    });
+  }
+}
+
+// ── PARTICLES ─────────────────────────────────────────────────────────────────
+function initParticles() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize() { W = canvas.offsetWidth; H = canvas.offsetHeight; canvas.width = W; canvas.height = H; }
+  function makeParticle() {
+    return { x: Math.random()*W, y: Math.random()*H, vx:(Math.random()-0.5)*0.4, vy:-Math.random()*0.6-0.2,
+      size:Math.random()*2+0.5, alpha:Math.random()*0.5+0.1, color:Math.random()>0.5?'#00e5c3':'#00bfff' };
+  }
+  resize();
+  for (let i=0;i<60;i++) particles.push(makeParticle());
+  window.addEventListener('resize', resize);
+  function animate() {
+    if (!canvas.isConnected) return;
+    ctx.clearRect(0,0,W,H);
+    particles.forEach((p,i)=>{
+      p.x+=p.vx; p.y+=p.vy; p.alpha-=0.0008;
+      if (p.y<-10||p.alpha<=0) particles[i]=makeParticle();
+      ctx.save(); ctx.globalAlpha=p.alpha; ctx.fillStyle=p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.restore();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ── CURSOR GLOW ───────────────────────────────────────────────────────────────
+function initCursor() {
+  const glow = document.getElementById('cursor-glow');
+  let mx=-1000, my=-1000;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  function move() { if(glow) glow.style.transform=`translate(${mx-150}px,${my-150}px)`; requestAnimationFrame(move); }
+  move();
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────────────────────────────────
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible'); obs.unobserve(e.target);} });
+  }, { threshold:0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// ── NAV ACTIVE ────────────────────────────────────────────────────────────────
+function initNav() {
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior:'smooth' });
+    });
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+  buildLotSelect();
+  buildAccordion();
+  buildRadialBars();
+  flowRender();
+  initCursor();
+  initParticles();
+  initReveal();
+  initNav();
+  fetchRates().then(() => { buildCharts(); });
+  setTimeout(buildCharts, 500);
+}
 </script>
 </body>
 </html>
