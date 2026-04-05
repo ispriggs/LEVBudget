@@ -108,6 +108,7 @@
 
   .detail-section { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1rem; }
   .detail-card { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; overflow: hidden; }
+  .detail-card-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .detail-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.2rem; background: var(--forest); color: var(--mist); gap: 1rem; flex-wrap: wrap; }
   .detail-card-header .cat-title { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; display: flex; align-items: center; gap: 0.5rem; }
   .detail-card-header .cat-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; }
@@ -204,10 +205,12 @@
     .nt { display: block; margin-top: 0.15rem; }
 
     /* Detail cards */
+    .detail-card { overflow: visible; border-radius: 12px; }
     .detail-card-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
     .detail-card-header .cat-totals { gap: 1rem; }
     .detail-card-header .ct-val { font-size: 1rem; }
-    .detail-card table { min-width: 440px; }
+    .detail-card-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 0 0 12px 12px; }
+    .detail-card table { min-width: 480px; border-radius: 0; }
     .detail-card thead th { font-size: 0.6rem; padding: 0.45rem 0.75rem; }
     .detail-card td { padding: 0.45rem 0.75rem; font-size: 0.75rem; }
     .detail-card td.note-cell { max-width: 130px; }
@@ -866,6 +869,15 @@ function updateLotResult() {
   document.getElementById('rAnn').textContent = fmt(ann);
   document.getElementById('rMon').textContent = fmt(mon);
 }
+
+// Wrap detail-card tables in scrollable containers
+document.querySelectorAll('.detail-card table').forEach(t => {
+  if (t.parentElement.classList.contains('detail-card-table-wrap')) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'detail-card-table-wrap';
+  t.parentNode.insertBefore(wrap, t);
+  wrap.appendChild(t);
+});
 
 document.querySelectorAll('nav a').forEach(a => {
   a.addEventListener('click', e => {
