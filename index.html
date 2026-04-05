@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>LEV Eco Village · Financial Ecosystem 2026–27</title>
+<title>LEV Eco Village · HOA Budget 2026–2027</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink: #050b0e;
   --void: #080f12;
-  --glass: rgba(10,24,30,0.7);
+  --glass: rgb(10, 24, 30);
   --glass-light: rgba(255,255,255,0.04);
   --glass-border: rgba(255,255,255,0.07);
   --glass-border-bright: rgba(255,255,255,0.14);
   --teal: #00e5c3;
   --teal-dim: #00c4a7;
-  --teal-glow: rgba(0,229,195,0.15);
-  --teal-deep: rgba(0,229,195,0.06);
+  --teal-glow: rgba(0, 229, 195, 0.34);
+  --teal-deep: rgba(0, 229, 195, 0.25);
   --cyan: #00bfff;
-  --cyan-glow: rgba(0,191,255,0.12);
+  --cyan-glow: rgba(0, 191, 255, 0.294);
   --emerald: #00ff88;
   --emerald-dim: rgba(0,255,136,0.7);
   --amber: #ffb740;
@@ -27,9 +27,9 @@
   --red-glow: rgba(255,77,109,0.15);
   --purple: #a855f7;
   --purple-glow: rgba(168,85,247,0.12);
-  --text-primary: rgba(220,240,235,0.95);
-  --text-secondary: rgba(160,200,195,0.65);
-  --text-dim: rgba(120,160,155,0.45);
+  --text-primary: rgb(220, 240, 235);
+  --text-secondary: rgb(160, 200, 195);
+  --text-dim: rgb(136, 235, 223);
   --mono: 'JetBrains Mono', monospace;
   --display: 'Syne', sans-serif;
   --body: 'Space Grotesk', sans-serif;
@@ -214,12 +214,12 @@ nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal)
   position: relative;
   height: auto;
   overflow: visible;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: clamp(0.6rem, 2vw, 1.2rem);
   width: 100%; max-width: 700px;
   animation: fadeUp 1s 0.65s cubic-bezier(0.16,1,0.3,1) both;
 }
-@media (min-width: 640px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 640px) { .hero-stats { grid-template-columns: repeat(4, 1fr); } }
 .hstat {
   background: var(--glass); border: 1px solid var(--glass-border-bright);
   min-width: 0;
@@ -609,7 +609,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
   <div class="gate-box">
     <div class="gate-orb">🌿</div>
     <div class="gate-title">LEV Eco Village</div>
-    <div class="gate-sub">Financial Ecosystem 2026–27 · Members Only</div>
+    <div class="gate-sub">HOA Budget 2026–2027 · Members Only</div>
     <input type="password" id="pwInput" class="gate-input" placeholder="· · · · · · ·" autocomplete="current-password" />
     <button class="gate-btn" onclick="checkPw()">Initialize Access</button>
     <div class="gate-err" id="pwErr"></div>
@@ -647,8 +647,8 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
   <canvas id="particleCanvas"></canvas>
   <div class="hero-eyebrow">HOA Budget 2026–27 · Annual Assembly April 11</div>
   <h1 class="hero-title">
-    <span class="line1">Financial</span>
-    <span class="line2">Ecosystem</span>
+    <span class="line1">LEV</span>
+    <span class="line2">HOA Budget</span>
   </h1>
   <p class="hero-sub">A living view of your community's money — where it comes from, where it goes, and what keeps LEV Eco Village thriving.</p>
   <div class="hero-stats">
@@ -669,7 +669,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
     </div>
     <div class="hstat">
       <div class="hstat-label">Homes in Community</div>
-      <div class="hstat-val" style="color:var(--purple);">47</div>
+      <div class="hstat-val" style="color:var(--purple);">43</div>
       <div class="hstat-sub">Lots (excl. lots 22 & 23)</div>
     </div>
   </div>
@@ -709,7 +709,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
           <!-- Mobile Sankey -->
           <div id="flowMobileSankey">
             <div class="ms-income-bar">
-              <span class="ms-income-label">HOA Dues · 47 lots</span>
+              <span class="ms-income-label">HOA Dues · 43 lots</span>
               <span class="ms-income-val" id="ms-income-val">₡104.4M / yr</span>
             </div>
             <div class="ms-cats-wrap" id="msCatsWrap"></div>
@@ -737,7 +737,7 @@ footer { background: rgba(5,11,14,0.95); border-top: 1px solid var(--glass-borde
                 <rect x="10" y="100" width="3" height="110" rx="1" fill="url(#tealGrad)"/>
                 <text x="75" y="130" text-anchor="middle" fill="rgba(0,229,195,0.9)" font-family="Syne,sans-serif" font-size="11" font-weight="700">HOA DUES</text>
                 <text x="75" y="148" text-anchor="middle" fill="rgba(160,200,195,0.5)" font-family="JetBrains Mono,monospace" font-size="9">₡8.7M/mo</text>
-                <text x="75" y="163" text-anchor="middle" fill="rgba(160,200,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8">47 lots</text>
+                <text x="75" y="163" text-anchor="middle" fill="rgba(160,200,195,0.35)" font-family="JetBrains Mono,monospace" font-size="8">43 lots</text>
                 <text x="75" y="178" text-anchor="middle" fill="rgba(0,229,195,0.55)" font-family="JetBrains Mono,monospace" font-size="8">104.4M/yr</text>
                 <text x="75" y="193" text-anchor="middle" fill="rgba(0,229,195,0.4)" font-family="JetBrains Mono,monospace" font-size="7">total income</text>
               </g>
