@@ -459,12 +459,11 @@
           <!-- Income node -->
           <g>
             <rect x="10" y="110" width="148" height="120" rx="12" fill="rgba(45,74,46,0.08)" stroke="rgba(45,74,46,0.35)" stroke-width="1.2"/>
-            <rect x="10" y="110" width="3.5" height="120" rx="1.5" fill="url(#incomeGrad)"/>
-            <text x="84" y="143" text-anchor="middle" fill="rgba(45,74,46,0.9)" font-family="Cormorant Garamond, serif" font-size="12" font-weight="600">HOA DUES</text>
-            <text x="84" y="163" text-anchor="middle" fill="rgba(74,103,65,0.65)" font-family="DM Sans, sans-serif" font-size="9" id="svgIncomeAmt">₡8.7M/mo</text>
-            <text x="84" y="178" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="8">47 lots</text>
-            <text x="84" y="195" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="8" id="svgIncomeYr">₡104.4M/yr</text>
-            <text x="84" y="210" text-anchor="middle" fill="rgba(107,124,106,0.4)" font-family="DM Sans, sans-serif" font-size="7">total income</text>
+            <text x="84" y="143" text-anchor="middle" fill="rgba(45,74,46,0.9)" font-family="Cormorant Garamond, serif" font-size="13" font-weight="600">HOA DUES</text>
+            <text x="84" y="163" text-anchor="middle" fill="rgba(74,103,65,0.65)" font-family="DM Sans, sans-serif" font-size="10" id="svgIncomeAmt">₡8.7M/mo</text>
+            <text x="84" y="178" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="9">47 lots</text>
+            <text x="84" y="195" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="9" id="svgIncomeYr">₡104.4M/yr</text>
+            <text x="84" y="210" text-anchor="middle" fill="rgba(107,124,106,0.4)" font-family="DM Sans, sans-serif" font-size="8">total income</text>
           </g>
           <!-- Connector to fund node -->
           <path d="M160 170 C224 170,240 170,295 170" stroke="url(#incomeGrad)" stroke-width="2.5" fill="none" class="flow-path-anim" marker-end="url(#fArrow)"/>
@@ -476,13 +475,12 @@
           <!-- Fund hub node -->
           <g>
             <rect x="297" y="90" width="178" height="160" rx="14" fill="rgba(45,74,46,0.06)" stroke="rgba(45,74,46,0.25)" stroke-width="1.5"/>
-            <rect x="297" y="90" width="178" height="3" rx="1.5" fill="url(#incomeGrad)"/>
-            <text x="386" y="122" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="8" letter-spacing="2">COMMUNITY FUND</text>
-            <text x="386" y="150" text-anchor="middle" fill="rgba(45,74,46,1)" font-family="Cormorant Garamond, serif" font-size="22" font-weight="600" filter="url(#softGlow)" id="svgFundAmt">₡88.7M</text>
-            <text x="386" y="169" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="9">budgeted 2026–27</text>
-            <text x="386" y="186" text-anchor="middle" fill="rgba(74,103,65,0.45)" font-family="DM Sans, sans-serif" font-size="8" id="svgFundMonthly">≈₡7.4M / month</text>
-            <text x="386" y="204" text-anchor="middle" fill="rgba(74,103,65,0.4)" font-family="DM Sans, sans-serif" font-size="8" id="svgSurplusLbl">surplus ₡15.7M</text>
-            <text x="386" y="220" text-anchor="middle" fill="rgba(107,124,106,0.3)" font-family="DM Sans, sans-serif" font-size="7" id="svgPctLbl">84.9% committed</text>
+            <text x="386" y="122" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="9" letter-spacing="2">COMMUNITY FUND</text>
+            <text x="386" y="150" text-anchor="middle" fill="rgba(45,74,46,1)" font-family="Cormorant Garamond, serif" font-size="23" font-weight="600" id="svgFundAmt">₡88.7M</text>
+            <text x="386" y="169" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">budgeted 2026–27</text>
+            <text x="386" y="186" text-anchor="middle" fill="rgba(74,103,65,0.45)" font-family="DM Sans, sans-serif" font-size="9" id="svgFundMonthly">≈₡7.4M / month</text>
+            <text x="386" y="204" text-anchor="middle" fill="rgba(74,103,65,0.4)" font-family="DM Sans, sans-serif" font-size="9" id="svgSurplusLbl">surplus ₡15.7M</text>
+            <text x="386" y="220" text-anchor="middle" fill="rgba(107,124,106,0.3)" font-family="DM Sans, sans-serif" font-size="8" id="svgPctLbl">84.9% committed</text>
           </g>
           <!-- Expense nodes (rendered by JS) -->
           <g id="expenseNodes"></g>
@@ -1074,10 +1072,19 @@ function flowRenderSvgNodes(bud, sur) {
   g.innerHTML = '';
   const NS = 'http://www.w3.org/2000/svg';
 
-  const startX = 545, nodeW = 260, nodeH = 44;
+  const startX = 545, nodeW = 260, nodeH = 35;
   const totalSlots = flowCats.length + 1; // +1 for surplus
-  const svgUsableH = 340;
-  const spacing = Math.min(52, (svgUsableH - 20) / totalSlots);
+  const svgUsableH = 540;
+  const preferredSpacing = nodeH + 8; // tight, content-based spacing
+const maxSpacing = 60;               // optional upper bound
+
+const spacing = Math.min(
+  maxSpacing,
+  Math.min(
+    preferredSpacing,
+    (svgUsableH - 20) / totalSlots
+  )
+);
   const startY = Math.max(8, (svgUsableH - totalSlots * spacing) / 2);
   const fundCY = 170, fundRX = 477;
 
