@@ -461,7 +461,7 @@
             <rect x="10" y="110" width="148" height="120" rx="12" fill="rgba(45,74,46,0.08)" stroke="rgba(45,74,46,0.35)" stroke-width="1.2"/>
             <text x="84" y="143" text-anchor="middle" fill="rgba(45,74,46,0.9)" font-family="Cormorant Garamond, serif" font-size="16" font-weight="800">HOA DUES</text>
             <text x="84" y="165" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="13" id="svgIncomeYr">₡104.4M/yr</text>
-            <text x="84" y="280" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">total income</text>
+            <text x="84" y="180" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">total income</text>
           </g>
           <!-- Connector to fund node -->
           <path d="M160 170 C224 170,240 170,295 170" stroke="url(#incomeGrad)" stroke-width="2.5" fill="none" class="flow-path-anim" marker-end="url(#fArrow)"/>
@@ -476,8 +476,8 @@
             <text x="386" y="122" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="10" font-weight="800" letter-spacing="2">COMMUNITY FUND</text>
             <text x="386" y="150" text-anchor="middle" fill="rgba(45,74,46,1)" font-family="Cormorant Garamond, serif" font-size="23" font-weight="600" id="svgFundAmt">₡88.7M</text>
             <text x="386" y="169" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">budgeted 2026–27</text>
-            <text x="386" y="204" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgSurplusLbl">surplus ₡15.7M</text>
-            <text x="386" y="220" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgPctLbl">84.9% committed</text>
+            <text x="386" y="189" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgSurplusLbl">surplus ₡15.7M</text>
+            <text x="386" y="209" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgPctLbl">84.9% committed</text>
           </g>
           <!-- Expense nodes (rendered by JS) -->
           <g id="expenseNodes"></g>
@@ -1079,7 +1079,7 @@ function flowRenderSvgNodes(bud, sur) {
   g.innerHTML = '';
   const NS = 'http://www.w3.org/2000/svg';
 
-  const startX = 545, nodeW = 260, nodeH = 35;
+  const startX = 645, nodeW = 260, nodeH = 35;
   const totalSlots = flowCats.length + 1; // +1 for surplus
   const svgUsableH = 540;
   const preferredSpacing = nodeH + 8; // tight, content-based spacing
