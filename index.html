@@ -210,14 +210,12 @@
     display: block;
     min-width: 640px;
   }
-  /* Flowing dashes on paths */
   .flow-path-anim {
     stroke-dasharray: 8 5;
     animation: flowDash 2.8s linear infinite;
   }
   @keyframes flowDash { to { stroke-dashoffset: -52; } }
 
-  /* category list below svg */
   .flow-cat-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 0.85rem; }
   .flow-cat-row {
     display: flex; align-items: center; gap: 8px;
@@ -288,6 +286,80 @@
   footer { background: var(--forest); color: rgba(200,220,196,0.65); text-align: center; padding: 2rem 1rem; font-size: 0.75rem; margin-top: 2rem; }
   footer strong { color: var(--mist); }
 
+  /* ── LEV APP MODAL ── */
+  .lev-modal-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(10,20,11,0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .lev-modal-overlay.open {
+    opacity: 1; pointer-events: all;
+  }
+  .lev-modal {
+    background: var(--white);
+    border-radius: 16px;
+    width: 100%; max-width: 740px;
+    max-height: 88vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(45,74,46,0.15);
+    transform: translateY(28px) scale(0.96);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    overflow: hidden;
+  }
+  .lev-modal-overlay.open .lev-modal {
+    transform: translateY(0) scale(1);
+  }
+  .lev-modal-header {
+    background: var(--forest);
+    color: var(--mist);
+    padding: 1.1rem 1.4rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(200,220,196,0.12);
+  }
+  .lev-modal-header-left { display: flex; align-items: center; gap: 0.75rem; }
+  .lev-modal-icon { font-size: 1.5rem; }
+  .lev-modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; line-height: 1.2; }
+  .lev-modal-sub { font-size: 0.68rem; opacity: 0.5; letter-spacing: 0.07em; text-transform: uppercase; margin-top: 2px; }
+  .lev-modal-close {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: var(--mist); border-radius: 8px; width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; cursor: pointer; flex-shrink: 0;
+    transition: background 0.18s, transform 0.15s;
+  }
+  .lev-modal-close:hover { background: rgba(255,255,255,0.2); transform: scale(1.08); }
+  .lev-modal-body {
+    overflow-y: auto; flex: 1;
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+  }
+  .lev-modal-body iframe {
+    width: 100%; border: none; display: block;
+    min-height: 580px;
+  }
+
+  /* Proposal button */
+  .proposal-detail-btn {
+    background: var(--moss); border: none; border-radius: 100px;
+    color: white; font-family: inherit; font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.05em; padding: 0.3rem 1rem; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(45,74,46,0.2);
+  }
+  .proposal-detail-btn:hover {
+    background: var(--forest);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(45,74,46,0.3);
+  }
+  .proposal-detail-btn:active { transform: translateY(0); }
+
   /* ── MOBILE ── */
   @media(max-width:640px){
     nav { padding: 0 0.75rem; }
@@ -315,6 +387,9 @@
     .proposal { padding: 1rem; }
     #gate .gate-box { padding: 2rem 1.5rem; margin: 0 1rem; }
     .flow-wrap { padding: 1rem; }
+    .lev-modal-overlay { padding: 0.75rem; }
+    .lev-modal { max-height: 92vh; border-radius: 12px; }
+    .lev-modal-body iframe { min-height: 460px; }
   }
   @media(max-width:400px){
     .cards { grid-template-columns: 1fr; }
@@ -433,14 +508,12 @@
         <div class="flow-header-income">Income: <span id="flow-hdr-income">—</span></div>
       </div>
 
-      <!-- Summary strip -->
       <div class="flow-summary-strip">
         <div class="fss-card"><div class="fss-label">HOA income / yr</div><div class="fss-val" id="fss-income">—</div></div>
         <div class="fss-card"><div class="fss-label">Total budgeted</div><div class="fss-val amber" id="fss-budget">—</div></div>
         <div class="fss-card"><div class="fss-label">Surplus / deficit</div><div class="fss-val surplus" id="fss-surplus">—</div></div>
       </div>
 
-      <!-- Animated SVG Flow Diagram -->
       <div class="flow-svg-wrapper">
         <svg id="flowSvg" viewBox="0 0 940 360" width="940" style="display:block;overflow:visible;">
           <defs>
@@ -456,21 +529,17 @@
               <path d="M0,0 L6,3 L0,6 Z" fill="rgba(74,103,65,0.5)"/>
             </marker>
           </defs>
-          <!-- Income node -->
           <g>
             <rect x="10" y="110" width="148" height="120" rx="12" fill="rgba(45,74,46,0.08)" stroke="rgba(45,74,46,0.35)" stroke-width="1.2"/>
             <text x="84" y="143" text-anchor="middle" fill="rgba(45,74,46,0.9)" font-family="Cormorant Garamond, serif" font-size="16" font-weight="800">HOA DUES</text>
             <text x="84" y="165" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="13" id="svgIncomeYr">₡104.4M/yr</text>
             <text x="84" y="180" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">total income</text>
           </g>
-          <!-- Connector to fund node -->
           <path d="M160 170 C224 170,240 170,295 170" stroke="url(#incomeGrad)" stroke-width="2.5" fill="none" class="flow-path-anim" marker-end="url(#fArrow)"/>
           <path d="M160 170 C224 170,240 170,295 170" stroke="rgba(74,103,65,0.07)" stroke-width="12" fill="none"/>
-          <!-- Animated dots on main connector -->
           <circle r="4" fill="rgba(74,103,65,0.85)" filter="url(#softGlow)"><animateMotion dur="2s" repeatCount="indefinite" path="M160 170 C224 170,240 170,295 170"/></circle>
           <circle r="2.5" fill="rgba(74,103,65,0.55)" filter="url(#softGlow)"><animateMotion dur="2s" begin="0.65s" repeatCount="indefinite" path="M160 170 C224 170,240 170,295 170"/></circle>
           <circle r="1.8" fill="rgba(74,103,65,0.35)"><animateMotion dur="2s" begin="1.3s" repeatCount="indefinite" path="M160 170 C224 170,240 170,295 170"/></circle>
-          <!-- Fund hub node -->
           <g>
             <rect x="297" y="90" width="178" height="160" rx="14" fill="rgba(45,74,46,0.06)" stroke="rgba(45,74,46,0.25)" stroke-width="1.5"/>
             <text x="386" y="122" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="10" font-weight="800" letter-spacing="2">COMMUNITY FUND</text>
@@ -479,12 +548,10 @@
             <text x="386" y="189" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgSurplusLbl">surplus ₡15.7M</text>
             <text x="386" y="209" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgPctLbl">84.9% committed</text>
           </g>
-          <!-- Expense nodes (rendered by JS) -->
           <g id="expenseNodes"></g>
         </svg>
       </div>
 
-      <!-- Category list (interactive, same as before) -->
       <div class="flow-cat-list" id="flowCatList"></div>
 
       <div class="flow-add-form" id="flowAddForm">
@@ -849,7 +916,7 @@
       </div></div>
       <div class="proposal"><div class="p-icon"></div><div>
         <h4>Low Ropes Course</h4>
-        <p>A tree-based low ropes course designed as a playground is an adventurous outdoor space where kids can climb, balance, and explore just a few feet off the ground. </p>
+        <p>A tree-based low ropes course designed as a playground is an adventurous outdoor space where kids can climb, balance, and explore just a few feet off the ground.</p>
         <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · ₡4,500,000 · Currently "No"</span>
       </div></div>
       <div class="proposal"><div class="p-icon"></div><div>
@@ -857,11 +924,20 @@
         <p>Capital improvements: new showers, repair broken tiles, re-grout, refresh or replace loungers, better signage. Ongoing pool maintenance (<span class="cv" data-crc="395000" data-freq="monthly"></span>/mo) is already in the base budget — this is for one-time renovation work.</p>
         <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · ₡7,000,000 · Currently "No"</span>
       </div></div>
-      <div class="proposal"><div class="p-icon"></div><div>
-        <h4>LEV App</h4>
-        <p>Stay connected, organized, and engaged in one place.</p>
-        <span class="chip chip-a" style="margin-top:0.5rem;display:inline-block;">Vote Required · ₡323,768/yr· Currently "No"</span>
-      </div></div>
+
+      <!-- ── LEV APP PROPOSAL — with modal trigger ── -->
+      <div class="proposal" id="lev-app-proposal">
+        <div class="p-icon">📱</div>
+        <div style="flex:1">
+          <h4>LEV App</h4>
+          <p>Stay connected, organized, and engaged in one place. A community-owned Progressive Web App providing gate access management, resident communication, and HOA tools — at a fraction of vendor cost.</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-top:0.6rem;">
+            <span class="chip chip-a">Vote Required · ₡323,768/yr · Currently "No"</span>
+            <button class="proposal-detail-btn" onclick="openLevAppModal()">📄 View Full Proposal</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -900,6 +976,25 @@
 </footer>
 
 </div><!-- end #main-content -->
+
+<!-- ══════════════════════════════════════════════════════
+     LEV APP PROPOSAL MODAL
+══════════════════════════════════════════════════════ -->
+<div class="lev-modal-overlay" id="levAppModal" onclick="closeLevAppModalIfBg(event)" role="dialog" aria-modal="true" aria-label="LEV App Proposal">
+  <div class="lev-modal">
+    <div class="lev-modal-header">
+      <div class="lev-modal-header-left">
+        <span class="lev-modal-icon">📱</span>
+        <div>
+          <div class="lev-modal-title">LEV App — Full Proposal</div>
+          <div class="lev-modal-sub">Community-Owned Security &amp; Gate Access System · Ian Spriggs</div>
+        </div>
+      </div>
+      <button class="lev-modal-close" onclick="closeLevAppModal()" title="Close (Esc)">✕</button>
+    </div>
+    <div class="lev-modal-body" id="levModalBody"></div>
+  </div>
+</div>
 
 <script>
 // ── PASSWORD ────────────────────────────────────────────────────────────────
@@ -958,7 +1053,7 @@ function updateRateDisplay() {
   const el = document.getElementById('rate-display');
   const src = ratesLoaded ? 'live rate' : 'estimated';
   el.className = 'rate-info';
-  el.innerHTML = `$1 = <span>₡${rates.USD.toFixed(0)}</span> · €1 = <span>₡${rates.EUR.toFixed(0)}</span> · ${src}`;
+  el.innerHTML = `$1 = <span>&#x20A1;${rates.USD.toFixed(0)}</span> · €1 = <span>&#x20A1;${rates.EUR.toFixed(0)}</span> · ${src}`;
   const hr = document.getElementById('hero-rate');
   if (hr) hr.textContent = `Spreadsheet rate: ₡462/USD · Live: ₡${rates.USD.toFixed(0)}/USD`;
   const fr = document.getElementById('footer-rate');
@@ -1000,8 +1095,7 @@ function setCurrency(c) {
   refreshAll();
 }
 
-// ── FLOW SECTION + ANIMATED SVG ────────────────────────────────────────────
-// Earth-tone palette matching the light eco design
+// ── FLOW SECTION ────────────────────────────────────────────────────────────
 const FLOW_CAT_COLORS = [
   '#2d4a2e','#5a7d51','#8b6f47','#4a6741','#c8902a',
   '#3d6b3e','#a0794e','#527048','#b07b30','#6b9c63',
@@ -1030,7 +1124,6 @@ function flowRender() {
   const sur = flowSurplus();
   const pct = (bud / FLOW_INCOME * 100);
 
-  // Header strip
   document.getElementById('flow-hdr-income').textContent = fmt(FLOW_INCOME);
   document.getElementById('fss-income').textContent = fmt(FLOW_INCOME);
   document.getElementById('fss-budget').textContent = fmt(bud);
@@ -1038,21 +1131,15 @@ function flowRender() {
   surEl.textContent = (sur >= 0 ? '+' : '') + fmt(sur);
   surEl.className = 'fss-val ' + (sur >= 0 ? 'surplus' : 'deficit');
 
-  // SVG hub labels
   const svgFund = document.getElementById('svgFundAmt');
   if (svgFund) svgFund.textContent = fmtShort(bud);
-  const svgMo = document.getElementById('svgFundMonthly');
-  if (svgMo) svgMo.textContent = '≈' + fmtShort(bud / 12) + ' / month';
   const svgSurLbl = document.getElementById('svgSurplusLbl');
   if (svgSurLbl) svgSurLbl.textContent = (sur >= 0 ? 'surplus ' : 'deficit ') + fmtShort(Math.abs(sur));
   const svgPct = document.getElementById('svgPctLbl');
   if (svgPct) svgPct.textContent = pct.toFixed(1) + '% committed';
-  const svgInc = document.getElementById('svgIncomeAmt');
-  if (svgInc) svgInc.textContent = fmtShort(FLOW_INCOME / 12) + '/mo';
   const svgIncYr = document.getElementById('svgIncomeYr');
   if (svgIncYr) svgIncYr.textContent = fmtShort(FLOW_INCOME) + '/yr';
 
-  // Surplus box
   const box = document.getElementById('flowSurplusBox');
   const lbl = document.getElementById('fsbLabel');
   const val = document.getElementById('fsbVal');
@@ -1080,22 +1167,14 @@ function flowRenderSvgNodes(bud, sur) {
   const NS = 'http://www.w3.org/2000/svg';
 
   const startX = 645, nodeW = 260, nodeH = 35;
-  const totalSlots = flowCats.length + 1; // +1 for surplus
+  const totalSlots = flowCats.length + 1;
   const svgUsableH = 540;
-  const preferredSpacing = nodeH + 8; // tight, content-based spacing
-const maxSpacing = 60;               // optional upper bound
-
-const spacing = Math.min(
-  maxSpacing,
-  Math.min(
-    preferredSpacing,
-    (svgUsableH - 20) / totalSlots
-  )
-);
+  const preferredSpacing = nodeH + 8;
+  const maxSpacing = 60;
+  const spacing = Math.min(maxSpacing, Math.min(preferredSpacing, (svgUsableH - 20) / totalSlots));
   const startY = Math.max(8, (svgUsableH - totalSlots * spacing) / 2);
   const fundCY = 170, fundRX = 477;
 
-  // Resize SVG viewBox to fit
   const neededH = Math.max(340, startY + totalSlots * spacing + nodeH + 20);
   document.getElementById('flowSvg').setAttribute('viewBox', `0 0 940 ${neededH}`);
 
@@ -1110,13 +1189,11 @@ const spacing = Math.min(
     const animDur = (1.7 + i * 0.13) + 's';
     const animBegin = (i * 0.17) + 's';
 
-    // Glow path (thick semi-transparent)
     const gp = mk('path');
     gp.setAttribute('d', pathD); gp.setAttribute('stroke', col + '18');
     gp.setAttribute('stroke-width', '10'); gp.setAttribute('fill', 'none');
     g.appendChild(gp);
 
-    // Animated dashed path
     const lp = mk('path');
     lp.setAttribute('d', pathD); lp.setAttribute('stroke', col);
     lp.setAttribute('stroke-width', '1.5'); lp.setAttribute('fill', 'none');
@@ -1127,7 +1204,6 @@ const spacing = Math.min(
     an.setAttribute('dur', animDur); an.setAttribute('repeatCount', 'indefinite');
     lp.appendChild(an); g.appendChild(lp);
 
-    // Animated dot
     const dot = mk('circle');
     dot.setAttribute('r', '2.5'); dot.setAttribute('fill', col); dot.setAttribute('fill-opacity', '0.8');
     const am = mk('animateMotion');
@@ -1135,16 +1211,12 @@ const spacing = Math.min(
     am.setAttribute('repeatCount', 'indefinite'); am.setAttribute('path', pathD);
     dot.appendChild(am); g.appendChild(dot);
 
-    // Node rect
     const rect = mk('rect');
     rect.setAttribute('x', startX); rect.setAttribute('y', ny);
     rect.setAttribute('width', nodeW); rect.setAttribute('height', nodeH); rect.setAttribute('rx', '8');
     rect.setAttribute('style', `fill:${col}12;stroke:${col};stroke-opacity:0.28;stroke-width:1`);
     g.appendChild(rect);
 
-  
-
-    // Category name
     const nameEl = mk('text');
     nameEl.setAttribute('x', startX + 10); nameEl.setAttribute('y', ny + 15);
     nameEl.setAttribute('fill', col); nameEl.setAttribute('fill-opacity', '0.9');
@@ -1154,7 +1226,6 @@ const spacing = Math.min(
     nameEl.textContent = truncName.toUpperCase();
     g.appendChild(nameEl);
 
-    // Amount + pct
     const amtEl = mk('text');
     amtEl.setAttribute('x', startX + 10); amtEl.setAttribute('y', ny + 30);
     amtEl.setAttribute('fill', 'rgba(74,103,65,0.55)');
@@ -1163,7 +1234,6 @@ const spacing = Math.min(
     g.appendChild(amtEl);
   });
 
-  // Surplus / deficit node
   const si = flowCats.length;
   const ny = startY + si * spacing;
   const my = ny + nodeH / 2;
@@ -1198,12 +1268,6 @@ const spacing = Math.min(
   rect2.setAttribute('width', nodeW); rect2.setAttribute('height', nodeH); rect2.setAttribute('rx', '8');
   rect2.setAttribute('style', `fill:${sc}14;stroke:${sc};stroke-opacity:0.35;stroke-width:1;${sur < 0 ? 'stroke-dasharray:4 3' : ''}`);
   g.appendChild(rect2);
-
-  const bar2 = mk('rect');
-  bar2.setAttribute('x', startX); bar2.setAttribute('y', ny);
-  bar2.setAttribute('width', '1'); bar2.setAttribute('height', nodeH); bar2.setAttribute('rx', '1.5');
-  bar2.setAttribute('style', `fill:${sc}`);
-  g.appendChild(bar2);
 
   const lbl2 = mk('text');
   lbl2.setAttribute('x', startX + 10); lbl2.setAttribute('y', ny + 15);
@@ -1348,6 +1412,161 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); document.getElementById('flowNewAmt').focus(); }
     if (e.key === 'Escape') flowCancelAdd();
   });
+});
+
+// ── LEV APP MODAL ────────────────────────────────────────────────────────────
+const LEV_APP_PROPOSAL_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEV App — Community Improvement Initiative Proposal</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 32px 40px; line-height: 1.65; color: #2c3230; background: #fff; }
+  h1 { text-align: center; font-size: 1.35rem; margin-bottom: 6px; color: #1a2a1b; }
+  .subtitle { text-align: center; color: #546254; font-size: 0.85rem; margin-bottom: 28px; }
+  h2 { margin-top: 28px; color: #2d4a2e; font-size: 1rem; border-bottom: 1px solid #e8dcc8; padding-bottom: 4px; margin-bottom: 12px; }
+  .section { margin-bottom: 22px; }
+  .label { font-weight: bold; font-size: 0.82rem; display: block; margin-bottom: 6px; color: #2d4a2e; text-transform: uppercase; letter-spacing: 0.04em; }
+  .box { border: 1px solid #d8cbb8; padding: 14px 16px; background: #fafaf7; border-radius: 8px; font-size: 0.88rem; line-height: 1.65; }
+  .cost-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+  .cost-table th { background: #2d4a2e; color: #c8d9c4; padding: 7px 10px; text-align: left; font-size: 0.75rem; letter-spacing: 0.05em; }
+  .cost-table td { padding: 7px 10px; border-bottom: 1px solid #e8dcc8; }
+  .cost-table tr:last-child td { border-bottom: none; }
+  .cost-table tr:nth-child(even) { background: #f5f0e8; }
+  .savings-chip { display: inline-block; background: #e8f5ee; border: 1px solid #a8d8b8; color: #1a6a3a; border-radius: 100px; font-size: 0.75rem; font-weight: 600; padding: 3px 10px; margin-top: 8px; }
+  .highlight { background: #f0f8f2; border-left: 3px solid #4a6741; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-top: 8px; font-size: 0.85rem; }
+  @media(max-width: 480px) { body { margin: 20px; } }
+</style>
+</head>
+<body>
+<h1>Community Improvement Initiative Proposal</h1>
+<p class="subtitle">LEV Eco Village · Submitted for HOA Meeting April 11, 2026</p>
+
+<div class="section">
+  <span class="label">Proposal Title</span>
+  <div class="box">Community-Owned Security &amp; Gate Access System (LEV App)</div>
+</div>
+
+<div class="section">
+  <span class="label">Authors / Supporters</span>
+  <div class="box">Ian Spriggs — System developer, implementation, and handover<br>
+  Administrative Committee — Oversight and approval</div>
+</div>
+
+<div class="section">
+  <span class="label">Proposal Description</span>
+  <div class="box">
+    This proposal recommends adopting a community-owned digital security and gate access system to replace reliance on a vendor solution.<br><br>
+    The Administrative Committee researched external providers and identified a system that required significant upfront investment and ongoing monthly fees. Before moving forward, the HOA approved a $25,000 budget to allow flexibility in selecting the best solution.<br><br>
+    As an alternative, a custom Progressive Web App (PWA) has been developed specifically for our community. This system allows residents to manage and use gate access digitally without the need for proprietary QR hardware. The system is fully owned by the HOA and operates through a secure online platform.<br><br>
+    The total development cost of the app was $2,000, including full design, development, and transfer of ownership to the community. The ongoing cost to operate the system is $35 per month for BHubble subscription.<br><br>
+    Compared to the previously considered vendor solution, this approach significantly reduces both upfront and long-term costs while giving the community full control over its security system. The system can also be expanded into a native mobile app in the future.
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Problem &amp; Solution</span>
+  <div class="box">
+    The primary issue facing the community is the high cost and lack of ownership associated with third-party security systems.<br><br>
+    The previously proposed system included approximately $3,600 in upfront costs ($1,300 per scanner, $1,000 installation), a recurring monthly fee of $230 ($2,760 annually), and no ownership by the community. This creates a long-term financial burden and dependency on an external vendor.<br><br>
+    The proposed solution addresses these challenges by reducing upfront costs to $2,090 and monthly expenses to $35 ($420 annually). It eliminates the need for expensive hardware and provides full ownership and control to the HOA.
+    <div class="highlight">Additionally, the system allows for future customization and scalability without vendor restrictions, resulting in long-term cost savings and a sustainable, community-owned asset.</div>
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Implementation Team</span>
+  <div class="box">
+    <strong>Ian Spriggs</strong> — System developer, implementation, and handover<br>
+    <strong>Administrative Committee</strong> — Oversight and approval<br>
+    <strong>Volunteer Residents</strong> — Ongoing administration, support and feature upgrades
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Implementation Plan</span>
+  <div class="box">
+    The system has already been developed and has been in beta testing for several months. Upon approval, ownership will be finalized under the community.<br><br>
+    The Administrative Committee will oversee adoption, followed by rollout to residents with usage instructions.
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Timeline</span>
+  <div class="box">
+    <strong>Project development:</strong> Completed<br>
+    <strong>Trial Period:</strong> December 2025 – HOA Meeting April 2026<br>
+    <strong>Proposed start date:</strong> Immediately following HOA approval<br>
+    <strong>Ongoing operation:</strong> Continuous
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Long-Term Management</span>
+  <div class="box">
+    The system requires light ongoing management, including user access updates and general oversight.
+    This is expected to be handled on a monthly or as-needed basis by designated volunteers or HOA-appointed administrators.
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Cost Breakdown</span>
+  <div class="box">
+    <table class="cost-table">
+      <thead><tr><th>Item</th><th>Proposed System</th><th>Previous Vendor</th></tr></thead>
+      <tbody>
+        <tr><td>Hardware</td><td>$90</td><td>$2,600</td></tr>
+        <tr><td>Development / Setup</td><td>$2,000</td><td>—</td></tr>
+        <tr><td>Installation</td><td>Free</td><td>~$1,000</td></tr>
+        <tr><td>Handover &amp; Training</td><td>$1,000</td><td>—</td></tr>
+        <tr><td>Monthly fee</td><td>$35 / mo (PWA)</td><td>$230 / mo</td></tr>
+        <tr><td><strong>Total first 5 months</strong></td><td><strong>$2,265</strong></td><td><strong>$4,750</strong></td></tr>
+        <tr><td><strong>Annual ongoing cost</strong></td><td><strong>$420 / yr</strong></td><td><strong>$2,760 / yr</strong></td></tr>
+      </tbody>
+    </table>
+    <span class="savings-chip">Annual savings vs vendor: $2,340 / yr</span>
+    <div style="margin-top:14px;font-size:0.82rem;color:#546254;">
+      <strong>Optional Upgrade (future):</strong> Native app $58/month · App Store fee $100/year
+    </div>
+  </div>
+</div>
+</body>
+</html>`;
+
+let levModalLoaded = false;
+
+function openLevAppModal() {
+  const modal = document.getElementById('levAppModal');
+  const body  = document.getElementById('levModalBody');
+
+  // Create iframe once using a Blob URL so styles are isolated
+  if (!levModalLoaded) {
+    const blob = new Blob([LEV_APP_PROPOSAL_HTML], { type: 'text/html' });
+    const url  = URL.createObjectURL(blob);
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.cssText = 'width:100%;min-height:580px;border:none;display:block;';
+    iframe.title = 'LEV App Proposal Document';
+    body.appendChild(iframe);
+    levModalLoaded = true;
+  }
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLevAppModal() {
+  document.getElementById('levAppModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeLevAppModalIfBg(e) {
+  if (e.target === document.getElementById('levAppModal')) closeLevAppModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLevAppModal();
 });
 </script>
 </body>
