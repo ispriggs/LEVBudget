@@ -170,7 +170,7 @@
     display: flex; justify-content: space-between; align-items: flex-start;
     margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;
   }
-  .flow-header-title { font-size: 0.88rem; font-weight: 600; color: var(--forest); }
+  .flow-header-title { font-size: 1rem; font-weight: 600; color: var(--forest); }
   .flow-header-sub { font-size: 0.72rem; color: var(--soft); margin-top: 0.2rem; }
   .flow-header-income { font-size: 0.8rem; color: var(--moss); font-weight: 600; }
 
@@ -378,7 +378,7 @@
       <div class="period-tag prior">🗓 Prior year actuals: April 2025 – March 2026</div>
       <div class="period-tag proposed">🗓 Proposed budget: April 2026 – March 2027</div>
     </div>
-    <p class="lead">The HOA is voting on two things: (1) the <strong>Base Essential Budget</strong> of <span class="cv" data-crc="88700000" data-freq="annual"></span> covering all standard operations, and (2) three <strong>optional proposals</strong> (road repairs, pool renovation, paid manager) each requiring a separate vote.</p>
+    <p class="lead">The HOA is voting on two things: (1) the <strong>Base Essential Budget</strong> of <span class="cv" data-crc="88700000" data-freq="annual"></span> covering all standard operations, and (2) <strong>Optional proposals</strong> (road repairs, pool renovation, paid manager and more) each requiring a separate vote.</p>
     <div class="notice">
       ℹ️ <strong>Two budget views:</strong> The <em>Base Essential Budget</em> (<span class="cv" data-crc="88700000" data-freq="annual"></span>) uses 10 simplified categories for the HOA vote and drives per-lot fee calculations. The <em>Detailed Proposal</em> is the accountant-level version with individual QuickBooks line items including depreciation, bank fees, and separate contingency/reserve totalling <span class="cv" data-crc="95807433" data-freq="annual"></span>. Both are shown below.
     </div>
@@ -422,7 +422,7 @@
   <div class="container">
     <div class="section-sub">Interactive · 2026–27</div>
     <h2>Community Fund Flow</h2>
-    <p class="lead">See where money comes in and where it goes. Tap <strong>×</strong> to remove a category or <strong>+</strong> to add your own — the diagram and surplus update live.</p>
+    <p class="lead">See where money comes in and where it goes. Tap <strong>'X'</strong> to remove a category or <strong>'+'</strong> to add your own. The diagram and surplus will update live.</p>
 
     <div class="flow-wrap">
       <div class="flow-header">
@@ -430,7 +430,6 @@
           <div class="flow-header-title">HOA Income vs Budget Allocation</div>
           <div class="flow-header-sub">Based on 2025–26 actual income vs 2026–27 proposed budget · animated flow lines update live</div>
         </div>
-        <div class="flow-header-income">Income: <span id="flow-hdr-income">—</span></div>
       </div>
 
       <!-- Summary strip -->
@@ -459,9 +458,9 @@
           <!-- Income node -->
           <g>
             <rect x="10" y="110" width="148" height="120" rx="12" fill="rgba(45,74,46,0.08)" stroke="rgba(45,74,46,0.35)" stroke-width="1.2"/>
-            <text x="84" y="143" text-anchor="middle" fill="rgba(45,74,46,0.9)" font-family="Cormorant Garamond, serif" font-size="16" font-weight="800">HOA DUES</text>
-            <text x="84" y="165" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="13" id="svgIncomeYr">₡104.4M/yr</text>
-            <text x="84" y="180" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">total income</text>
+            <text x="84" y="143" text-anchor="middle" fill="rgba(45,74,46,1)" font-family="Cormorant Garamond, serif" font-size="22" font-weight="800">HOA DUES</text>
+            <text x="84" y="165" text-anchor="middle" fill="rgba(74,103,65,0.9)" font-family="DM Sans, sans-serif" font-size="13" id="svgIncomeYr">₡104.4M/yr</text>
+            <text x="84" y="180" text-anchor="middle" fill="rgba(107,124,106,0.9)" font-family="DM Sans, sans-serif" font-size="10">total income</text>
           </g>
           <!-- Connector to fund node -->
           <path d="M160 170 C224 170,240 170,295 170" stroke="url(#incomeGrad)" stroke-width="2.5" fill="none" class="flow-path-anim" marker-end="url(#fArrow)"/>
@@ -473,11 +472,11 @@
           <!-- Fund hub node -->
           <g>
             <rect x="297" y="90" width="178" height="160" rx="14" fill="rgba(45,74,46,0.06)" stroke="rgba(45,74,46,0.25)" stroke-width="1.5"/>
-            <text x="386" y="122" text-anchor="middle" fill="rgba(107,124,106,0.5)" font-family="DM Sans, sans-serif" font-size="10" font-weight="800" letter-spacing="2">COMMUNITY FUND</text>
+            <text x="386" y="122" text-anchor="middle" fill="rgba(107,124,106,0.9)" font-family="DM Sans, sans-serif" font-size="11" font-weight="800" letter-spacing="2">COMMUNITY FUND</text>
             <text x="386" y="150" text-anchor="middle" fill="rgba(45,74,46,1)" font-family="Cormorant Garamond, serif" font-size="23" font-weight="600" id="svgFundAmt">₡88.7M</text>
-            <text x="386" y="169" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10">budgeted 2026–27</text>
-            <text x="386" y="189" text-anchor="middle" fill="rgba(74,103,65,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgSurplusLbl">surplus ₡15.7M</text>
-            <text x="386" y="209" text-anchor="middle" fill="rgba(107,124,106,0.55)" font-family="DM Sans, sans-serif" font-size="10" id="svgPctLbl">84.9% committed</text>
+            <text x="386" y="169" text-anchor="middle" fill="rgba(107,124,106,0.9)" font-family="DM Sans, sans-serif" font-size="11">budgeted 2026–27</text>
+            <text x="386" y="189" text-anchor="middle" fill="rgba(74,103,65,0.9)" font-family="DM Sans, sans-serif" font-size="11" id="svgSurplusLbl">surplus ₡15.7M</text>
+            <text x="386" y="209" text-anchor="middle" fill="rgba(107,124,106,0.9)" font-family="DM Sans, sans-serif" font-size="1" id="svgPctLbl">84.9% committed</text>
           </g>
           <!-- Expense nodes (rendered by JS) -->
           <g id="expenseNodes"></g>
