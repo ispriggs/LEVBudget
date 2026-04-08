@@ -270,6 +270,25 @@
     padding: 7px 12px; cursor: pointer; transition: all 0.2s;
   }
 
+  /* ── Income / Expense type toggle ── */
+  .flow-type-toggle {
+    display: flex; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--sand); width: fit-content;
+  }
+  .flow-type-btn {
+    background: none; border: none; font-family: inherit; font-size: 0.75rem;
+    font-weight: 600; padding: 6px 14px; cursor: pointer; transition: all 0.18s;
+    letter-spacing: 0.04em; color: var(--soft);
+  }
+  .flow-type-btn.active-expense { background: rgba(192,57,43,0.1); color: var(--red); }
+  .flow-type-btn.active-income  { background: rgba(39,174,96,0.12); color: #1a7a40; }
+  .flow-type-hint { font-size: 0.7rem; color: var(--soft); font-style: italic; align-self: center; }
+
+  /* income rows in cat list */
+  .flow-cat-row.income-row { background: rgba(39,174,96,0.05); border-color: rgba(39,174,96,0.2); }
+  .flow-cat-row.income-row .flow-row-name::before { content: '↑ '; color: #1a7a40; font-weight: 700; }
+  .flow-cat-row.income-row .flow-row-amt { color: #1a7a40; }
+
   .flow-surplus-box { border-radius: 10px; padding: 0.9rem 1.1rem; transition: all 0.4s; }
   .flow-surplus-box.pos { background: rgba(39,174,96,0.08); border: 1px solid rgba(39,174,96,0.25); }
   .flow-surplus-box.neg { background: rgba(192,57,43,0.07); border: 1px solid rgba(192,57,43,0.25); }
@@ -558,6 +577,14 @@
         <div class="flow-form-row">
           <input class="flow-form-input" id="flowNewName" placeholder="Category name">
           <input class="flow-form-input" id="flowNewAmt" type="number" placeholder="Annual amount (₡)" step="100000" min="0">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:0.72rem;color:var(--soft);font-weight:600;letter-spacing:0.04em;">TYPE:</span>
+          <div class="flow-type-toggle">
+            <button class="flow-type-btn active-expense" id="flowTypeExpense" onclick="flowSetType('expense')">↓ Expense</button>
+            <button class="flow-type-btn" id="flowTypeIncome" onclick="flowSetType('income')">↑ Income</button>
+          </div>
+          <span class="flow-type-hint" id="flowTypeHint">subtracts from available funds</span>
         </div>
         <div class="flow-form-btns">
           <button class="flow-btn-save" onclick="flowSaveNew()">Save</button>
@@ -1103,29 +1130,33 @@ const FLOW_CAT_COLORS = [
 ];
 
 let flowCats = [
-  {id:1,  name:'Staff salaries',        amt:31100000},
-  {id:2,  name:'Staff benefits',         amt:13900000},
-  {id:3,  name:'Routine maintenance',    amt:18000000},
-  {id:4,  name:'Professional services',  amt:6700000},
-  {id:5,  name:'Utilities',              amt:6000000},
-  {id:6,  name:'Office & meetings',      amt:900000},
-  {id:7,  name:'Insurance',              amt:3100000},
-  {id:8,  name:'Taxes & permits',        amt:2000000},
-  {id:9,  name:'Biodigester',            amt:3000000},
-  {id:10, name:'Reserve fund',           amt:4000000},
+  {id:1,  name:'Staff salaries',        amt:31100000, type:'expense'},
+  {id:2,  name:'Staff benefits',         amt:13900000, type:'expense'},
+  {id:3,  name:'Routine maintenance',    amt:18000000, type:'expense'},
+  {id:4,  name:'Professional services',  amt:6700000,  type:'expense'},
+  {id:5,  name:'Utilities',              amt:6000000,  type:'expense'},
+  {id:6,  name:'Office & meetings',      amt:900000,   type:'expense'},
+  {id:7,  name:'Insurance',              amt:3100000,  type:'expense'},
+  {id:8,  name:'Taxes & permits',        amt:2000000,  type:'expense'},
+  {id:9,  name:'Biodigester',            amt:3000000,  type:'expense'},
+  {id:10, name:'Reserve fund',           amt:4000000,  type:'expense'},
 ];
 let flowNextId = 20;
 
-function flowTotal()   { return flowCats.reduce((s, c) => s + c.amt, 0); }
-function flowSurplus() { return FLOW_INCOME - flowTotal(); }
+// income-type categories ADD to the pool; expense-type SUBTRACT
+function flowExtraIncome() { return flowCats.filter(c => c.type === 'income').reduce((s, c) => s + c.amt, 0); }
+function flowTotalExpenses() { return flowCats.filter(c => c.type !== 'income').reduce((s, c) => s + c.amt, 0); }
+function flowTotalIncome() { return FLOW_INCOME + flowExtraIncome(); }
+function flowSurplus() { return flowTotalIncome() - flowTotalExpenses(); }
 
 function flowRender() {
-  const bud = flowTotal();
+  const bud = flowTotalExpenses();
   const sur = flowSurplus();
-  const pct = (bud / FLOW_INCOME * 100);
+  const totalInc = flowTotalIncome();
+  const pct = totalInc > 0 ? (bud / totalInc * 100) : 0;
 
-  document.getElementById('flow-hdr-income').textContent = fmt(FLOW_INCOME);
-  document.getElementById('fss-income').textContent = fmt(FLOW_INCOME);
+  document.getElementById('flow-hdr-income').textContent = fmt(totalInc);
+  document.getElementById('fss-income').textContent = fmt(totalInc);
   document.getElementById('fss-budget').textContent = fmt(bud);
   const surEl = document.getElementById('fss-surplus');
   surEl.textContent = (sur >= 0 ? '+' : '') + fmt(sur);
@@ -1138,7 +1169,7 @@ function flowRender() {
   const svgPct = document.getElementById('svgPctLbl');
   if (svgPct) svgPct.textContent = pct.toFixed(1) + '% committed';
   const svgIncYr = document.getElementById('svgIncomeYr');
-  if (svgIncYr) svgIncYr.textContent = fmtShort(FLOW_INCOME) + '/yr';
+  if (svgIncYr) svgIncYr.textContent = fmtShort(totalInc) + '/yr';
 
   const box = document.getElementById('flowSurplusBox');
   const lbl = document.getElementById('fsbLabel');
@@ -1156,142 +1187,186 @@ function flowRender() {
     mo.className  = 'fsb-mo neg';    mo.textContent  = fmt(Math.round(Math.abs(sur) / 12)) + ' / month over income';
   }
 
-  flowRenderSvgNodes(bud, sur);
+  flowRenderSvgNodes(bud, sur, flowTotalIncome());
   flowRenderCatList();
 }
 
-function flowRenderSvgNodes(bud, sur) {
+function flowRenderSvgNodes(bud, sur, totalInc) {
   const g = document.getElementById('expenseNodes');
   if (!g) return;
   g.innerHTML = '';
   const NS = 'http://www.w3.org/2000/svg';
-
-  const startX = 645, nodeW = 260, nodeH = 35;
-  const totalSlots = flowCats.length + 1;
-  const svgUsableH = 540;
-  const preferredSpacing = nodeH + 8;
-  const maxSpacing = 60;
-  const spacing = Math.min(maxSpacing, Math.min(preferredSpacing, (svgUsableH - 20) / totalSlots));
-  const startY = Math.max(8, (svgUsableH - totalSlots * spacing) / 2);
-  const fundCY = 170, fundRX = 477;
-
-  const neededH = Math.max(340, startY + totalSlots * spacing + nodeH + 20);
-  document.getElementById('flowSvg').setAttribute('viewBox', `0 0 940 ${neededH}`);
-
   function mk(tag) { return document.createElementNS(NS, tag); }
 
-  flowCats.forEach((c, i) => {
+  const expenseCats = flowCats.filter(c => c.type !== 'income');
+  const incomeCats  = flowCats.filter(c => c.type === 'income');
+
+  // Right-side expense nodes
+  const nodeW = 240, nodeH = 35, startX = 660;
+  const expSlots = expenseCats.length + 1; // +1 for surplus
+  const svgUsableH = 540;
+  const maxSpacing = 60;
+  const expSpacing = Math.min(maxSpacing, Math.min(nodeH + 8, (svgUsableH - 20) / expSlots));
+  const expStartY = Math.max(8, (svgUsableH - expSlots * expSpacing) / 2);
+  const fundCY = 170, fundRX = 477, fundLX = 297;
+
+  // Left-side income nodes (flow INTO fund from left side)
+  const incNodeW = 175, incNodeH = 35, incEndX = 10;
+  const incSlots = incomeCats.length;
+  const incSpacing = incSlots > 0 ? Math.min(maxSpacing, Math.min(incNodeH + 8, (svgUsableH - 20) / incSlots)) : 0;
+  const incStartY = incSlots > 0
+  ? Math.max(8, (svgUsableH - incSpacing) / 2) // only center ONE item
+  : 0;
+
+  // Compute needed height
+  const expH = expStartY + expSlots * expSpacing + nodeH + 20;
+  const incH = incSlots > 0 ? incStartY + incSlots * incSpacing + incNodeH + 20 : 540;
+  const neededH = Math.max(540, expH, incH);
+  document.getElementById('flowSvg').setAttribute('viewBox', `0 0 940 ${neededH}`);
+
+  // ── Draw expense nodes (right side, fund → expense) ──
+  expenseCats.forEach((c, i) => {
     const col = FLOW_CAT_COLORS[i % FLOW_CAT_COLORS.length];
-    const ny = startY + i * spacing;
+    const ny = expStartY + i * expSpacing;
     const my = ny + nodeH / 2;
-    const pct = (c.amt / bud * 100).toFixed(0);
+    const pct = bud > 0 ? (c.amt / bud * 100).toFixed(0) : 0;
+    // Path: from fund right edge outward to node
     const pathD = `M${fundRX} ${fundCY} C${fundRX + 38} ${fundCY},${startX - 28} ${my},${startX} ${my}`;
     const animDur = (1.7 + i * 0.13) + 's';
     const animBegin = (i * 0.17) + 's';
 
-    const gp = mk('path');
-    gp.setAttribute('d', pathD); gp.setAttribute('stroke', col + '18');
-    gp.setAttribute('stroke-width', '10'); gp.setAttribute('fill', 'none');
-    g.appendChild(gp);
+    const gp = mk('path'); gp.setAttribute('d', pathD); gp.setAttribute('stroke', col + '18');
+    gp.setAttribute('stroke-width', '10'); gp.setAttribute('fill', 'none'); g.appendChild(gp);
 
-    const lp = mk('path');
-    lp.setAttribute('d', pathD); lp.setAttribute('stroke', col);
+    const lp = mk('path'); lp.setAttribute('d', pathD); lp.setAttribute('stroke', col);
     lp.setAttribute('stroke-width', '1.5'); lp.setAttribute('fill', 'none');
     lp.setAttribute('stroke-opacity', '0.45'); lp.setAttribute('stroke-dasharray', '7 4');
-    const an = mk('animate');
-    an.setAttribute('attributeName', 'stroke-dashoffset');
+    const an = mk('animate'); an.setAttribute('attributeName', 'stroke-dashoffset');
     an.setAttribute('from', '0'); an.setAttribute('to', '-44');
     an.setAttribute('dur', animDur); an.setAttribute('repeatCount', 'indefinite');
     lp.appendChild(an); g.appendChild(lp);
 
-    const dot = mk('circle');
-    dot.setAttribute('r', '2.5'); dot.setAttribute('fill', col); dot.setAttribute('fill-opacity', '0.8');
-    const am = mk('animateMotion');
-    am.setAttribute('dur', animDur); am.setAttribute('begin', animBegin);
+    const dot = mk('circle'); dot.setAttribute('r', '2.5'); dot.setAttribute('fill', col); dot.setAttribute('fill-opacity', '0.8');
+    const am = mk('animateMotion'); am.setAttribute('dur', animDur); am.setAttribute('begin', animBegin);
     am.setAttribute('repeatCount', 'indefinite'); am.setAttribute('path', pathD);
     dot.appendChild(am); g.appendChild(dot);
 
-    const rect = mk('rect');
-    rect.setAttribute('x', startX); rect.setAttribute('y', ny);
+    const rect = mk('rect'); rect.setAttribute('x', startX); rect.setAttribute('y', ny);
     rect.setAttribute('width', nodeW); rect.setAttribute('height', nodeH); rect.setAttribute('rx', '8');
-    rect.setAttribute('style', `fill:${col}12;stroke:${col};stroke-opacity:0.28;stroke-width:1`);
-    g.appendChild(rect);
+    rect.setAttribute('style', `fill:${col}12;stroke:${col};stroke-opacity:0.28;stroke-width:1`); g.appendChild(rect);
 
-    const nameEl = mk('text');
-    nameEl.setAttribute('x', startX + 10); nameEl.setAttribute('y', ny + 15);
+    const nameEl = mk('text'); nameEl.setAttribute('x', startX + 8); nameEl.setAttribute('y', ny + 15);
     nameEl.setAttribute('fill', col); nameEl.setAttribute('fill-opacity', '0.9');
-    nameEl.setAttribute('font-family', 'DM Sans, sans-serif');
-    nameEl.setAttribute('font-size', '11'); nameEl.setAttribute('font-weight', '600');
-    const truncName = c.name.length > 28 ? c.name.slice(0, 27) + '…' : c.name;
-    nameEl.textContent = truncName.toUpperCase();
-    g.appendChild(nameEl);
+    nameEl.setAttribute('font-family', 'DM Sans, sans-serif'); nameEl.setAttribute('font-size', '10'); nameEl.setAttribute('font-weight', '600');
+    nameEl.textContent = (c.name.length > 26 ? c.name.slice(0, 25) + '…' : c.name).toUpperCase(); g.appendChild(nameEl);
 
-    const amtEl = mk('text');
-    amtEl.setAttribute('x', startX + 10); amtEl.setAttribute('y', ny + 30);
+    const amtEl = mk('text'); amtEl.setAttribute('x', startX + 8); amtEl.setAttribute('y', ny + 28);
     amtEl.setAttribute('fill', 'rgba(74,103,65,0.55)');
     amtEl.setAttribute('font-family', 'DM Sans, sans-serif'); amtEl.setAttribute('font-size', '8');
-    amtEl.textContent = fmtShort(c.amt) + ' · ' + pct + '% of budget';
-    g.appendChild(amtEl);
+    amtEl.textContent = fmtShort(c.amt) + ' · ' + pct + '% of budget'; g.appendChild(amtEl);
   });
 
-  const si = flowCats.length;
-  const ny = startY + si * spacing;
-  const my = ny + nodeH / 2;
+  // ── Surplus/deficit node (right side) ──
+  const si = expenseCats.length;
+  const sny = expStartY + si * expSpacing, smy = sny + nodeH / 2;
   const sc = sur >= 0 ? '#27ae60' : '#c0392b';
-  const pathD2 = `M${fundRX} ${fundCY} C${fundRX + 38} ${fundCY},${startX - 28} ${my},${startX} ${my}`;
+  const pathDS = `M${fundRX} ${fundCY} C${fundRX + 38} ${fundCY},${startX - 28} ${smy},${startX} ${smy}`;
 
-  const gp2 = mk('path');
-  gp2.setAttribute('d', pathD2); gp2.setAttribute('stroke', sur >= 0 ? 'rgba(39,174,96,0.1)' : 'rgba(192,57,43,0.1)');
-  gp2.setAttribute('stroke-width', '10'); gp2.setAttribute('fill', 'none');
-  g.appendChild(gp2);
+  const gpS = mk('path'); gpS.setAttribute('d', pathDS); gpS.setAttribute('stroke', sur >= 0 ? 'rgba(39,174,96,0.1)' : 'rgba(192,57,43,0.1)');
+  gpS.setAttribute('stroke-width', '10'); gpS.setAttribute('fill', 'none'); g.appendChild(gpS);
+  const lpS = mk('path'); lpS.setAttribute('d', pathDS); lpS.setAttribute('stroke', sc);
+  lpS.setAttribute('stroke-width', '1.5'); lpS.setAttribute('fill', 'none');
+  lpS.setAttribute('stroke-opacity', sur >= 0 ? '0.45' : '0.7'); lpS.setAttribute('stroke-dasharray', '5 5');
+  const anS = mk('animate'); anS.setAttribute('attributeName', 'stroke-dashoffset');
+  anS.setAttribute('from', '0'); anS.setAttribute('to', '-40'); anS.setAttribute('dur', '2.8s'); anS.setAttribute('repeatCount', 'indefinite');
+  lpS.appendChild(anS); g.appendChild(lpS);
+  const dotS = mk('circle'); dotS.setAttribute('r', '2.5'); dotS.setAttribute('fill', sc); dotS.setAttribute('fill-opacity', '0.75');
+  const amS = mk('animateMotion'); amS.setAttribute('dur', '2.8s'); amS.setAttribute('begin', '0.4s');
+  amS.setAttribute('repeatCount', 'indefinite'); amS.setAttribute('path', pathDS); dotS.appendChild(amS); g.appendChild(dotS);
+  const rectS = mk('rect'); rectS.setAttribute('x', startX); rectS.setAttribute('y', sny);
+  rectS.setAttribute('width', nodeW); rectS.setAttribute('height', nodeH); rectS.setAttribute('rx', '8');
+  rectS.setAttribute('style', `fill:${sc}14;stroke:${sc};stroke-opacity:0.35;stroke-width:1;${sur < 0 ? 'stroke-dasharray:4 3' : ''}`); g.appendChild(rectS);
+  const lblS = mk('text'); lblS.setAttribute('x', startX + 8); lblS.setAttribute('y', sny + 15);
+  lblS.setAttribute('fill', sc); lblS.setAttribute('fill-opacity', '0.95');
+  lblS.setAttribute('font-family', 'DM Sans, sans-serif'); lblS.setAttribute('font-size', '9'); lblS.setAttribute('font-weight', '600');
+  lblS.textContent = sur >= 0 ? 'UNALLOCATED SURPLUS' : 'BUDGET DEFICIT'; g.appendChild(lblS);
+  const amtS = mk('text'); amtS.setAttribute('x', startX + 8); amtS.setAttribute('y', sny + 28);
+  amtS.setAttribute('fill', 'rgba(74,103,65,0.55)'); amtS.setAttribute('font-family', 'DM Sans, sans-serif'); amtS.setAttribute('font-size', '8');
+  amtS.textContent = (sur >= 0 ? '+' : '') + fmtShort(sur) + ' · ' + (totalInc > 0 ? (sur / totalInc * 100).toFixed(1) : '0') + '% of income'; g.appendChild(amtS);
 
-  const lp2 = mk('path');
-  lp2.setAttribute('d', pathD2); lp2.setAttribute('stroke', sc);
-  lp2.setAttribute('stroke-width', '1.5'); lp2.setAttribute('fill', 'none');
-  lp2.setAttribute('stroke-opacity', sur >= 0 ? '0.45' : '0.7');
-  lp2.setAttribute('stroke-dasharray', '5 5');
-  const an2 = mk('animate');
-  an2.setAttribute('attributeName', 'stroke-dashoffset');
-  an2.setAttribute('from', '0'); an2.setAttribute('to', '-40');
-  an2.setAttribute('dur', '2.8s'); an2.setAttribute('repeatCount', 'indefinite');
-  lp2.appendChild(an2); g.appendChild(lp2);
+  // ── Draw income nodes (left side, income → fund) ──
+  const INC_COLORS = ['#1a6a3a','#2e8b5e','#3aab70','#247a50','#1d9460'];
+  incomeCats.forEach((c, i) => {
+    const col = INC_COLORS[i % INC_COLORS.length];
+    const ny = incStartY + i * incSpacing;
+    const my = ny + incNodeH / 2;
+    const incNodeRX = incEndX + incNodeW; // right edge of income node
+    // Path: from income node right edge → fund left edge (flowing INTO hub)
+    const pathD = `M${incNodeRX} ${my} C${incNodeRX + 30} ${my},${fundLX - 30} ${fundCY},${fundLX} ${fundCY}`;
+    const animDur = (1.5 + i * 0.15) + 's';
+    const animBegin = (i * 0.2) + 's';
 
-  const dot2 = mk('circle');
-  dot2.setAttribute('r', '2.5'); dot2.setAttribute('fill', sc); dot2.setAttribute('fill-opacity', '0.75');
-  const am2 = mk('animateMotion');
-  am2.setAttribute('dur', '2.8s'); am2.setAttribute('begin', '0.4s');
-  am2.setAttribute('repeatCount', 'indefinite'); am2.setAttribute('path', pathD2);
-  dot2.appendChild(am2); g.appendChild(dot2);
+    const gp = mk('path'); gp.setAttribute('d', pathD); gp.setAttribute('stroke', col + '22');
+    gp.setAttribute('stroke-width', '10'); gp.setAttribute('fill', 'none'); g.appendChild(gp);
 
-  const rect2 = mk('rect');
-  rect2.setAttribute('x', startX); rect2.setAttribute('y', ny);
-  rect2.setAttribute('width', nodeW); rect2.setAttribute('height', nodeH); rect2.setAttribute('rx', '8');
-  rect2.setAttribute('style', `fill:${sc}14;stroke:${sc};stroke-opacity:0.35;stroke-width:1;${sur < 0 ? 'stroke-dasharray:4 3' : ''}`);
-  g.appendChild(rect2);
+    const lp = mk('path'); lp.setAttribute('d', pathD); lp.setAttribute('stroke', col);
+    lp.setAttribute('stroke-width', '2'); lp.setAttribute('fill', 'none');
+    lp.setAttribute('stroke-opacity', '0.5'); lp.setAttribute('stroke-dasharray', '7 4');
+    const an = mk('animate'); an.setAttribute('attributeName', 'stroke-dashoffset');
+    an.setAttribute('from', '0'); an.setAttribute('to', '-44');
+    an.setAttribute('dur', animDur); an.setAttribute('repeatCount', 'indefinite');
+    lp.appendChild(an); g.appendChild(lp);
 
-  const lbl2 = mk('text');
-  lbl2.setAttribute('x', startX + 10); lbl2.setAttribute('y', ny + 15);
-  lbl2.setAttribute('fill', sc); lbl2.setAttribute('fill-opacity', '0.95');
-  lbl2.setAttribute('font-family', 'DM Sans, sans-serif');
-  lbl2.setAttribute('font-size', '9'); lbl2.setAttribute('font-weight', '600');
-  lbl2.textContent = sur >= 0 ? 'UNALLOCATED SURPLUS' : 'BUDGET DEFICIT';
-  g.appendChild(lbl2);
+    const dot = mk('circle'); dot.setAttribute('r', '3'); dot.setAttribute('fill', col); dot.setAttribute('fill-opacity', '0.85');
+    const am = mk('animateMotion'); am.setAttribute('dur', animDur); am.setAttribute('begin', animBegin);
+    am.setAttribute('repeatCount', 'indefinite'); am.setAttribute('path', pathD);
+    dot.appendChild(am); g.appendChild(dot);
 
-  const amt2 = mk('text');
-  amt2.setAttribute('x', startX + 10); amt2.setAttribute('y', ny + 30);
-  amt2.setAttribute('fill', 'rgba(74,103,65,0.55)');
-  amt2.setAttribute('font-family', 'DM Sans, sans-serif'); amt2.setAttribute('font-size', '8');
-  amt2.textContent = (sur >= 0 ? '+' : '') + fmtShort(sur) + ' · ' + (sur / FLOW_INCOME * 100).toFixed(1) + '% of income';
-  g.appendChild(amt2);
+    // Income node box (left of diagram)
+    const rect = mk('rect'); rect.setAttribute('x', incEndX); rect.setAttribute('y', ny);
+    rect.setAttribute('width', incNodeW); rect.setAttribute('height', incNodeH); rect.setAttribute('rx', '8');
+    rect.setAttribute('style', `fill:${col}18;stroke:${col};stroke-opacity:0.4;stroke-width:1.2`); g.appendChild(rect);
+
+    // ↑ income badge
+    const badge = mk('text'); badge.setAttribute('x', incEndX + 8); badge.setAttribute('y', ny + 15);
+    badge.setAttribute('fill', col); badge.setAttribute('fill-opacity', '0.9');
+    badge.setAttribute('font-family', 'DM Sans, sans-serif'); badge.setAttribute('font-size', '10'); badge.setAttribute('font-weight', '800');
+    badge.textContent = '↑ ' + (c.name.length > 18 ? c.name.slice(0, 17) + '…' : c.name).toUpperCase(); g.appendChild(badge);
+
+    const amtEl = mk('text'); amtEl.setAttribute('x', incEndX + 8); amtEl.setAttribute('y', ny + 28);
+    amtEl.setAttribute('fill', col); amtEl.setAttribute('fill-opacity', '0.6');
+    amtEl.setAttribute('font-family', 'DM Sans, sans-serif'); amtEl.setAttribute('font-size', '8');
+    amtEl.textContent = fmtShort(c.amt) + '/yr'; g.appendChild(amtEl);
+  });
 }
 
 function flowRenderCatList() {
   const list = document.getElementById('flowCatList');
   if (!list) return;
   list.innerHTML = '';
-  flowCats.forEach((c, i) => {
+  const totalInc = flowTotalIncome();
+  const expCats  = flowCats.filter(c => c.type !== 'income');
+  const incCats  = flowCats.filter(c => c.type === 'income');
+
+  // Show income additions first (if any)
+  incCats.forEach((c, i) => {
+    const col = ['#1a6a3a','#2e8b5e','#3aab70','#247a50'][i % 4];
+    const pct = totalInc > 0 ? (c.amt / totalInc * 100).toFixed(1) : '0.0';
+    const row = document.createElement('div');
+    row.className = 'flow-cat-row income-row';
+    row.innerHTML = `
+      <div class="flow-row-dot" style="background:${col}"></div>
+      <div class="flow-row-name">${c.name}</div>
+      <div class="flow-row-pct" style="color:#1a7a40">${pct}%</div>
+      <div class="flow-row-amt" style="color:#1a7a40">+${fmt(c.amt)}</div>
+      <button class="flow-row-close" onclick="flowRemoveCat(${c.id})" title="Remove">×</button>`;
+    list.appendChild(row);
+  });
+
+  // Expenses
+  expCats.forEach((c, i) => {
     const col = FLOW_CAT_COLORS[i % FLOW_CAT_COLORS.length];
-    const pct = (c.amt / FLOW_INCOME * 100).toFixed(1);
+    const pct = totalInc > 0 ? (c.amt / totalInc * 100).toFixed(1) : '0.0';
     const row = document.createElement('div');
     row.className = 'flow-cat-row';
     row.innerHTML = `
@@ -1308,9 +1383,23 @@ function flowRemoveCat(id) {
   flowCats = flowCats.filter(c => c.id !== id);
   flowRender();
 }
+
+let flowNewType = 'expense';
+function flowSetType(t) {
+  flowNewType = t;
+  document.getElementById('flowTypeExpense').className = 'flow-type-btn' + (t === 'expense' ? ' active-expense' : '');
+  document.getElementById('flowTypeIncome').className  = 'flow-type-btn' + (t === 'income'  ? ' active-income'  : '');
+  document.getElementById('flowTypeHint').textContent = t === 'income'
+    ? 'adds to total HOA income'
+    : 'subtracts from available funds';
+  document.getElementById('flowNewAmt').placeholder = t === 'income'
+    ? 'Annual income (₡)'
+    : 'Annual amount (₡)';
+}
 function flowOpenAdd() {
   document.getElementById('flowAddForm').classList.add('open');
   document.getElementById('flowAddTrigger').style.display = 'none';
+  flowSetType('expense');
   document.getElementById('flowNewName').focus();
 }
 function flowCancelAdd() {
@@ -1318,13 +1407,14 @@ function flowCancelAdd() {
   document.getElementById('flowAddTrigger').style.display = 'flex';
   document.getElementById('flowNewName').value = '';
   document.getElementById('flowNewAmt').value = '';
+  flowNewType = 'expense';
 }
 function flowSaveNew() {
   const name = document.getElementById('flowNewName').value.trim();
   const amt  = parseFloat(document.getElementById('flowNewAmt').value) || 0;
   if (!name) { document.getElementById('flowNewName').focus(); return; }
   if (amt <= 0) { document.getElementById('flowNewAmt').focus(); return; }
-  flowCats.push({ id: flowNextId++, name, amt });
+  flowCats.push({ id: flowNextId++, name, amt, type: flowNewType });
   flowCancelAdd();
   flowRender();
 }
